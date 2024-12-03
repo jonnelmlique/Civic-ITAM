@@ -70,71 +70,72 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <!-- <h3 class="text-dark">Ticket Management</h3> -->
-                    <p class="text-muted">Manage and monitor your tickets effectively. Here, you can track ticket
-                        status, assigned personnel, and resolutions.</p>
+                    <!-- <p class="text-muted">Manage and monitor your tickets effectively. Here, you can track ticket
+                        status, assigned personnel, and resolutions.</p> -->
                     <!-- <p class="text-muted">Use the options below to review ticket status, assign new tickets, and ensure
                         timely resolutions.</p> -->
+                    <!-- </div> -->
                 </div>
-            </div>
 
-            <div class="row g-3">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-card-list card-icon text-primary me-3"></i>
-                            <div>
-                                <h6 class="card-title mb-1">Total Tickets</h6>
-                                <p class="card-value mb-0">200</p>
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-card-list card-icon text-primary me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Total Tickets</h6>
+                                    <p class="card-value mb-0">200</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-check-circle card-icon text-success me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Resolved Tickets</h6>
+                                    <p class="card-value mb-0">150</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-hourglass-split card-icon text-warning me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Pending Tickets</h6>
+                                    <p class="card-value mb-0">30</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle card-icon text-danger me-3"></i>
+                                <div>
+                                    <h6 class="card-title">Overdue Tickets</h6>
+                                    <p class="card-value mb-0">20</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-check-circle card-icon text-success me-3"></i>
-                            <div>
-                                <h6 class="card-title mb-1">Resolved Tickets</h6>
-                                <p class="card-value mb-0">150</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-hourglass-split card-icon text-warning me-3"></i>
-                            <div>
-                                <h6 class="card-title mb-1">Pending Tickets</h6>
-                                <p class="card-value mb-0">30</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-exclamation-triangle card-icon text-danger me-3"></i>
-                            <div>
-                                <h6 class="card-title">Overdue Tickets</h6>
-                                <p class="card-value mb-0">20</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-12 mb-3">
-                    <h5 class="mb-3">Ticket Inventory</h5>
+                <div class="row mt-4">
+                    <div class="col-12 mb-3">
+                        <!-- <h5 class="mb-3">Ticket Inventory</h5>
                     <p class="text-muted mb-3">Review and manage your ticket inventory. Below is the list of all open,
-                        pending, and resolved tickets.</p>
-                    <div class="d-flex justify-content-between">
-                        <input type="text" class="form-control w-25" id="ticketSearch" placeholder="Search Tickets">
+                        pending, and resolved tickets.</p> -->
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                            onkeyup="searchTable()">
                     </div>
+
                 </div>
                 <div class="col-12">
                     <table class="table table-hover table-striped shadow-sm">

@@ -72,8 +72,8 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <!-- <h3 class="text-dark">Maintenance Management</h3> -->
-                    <p class="text-muted">Manage and track the status of maintenance requests and updates for all
-                        assets.</p>
+                    <!-- <p class="text-muted">Manage and track the status of maintenance requests and updates for all
+                        assets.</p> -->
                 </div>
             </div>
             <div class="row g-3">
@@ -128,238 +128,237 @@
 
 
             <div class="row mt-4">
-                <div class="col-12">
-                    <h5 class="mb-3">Maintenance Requests</h5>
-                    <p class="text-muted mb-3">Review and manage the maintenance requests for assets in the system.</p>
-                    <table class="table table-hover table-striped shadow-sm">
-                        <thead class="bg-orange text-white">
-                            <tr>
-                                <th scope="col">Request ID</th>
-                                <th scope="col">Asset Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Assigned Technician</th>
-                                <th scope="col">Request Date</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>REQ001</td>
-                                <td>HP Printer</td>
-                                <td>Printers</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                                <td>Son Chaeyoung</td>
-                                <td>2024-12-01</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>REQ002</td>
-                                <td>Dell Laptop</td>
-                                <td>Computers</td>
-                                <td><span class="badge bg-info">In Progress</span></td>
-                                <td>Juan Dela</td>
-                                <td>2024-11-30</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>REQ003</td>
-                                <td>HP Laptop</td>
-                                <td>Computers</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                                <td>Rodelie Kristel Mercado</td>
-                                <td>2024-11-25</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
+                <div class="col-12 mb-3">
 
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                        onkeyup="searchTable()">
                 </div>
-            </div>
 
-            <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
-                        <i class="bi bi-plus-lg"></i> Add New Maintenance Request
-                    </button>
+            </div>
+            <table class="table table-hover table-striped shadow-sm">
+                <thead class="bg-orange text-white">
+                    <tr>
+                        <th scope="col">Request ID</th>
+                        <th scope="col">Asset Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Assigned Technician</th>
+                        <th scope="col">Request Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>REQ001</td>
+                        <td>HP Printer</td>
+                        <td>Printers</td>
+                        <td><span class="badge bg-warning">Pending</span></td>
+                        <td>Son Chaeyoung</td>
+                        <td>2024-12-01</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                data-bs-target="#viewAssetModal">View</button>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editAssetModal">Edit</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>REQ002</td>
+                        <td>Dell Laptop</td>
+                        <td>Computers</td>
+                        <td><span class="badge bg-info">In Progress</span></td>
+                        <td>Juan Dela</td>
+                        <td>2024-11-30</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                data-bs-target="#viewAssetModal">View</button>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editAssetModal">Edit</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>REQ003</td>
+                        <td>HP Laptop</td>
+                        <td>Computers</td>
+                        <td><span class="badge bg-success">Completed</span></td>
+                        <td>Rodelie Kristel Mercado</td>
+                        <td>2024-11-25</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                data-bs-target="#viewAssetModal">View</button>
+                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#editAssetModal">Edit</button>
+
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 text-end">
+            <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
+                <i class="bi bi-plus-lg"></i> Add New Maintenance Request
+            </button>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="addAssetModalLabel">Add New Maintenance Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="assetName" class="form-label">Maintenance Name</label>
+                            <input type="text" class="form-control" id="assetName" placeholder="Enter Maintenance name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetCategory" class="form-label">Category</label>
+                            <select class="form-select" id="assetCategory">
+                                <option value="">Select Category</option>
+                                <option value="Computers">Computers</option>
+                                <option value="Printers">Printers</option>
+                                <option value="Monitors">Monitors</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetStatus" class="form-label">Status</label>
+                            <select class="form-select" id="assetStatus">
+                                <option value="Available">Available</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="Under Maintenance">Under Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetAssignee" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="assetAssignee"
+                                placeholder="Enter assignee name (if applicable)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="assetRemarks" rows="3"
+                                placeholder="Additional information"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-orange">Add New Maintenance Request</button>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="addAssetModalLabel">Add New Maintenance Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="assetName" class="form-label">Maintenance Name</label>
-                                <input type="text" class="form-control" id="assetName"
-                                    placeholder="Enter Maintenance name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetCategory" class="form-label">Category</label>
-                                <select class="form-select" id="assetCategory">
-                                    <option value="">Select Category</option>
-                                    <option value="Computers">Computers</option>
-                                    <option value="Printers">Printers</option>
-                                    <option value="Monitors">Monitors</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetStatus" class="form-label">Status</label>
-                                <select class="form-select" id="assetStatus">
-                                    <option value="Available">Available</option>
-                                    <option value="Assigned">Assigned</option>
-                                    <option value="Under Maintenance">Under Maintenance</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetAssignee" class="form-label">Assigned To</label>
-                                <input type="text" class="form-control" id="assetAssignee"
-                                    placeholder="Enter assignee name (if applicable)">
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetRemarks" class="form-label">Remarks</label>
-                                <textarea class="form-control" id="assetRemarks" rows="3"
-                                    placeholder="Additional information"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-orange">Add New Maintenance Request</button>
-                        </form>
-                    </div>
+    <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="viewAssetModalLabel">View Maintenance Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-info text-white">
-                        <h5 class="modal-title" id="viewAssetModalLabel">View Maintenance Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="viewAssetName" class="form-label">Maintenance Name</label>
+                        <input type="text" class="form-control" id="viewAssetName" disabled
+                            placeholder="Maintenance name">
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="viewAssetName" class="form-label">Maintenance Name</label>
-                            <input type="text" class="form-control" id="viewAssetName" disabled
-                                placeholder="Maintenance name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="viewAssetCategory" class="form-label">Category</label>
-                            <input type="text" class="form-control" id="viewAssetCategory" disabled
-                                placeholder="Category">
-                        </div>
-                        <div class="mb-3">
-                            <label for="viewAssetStatus" class="form-label">Status</label>
-                            <input type="text" class="form-control" id="viewAssetStatus" disabled placeholder="Status">
-                        </div>
-                        <div class="mb-3">
-                            <label for="viewAssetAssignee" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="viewAssetAssignee" disabled
-                                placeholder="Assignee name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="viewAssetRemarks" class="form-label">Remarks</label>
-                            <textarea class="form-control" id="viewAssetRemarks" rows="3" disabled
-                                placeholder="Remarks"></textarea>
-                        </div>
+                    <div class="mb-3">
+                        <label for="viewAssetCategory" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="viewAssetCategory" disabled placeholder="Category">
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning text-white">
-                        <h5 class="modal-title" id="editAssetModalLabel">Edit Maintenance Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="mb-3">
+                        <label for="viewAssetStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="viewAssetStatus" disabled placeholder="Status">
                     </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="editAssetName" class="form-label">Maintenance Name</label>
-                                <input type="text" class="form-control" id="editAssetName"
-                                    placeholder="Enter Maintenance name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAssetCategory" class="form-label">Category</label>
-                                <select class="form-select" id="editAssetCategory">
-                                    <option value="Computers">Computers</option>
-                                    <option value="Printers">Printers</option>
-                                    <option value="Monitors">Monitors</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAssetStatus" class="form-label">Status</label>
-                                <select class="form-select" id="editAssetStatus">
-                                    <option value="Available">Available</option>
-                                    <option value="Assigned">Assigned</option>
-                                    <option value="Under Maintenance">Under Maintenance</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAssetAssignee" class="form-label">Assigned To</label>
-                                <input type="text" class="form-control" id="editAssetAssignee"
-                                    placeholder="Enter assignee name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="editAssetRemarks" class="form-label">Remarks</label>
-                                <textarea class="form-control" id="editAssetRemarks" rows="3"
-                                    placeholder="Additional information"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-warning">Save Changes</button>
-                        </form>
+                    <div class="mb-3">
+                        <label for="viewAssetAssignee" class="form-label">Assigned To</label>
+                        <input type="text" class="form-control" id="viewAssetAssignee" disabled
+                            placeholder="Assignee name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewAssetRemarks" class="form-label">Remarks</label>
+                        <textarea class="form-control" id="viewAssetRemarks" rows="3" disabled
+                            placeholder="Remarks"></textarea>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
-            aria-hidden="true">
+    <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="editAssetModalLabel">Edit Maintenance Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editAssetName" class="form-label">Maintenance Name</label>
+                            <input type="text" class="form-control" id="editAssetName"
+                                placeholder="Enter Maintenance name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssetCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editAssetCategory">
+                                <option value="Computers">Computers</option>
+                                <option value="Printers">Printers</option>
+                                <option value="Monitors">Monitors</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssetStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editAssetStatus">
+                                <option value="Available">Available</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="Under Maintenance">Under Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssetAssignee" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="editAssetAssignee"
+                                placeholder="Enter assignee name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssetRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="editAssetRemarks" rows="3"
+                                placeholder="Additional information"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
+        aria-hidden="true">
 
 
 
 
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-            <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-            <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-            <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-            <script>
-            document.getElementById('sidebarToggle').addEventListener('click', function() {
-                document.getElementById('sidebar').classList.toggle('collapsed');
-                document.getElementById('content').classList.toggle('collapsed');
-            });
-            </script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('collapsed');
+        });
+        </script>
 </body>
 
 </html>
