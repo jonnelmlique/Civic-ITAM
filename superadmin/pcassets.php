@@ -8,19 +8,13 @@
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/assetdetails.css">
-    <style>
-    #table .assetTable th {
-        white-space: nowrap;
-        text-align: center;
-    }
+    <link rel="stylesheet" href="../public/css/superadmin/card.css">
 
-    #assetTable tr {
-        white-space: nowrap;
-        text-align: center;
-    }
-    </style>
+
 </head>
 
 <body>
@@ -36,13 +30,14 @@
             <li><a href="./status.php"><i class="fas fa-check-circle"></i> Status</a></li>
             <li><a href="./assetconsignment.php"><i class="fas fa-truck"></i> Consignment</a></li>
             <li><a href="./tickets.php"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="#"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
+            <li><a href="./reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
+            <li><a href="./maintenance.php"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
             <li><a href="./diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a></li>
             <li><a href="./manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
         </ul>
 
     </div>
+
 
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -50,7 +45,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">PC Assets</a>
+                <a class="navbar-brand ms-3" href="./pcassets.php">PC ASSETS</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -75,216 +70,335 @@
             </div>
         </nav>
 
+
         <div class="container-fluid py-4">
             <div class="row mb-4">
-                <div class="col-12 d-flex justify-content-between">
-                    <input type="text" id="searchInput" class="form-control w-50" placeholder="Search assets...">
-                    <a href="#">
-                        <button class="btn btn-orange" id="addAssetBtn">Add</button>
-                    </a>
+                <div class="col-12">
+                    <!-- <h3 class="text-dark">PC Assets Management</h3> -->
+                    <p class="text-muted">Monitor and manage PC assets Ensure all systems are functioning optimally.</p>
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered  table-hover" id="assetTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Asset Code</th>
-                            <th>Computer Name</th>
-                            <th>Item ID</th>
-                            <th>Description</th>
-                            <th>Item Type</th>
-                            <th>Serial Number</th>
-                            <th>Supplier</th>
-                            <th>Purchase Date</th>
-                            <th>Invoice Number</th>
-                            <th>Amount</th>
-                            <th>Warranty</th>
-                            <th>Category</th>
-                            <th>Create Date</th>
-                            <th>Created By</th>
-                            <th>Last Modified Date</th>
-                            <th>Last Modified By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>AC-1001</td>
-                            <td>Desktop PC</td>
-                            <td>Item-001</td>
-                            <td>Core i7, 16GB RAM</td>
-                            <td>Computer</td>
-                            <td>SN12345678</td>
-                            <td>Supplier A</td>
-                            <td>2022-01-01</td>
-                            <td>INV-12345</td>
-                            <td>$1200</td>
-                            <td>1 year</td>
-                            <td>IT</td>
-                            <td>2022-01-01</td>
-                            <td>Admin</td>
-                            <td>2023-01-01</td>
-                            <td>Admin</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="#" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
+            <div class="row g-3">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <i class="bi bi-pc-display-horizontal card-icon text-primary me-3"></i>
+                            <div>
+                                <h6 class="card-title mb-1">Total PCs</h6>
+                                <p class="card-value mb-0">80</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <i class="bi bi-check-circle card-icon text-success me-3"></i>
+                            <div>
+                                <h6 class="card-title mb-1">Available PCs</h6>
+                                <p class="card-value mb-0">65</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <i class="bi bi-people-fill card-icon text-warning me-3"></i>
+                            <div>
+                                <h6 class="card-title mb-1">Assigned PCs</h6>
+                                <p class="card-value mb-0">12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body d-flex align-items-center">
+                            <i class="bi bi-trash card-icon text-danger me-3"></i>
+                            <div>
+                                <h6 class="card-title mb-1">Pcs to Dispose</h6>
+                                <p class="card-value mb-0">3</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>AC-1002</td>
-                            <td>Laptop</td>
-                            <td>Item-002</td>
-                            <td>Core i5, 8GB RAM</td>
-                            <td>Computer</td>
-                            <td>SN23456789</td>
-                            <td>Supplier B</td>
-                            <td>2022-02-01</td>
-                            <td>INV-23456</td>
-                            <td>$800</td>
-                            <td>2 years</td>
-                            <td>IT</td>
-                            <td>2022-02-01</td>
-                            <td>Admin</td>
-                            <td>2023-02-01</td>
-                            <td>Admin</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetdetails.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>AC-1003</td>
-                            <td>Monitor</td>
-                            <td>Item-003</td>
-                            <td>27-inch, 4K</td>
-                            <td>Accessory</td>
-                            <td>SN34567890</td>
-                            <td>Supplier C</td>
-                            <td>2022-03-01</td>
-                            <td>INV-34567</td>
-                            <td>$500</td>
-                            <td>1 year</td>
-                            <td>IT</td>
-                            <td>2022-03-01</td>
-                            <td>Admin</td>
-                            <td>2023-03-01</td>
-                            <td>Admin</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetdetails.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>AC-1004</td>
-                            <td>Printer</td>
-                            <td>Item-004</td>
-                            <td>Laser, Color</td>
-                            <td>Accessory</td>
-                            <td>SN45678901</td>
-                            <td>Supplier D</td>
-                            <td>2022-04-01</td>
-                            <td>INV-45678</td>
-                            <td>$250</td>
-                            <td>1 year</td>
-                            <td>Office</td>
-                            <td>2022-04-01</td>
-                            <td>Admin</td>
-                            <td>2023-04-01</td>
-                            <td>Admin</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetdetails.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>AC-1005</td>
-                            <td>Router</td>
-                            <td>Item-005</td>
-                            <td>Wi-Fi 6, Dual Band</td>
-                            <td>Network</td>
-                            <td>SN56789012</td>
-                            <td>Supplier E</td>
-                            <td>2022-05-01</td>
-                            <td>INV-56789</td>
-                            <td>$150</td>
-                            <td>3 years</td>
-                            <td>Networking</td>
-                            <td>2022-05-01</td>
-                            <td>Admin</td>
-                            <td>2023-05-01</td>
-                            <td>Admin</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetdetails.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                    </tbody>
+            <div class="row mt-4">
+                <div class="col-12 mb-3">
+                    <h5 class="mb-3">PC Inventory</h5>
+                    <!-- Search Bar -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <input type="text" class="form-control w-25" id="pcSearch" placeholder="Search PCs">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <table class="table table-hover table-striped shadow-sm">
+                        <thead class="bg-orange text-white">
+                            <tr>
+                                <th scope="col">PC ID</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Specifications</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Assigned To</th>
+                                <th scope="col">Last Updated</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pcTableBody">
+                            <tr>
+                                <td>PC001</td>
+                                <td>Dell Inspiron</td>
+                                <td>Intel i7, 16GB RAM</td>
+                                <td><span class="badge bg-success">Available</span></td>
+                                <td>-</td>
+                                <td>2024-12-01</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PC002</td>
+                                <td>HP EliteBook</td>
+                                <td>Intel i5, 8GB RAM</td>
+                                <td><span class="badge bg-warning">Assigned</span></td>
+                                <td>Jane Doe</td>
+                                <td>2024-11-28</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PC003</td>
+                                <td>Lenovo ThinkPad</td>
+                                <td>AMD Ryzen 5, 8GB RAM</td>
+                                <td><span class="badge bg-danger">Under Maintenance</span></td>
+                                <td>-</td>
+                                <td>2024-11-20</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-                </table>
+
+            <div class="row mt-3">
+                <div class="col-12 text-end">
+                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
+                        <i class="bi bi-plus-lg"></i> Add New Pcs
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="addAssetModalLabel">Add New PCs</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row g-3">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assetName" class="form-label">PC Name</label>
+                                        <input type="text" class="form-control" id="assetName"
+                                            placeholder="Enter PC Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="modelname" class="form-label">Model Name</label>
+                                        <input type="text" class="form-control" id="modelname"
+                                            placeholder="Enter Model Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="specsification" class="form-label">Specification</label>
+                                        <textarea class="form-control" id="specsification" rows="3"
+                                            placeholder="Enter Specifications"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="assetStatus">
+                                            <option value="Available">Available</option>
+                                            <option value="Assigned">Assigned</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetAssignee" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="assetAssignee"
+                                            placeholder="Enter assignee name (if applicable)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetRemarks" class="form-label">Remarks</label>
+                                        <textarea class="form-control" id="assetRemarks" rows="3"
+                                            placeholder="Additional information"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-orange">Add PCs</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.getElementById('content').classList.toggle('collapsed');
-    });
-    </script>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editAssetForm">
+                            <div class="row g-3">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssetName" class="form-label">Asset Name</label>
+                                        <input type="text" class="form-control" id="editAssetName"
+                                            placeholder="Enter PC Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editModelName" class="form-label">Model Name</label>
+                                        <input type="text" class="form-control" id="editModelName"
+                                            placeholder="Enter Model Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editSpecification" class="form-label">Specification</label>
+                                        <textarea class="form-control" id="editSpecification" rows="3"
+                                            placeholder="Enter Specifications"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="editAssetStatus">
+                                            <option value="Available">Available</option>
+                                            <option value="Assigned">Assigned</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetAssignee" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="editAssetAssignee"
+                                            placeholder="Enter assignee name (if applicable)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetRemarks" class="form-label">Remarks</label>
+                                        <textarea class="form-control" id="editAssetRemarks" rows="3"
+                                            placeholder="Additional information"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-orange">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Modal -->
+        <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Asset Name:</label>
+                                    <p class="form-control-plaintext" id="viewAssetName">Dell PC</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Model Name:</label>
+                                    <p class="form-control-plaintext" id="viewModelName">Inspiron 15</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Specification:</label>
+                                    <p class="form-control-plaintext" id="viewSpecification">Intel i5, 8GB RAM, 256GB
+                                        SSD</p>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Status:</label>
+                                    <p class="form-control-plaintext" id="viewAssetStatus">Available</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Assigned To:</label>
+                                    <p class="form-control-plaintext" id="viewAssetAssignee">John Doe</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Remarks:</label>
+                                    <p class="form-control-plaintext" id="viewAssetRemarks">In excellent condition</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end mt-3">
+                            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
+            aria-hidden="true">
+
+
+
+            <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+            <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+            <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('content').classList.toggle('collapsed');
+            });
+            </script>
+
 </body>
 
 </html>

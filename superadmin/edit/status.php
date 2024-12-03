@@ -25,9 +25,9 @@
             <li><a href="../pcassets.php"><i class="fas fa-desktop"></i> PC Assets</a></li>
             <li><a href="../status.php" class="active"><i class="fas fa-check-circle"></i> Status</a></li>
             <li><a href="../assetconsignment.php"><i class="fas fa-truck"></i> Consignment</a></li>
-            <li><a href="#"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="#"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
+            <li><a href="../tickets.php"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
+            <li><a href="../reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
+            <li><a href="../maintenance.php"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
             <li><a href="../diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a></li>
             <li><a href="../manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
 
