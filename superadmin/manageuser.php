@@ -10,6 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/card.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
@@ -92,7 +94,7 @@
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-person-plus card-icon text-success me-3"></i>
                             <div>
-                                <h6 class="card-title mb-1">Active Users</h6>
+                                <h6 class="card-title mb-1">Activated Users</h6>
                                 <p class="card-value mb-0">100</p>
                             </div>
                         </div>
@@ -104,7 +106,7 @@
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-person-x card-icon text-warning me-3"></i>
                             <div>
-                                <h6 class="card-title mb-1">Inactive Users</h6>
+                                <h6 class="card-title mb-1">Deactivated Users</h6>
                                 <p class="card-value mb-0">20</p>
                             </div>
                         </div>
@@ -148,7 +150,7 @@
                                 <td>John Doe</td>
                                 <td>johndoe@example.com</td>
                                 <td>Admin</td>
-                                <td><span class="badge bg-success">Active</span></td>
+                                <td><span class="badge bg-success">Activated</span></td>
                                 <td>
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewUserModal">View</button>
@@ -163,7 +165,7 @@
                                 <td>Jane Smith</td>
                                 <td>janesmith@example.com</td>
                                 <td>User</td>
-                                <td><span class="badge bg-success">Active</span></td>
+                                <td><span class="badge bg-success">Activated</span></td>
                                 <td>
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewUserModal">View</button>
@@ -178,7 +180,7 @@
                                 <td>Mike Johnson</td>
                                 <td>mikejohnson@example.com</td>
                                 <td>Manager</td>
-                                <td><span class="badge bg-warning">Inactive</span></td>
+                                <td><span class="badge bg-warning">Deactivated</span></td>
                                 <td>
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewUserModal">View</button>
@@ -210,7 +212,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="#" method="post">
+                        <form action="add_user.php" method="post">
                             <div class="row">
                                 <!-- Left Column -->
                                 <div class="col-md-6">
@@ -262,8 +264,8 @@
                                     <div class="mb-3">
                                         <label for="status" class="form-label">Status</label>
                                         <select class="form-select" id="status" required>
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
+                                            <option value="Activated">Activated</option>
+                                            <option value="deactivated">Deactivated</option>
                                         </select>
                                     </div>
                                 </div>
@@ -326,7 +328,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="viewStatus" class="form-label">Status</label>
-                                    <input type="text" class="form-control" id="viewStatus" value="Active" readonly>
+                                    <input type="text" class="form-control" id="viewStatus" value="Activated" readonly>
                                 </div>
                             </div>
                         </div>
@@ -403,8 +405,8 @@
                                     <div class="mb-3">
                                         <label for="editStatus" class="form-label">Status</label>
                                         <select class="form-select" id="editStatus" required>
-                                            <option value="Active" selected>Active</option>
-                                            <option value="Inactive">Inactive</option>
+                                            <option value="Activated" selected>Activated</option>
+                                            <option value="deactivated">Deactivated</option>
                                         </select>
                                     </div>
                                 </div>
