@@ -7,6 +7,7 @@
     <title>CIVIC | Asset Details</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/assetdetails.css">
@@ -79,9 +80,8 @@
             <div class="row mb-4">
                 <div class="col-12 d-flex justify-content-between">
                     <input type="text" id="searchInput" class="form-control w-50" placeholder="Search">
-                    <a href="./add/assetconsignment.php">
-                        <button class="btn btn-orange" id="addAssetBtn">Add</button>
-                    </a>
+                    <button class="btn btn-orange" id="addAssetBtn" data-bs-toggle="modal" data-bs-target="#addAssetModal">Add
+                    </button>
                 </div>
             </div>
 
@@ -96,97 +96,8 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>REF123</td>
-                            <td>CS1001</td>
-                            <td>AD123</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetconsignment.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>REF124</td>
-                            <td>CS1002</td>
-                            <td>AD124</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetconsignment.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>REF125</td>
-                            <td>CS1003</td>
-                            <td>AD125</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetconsignment.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>REF126</td>
-                            <td>CS1004</td>
-                            <td>AD126</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetconsignment.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>REF127</td>
-                            <td>CS1005</td>
-                            <td>AD127</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="./edit/assetconsignment.php" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
+                    <tbody id="assetTableBody">
+                        <!-- Dynamic content will be added here by AJAX -->
                     </tbody>
                 </table>
             </div>
@@ -194,17 +105,257 @@
         </div>
     </div>
 
+     <!-- Add Asset Consignment Modal -->
+<div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-orange text-white">
+                <h5 class="modal-title" id="addAssetModalLabel">Add Asset Consignment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add_consignment" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="add_id" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="add_id" placeholder="Enter asset ID" required>
+                            <div class="invalid-feedback">Please provide an asset ID.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="add_reference" class="form-label">Reference</label>
+                            <input type="text" class="form-control" id="add_reference" placeholder="Enter reference" required>
+                            <div class="invalid-feedback">Please provide a reference.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="add_consignmentId" class="form-label">Consignment ID</label>
+                            <input type="text" class="form-control" id="add_consignmentId" placeholder="Enter consignment ID" required>
+                            <div class="invalid-feedback">Please provide a consignment ID.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="add_assetDetailsId" class="form-label">Asset Details ID</label>
+                            <input type="text" class="form-control" id="add_assetDetailsId" placeholder="Enter asset details ID" required>
+                            <div class="invalid-feedback">Please provide asset details ID.</div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-orange">Add Asset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <!-- Edit Asset Consignment Modal -->
+    <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="addAssetModalLabel">Edit Asset Consignment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit_consignment">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="edit_id" placeholder="Enter asset id" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reference" class="form-label">Reference</label>
+                            <input type="text" class="form-control" id="edit_reference" placeholder="Enter reference">
+                        </div>
+                        <div class="mb-3">
+                            <label for="consignmentId" class="form-label">Consignment ID</label>
+                            <input type="text" class="form-control" id="edit_consignmentId" placeholder="Enter consignment id">
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetDetailsId" class="form-label">Asset ID Details</label>
+                            <input type="text" class="form-control" id="edit_assetDetailsId" placeholder="Enter asset details id" disabled>
+                        </div>
+                        <button type="submit" class="btn btn-orange">Edit Asset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
     <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebarToggle').addEventListener('click', function () {
         document.getElementById('sidebar').classList.toggle('collapsed');
         document.getElementById('content').classList.toggle('collapsed');
     });
+
+    $(document).ready(function () {
+        getConsignmentData();
+
+        $('#add_consignment').on('submit', function (event) {
+            event.preventDefault();
+
+            var reference = $('#add_reference').val();
+            var consignmentId = $('#add_consignmentId').val();
+            var assetDetailsId = $('#add_assetDetailsId').val();
+
+            manageAssetConsignment('add', { reference, consignmentId, assetDetailsId });
+        });
+
+        $('#edit_consignment').on('submit', function (event) {
+            event.preventDefault();
+
+            var id = $('#edit_id').val();
+            var reference = $('#edit_reference').val();
+            var consignmentId = $('#edit_consignmentId').val();
+            var assetDetailsId = $('#edit_assetDetailsId').val();
+
+            manageAssetConsignment('update', { id, reference, consignmentId, assetDetailsId });
+        });
+    });
+
+    function getConsignmentData() {
+        $.ajax({
+            url: 'queries/query_assetconsignment.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var tableBody = $('#assetTableBody');
+                tableBody.empty();
+                data.forEach(function (asset) {
+                    var row = `<tr>
+                        <td>${asset.id}</td>
+                        <td>${asset.reference}</td>
+                        <td>${asset.consignmentId}</td>
+                        <td>${asset.assetdetailsid}</td>
+                        <td>
+                            <center>
+                                <div class="action-icons">
+                                    <button class="icon-btn edit-btn" data-id="${asset.id}" data-reference="${asset.reference}" data-consignment-id="${asset.consignmentId}" data-asset-details-id="${asset.assetdetailsid}" data-bs-toggle="modal" data-bs-target="#editAssetModal"><i class="fas fa-edit"></i></button>
+                                    <button class="icon-btn delete-btn" data-id="${asset.id}"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </center>
+                        </td>
+                    </tr>`;
+                    tableBody.append(row);
+                });
+
+                $('.edit-btn').on('click', function () {
+                    const id = $(this).data('id');
+                    const reference = $(this).data('reference');
+                    const consignmentId = $(this).data('consignment-id');
+                    const assetDetailsId = $(this).data('asset-details-id');
+
+                    $('#edit_id').val(id);
+                    $('#edit_reference').val(reference);
+                    $('#edit_consignmentId').val(consignmentId);
+                    $('#edit_assetDetailsId').val(assetDetailsId);
+                });
+
+                $('.delete-btn').on('click', function () {
+                    const id = $(this).data('id');
+                    deleteAssetConsignment(id);
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+
+    // Add and Update
+    function manageAssetConsignment(action, data) {
+        $.ajax({
+            url: 'queries/query_assetconsignment.php',
+            method: 'POST',
+            data: { action, ...data },
+            success: function (response) {
+                var res = JSON.parse(response);
+                if (res.response_type === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: action === 'add' ? 'Added!' : 'Updated!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    if (action === 'add') $('#addAssetModal').modal('hide');
+                    if (action === 'update') $('#editAssetModal').modal('hide');
+                    getConsignmentData();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: `An error occurred while performing the action (${action}).`,
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        });
+    }
+
+    function deleteAssetConsignment(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this asset consignment!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'queries/query_assetconsignment.php',
+                    method: 'POST',
+                    data: { action: 'delete', id },
+                    success: function (response) {
+                        var res = JSON.parse(response);
+                        if (res.response_type === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: res.response,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            getConsignmentData();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: res.response,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'An error occurred while deleting the asset consignment.',
+                            confirmButtonText: 'Try Again'
+                        });
+                    }
+                });
+            }
+        });
+    }
     </script>
 </body>
 
