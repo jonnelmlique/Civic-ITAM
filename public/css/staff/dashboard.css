@@ -2,75 +2,109 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
 }
-
 
 #content {
-    margin-left: 250px;
     padding: 20px;
-    transition: margin-left 0.3s;
-}
-
-#content.collapsed {
-    margin-left: 0;
+    background-color: #ffffff;
+    min-height: 100vh;
 }
 
 .card {
-    border-radius: 8px;
-    overflow: hidden;
-    border: none;
+    border-radius: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card .card-icon {
-    font-size: 2rem;
+.card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
     margin-right: 15px;
 }
 
-.card .card-body {
-    display: flex;
-    align-items: center;
-}
-
-.card .card-title {
+.card-title {
+    margin-bottom: 0;
     font-size: 1.2rem;
-    margin: 0;
 }
 
-.card .card-value {
+.card-value {
     font-size: 1.5rem;
-    margin: 0;
+    font-weight: bold;
 }
 
-
-#sidebarToggle {
-    background-color: #ff8c00;
+.list-group-item {
+    font-size: 0.9rem;
+    padding: 10px 15px;
     border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    padding: 5px 10px;
-    cursor: pointer;
 }
 
-#sidebarToggle:focus {
-    outline: none;
+.list-group-item:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+.table {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+}
+
+.badge.bg-info {
+    background-color: #17a2b8 !important;
 }
 
 canvas {
     max-width: 100%;
-    height: auto !important;
+    height: auto;
 }
 
+.card .list-group {
+    margin: 0;
+}
+
+.card .list-group-item {
+    font-size: 0.9rem;
+    border: none;
+}
+
+.list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
 
 @media (max-width: 768px) {
-    #sidebar {
-        position: fixed;
-        width: 100%;
-        z-index: 1000;
+    .card-body {
+        text-align: center;
     }
 
-    #content {
-        margin-left: 0;
+    .card-icon {
+        margin: 0 auto 15px auto;
     }
 }

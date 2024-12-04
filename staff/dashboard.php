@@ -22,10 +22,10 @@
         <ul class="nav flex-column">
             <li><a href="./dashboard.php" class="nav-link text-white active"><i class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
             <li><a href="./asset.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> My Asset</a></li>
-            <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-tools"></i> Consignment</a></li>
+            <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
             <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i> My Tickets</a></li>
-            <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-exclamation-triangle"></i> My Schedule</a></li>
+            <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i> My Schedule</a></li>
             <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a></li>
             <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i> My History</a></li>
             <li><a href="./managerequests.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage requests</a></li>
@@ -59,7 +59,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="card shadow border-0">
                     <div class="card-body d-flex align-items-center">
-                        <i class="bi bi-box-seam card-icon text-primary"></i>
+                        <i class="bi bi-ui-checks-grid card-icon text-primary"></i>
                         <div>
                             <h5 class="card-title">My Assets</h5>
                             <p class="card-value">10</p>
@@ -71,9 +71,9 @@
             <div class="col-lg-4 col-md-6">
                 <div class="card shadow border-0">
                     <div class="card-body d-flex align-items-center">
-                        <i class="bi bi-check-circle card-icon text-success"></i>
+                        <i class="bi bi-ticket-perforated card-icon text-success"></i>
                         <div>
-                            <h5 class="card-title">Resolved Tickets</h5>
+                            <h5 class="card-title">My Tickets</h5>
                             <p class="card-value">5</p>
                         </div>
                     </div>
@@ -83,22 +83,95 @@
             <div class="col-lg-4 col-md-6">
                 <div class="card shadow border-0">
                     <div class="card-body d-flex align-items-center">
-                        <i class="bi bi-exclamation-triangle card-icon text-danger"></i>
+                        <i class="bi bi-receipt-cutoff card-icon text-danger"></i>
                         <div>
-                            <h5 class="card-title">Overdue Tickets</h5>
+                            <h5 class="card-title">Schedule</h5>
                             <p class="card-value">2</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+</div>
+
+<div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-bell text-primary"></i> Notifications</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">Laptop (#12345) is scheduled for maintenance on Dec 5.</li>
+                            <li class="list-group-item">New ticket assigned: "Monitor Replacement".</li>
+                            <li class="list-group-item">Asset #78901 has been marked overdue.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-list-task text-success"></i> My Tickets</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">Resolve ticket "PC not booting".</li>
+                            <li class="list-group-item">Submit report for Asset #45678.</li>
+                            <li class="list-group-item">Inspect printer #12234 by Dec 6.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="row g-3">
-            <div class="col-lg-6 col-md-12">
+            <div class="col-lg-6">
                 <div class="card shadow border-0">
                     <div class="card-body">
-                        <h5 class="card-title">My Asset Usage</h5>
+                        <h5 class="card-title">My Asset</h5>
                         <canvas id="myAssetChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h5 class="card-title">My Ticket Update</h5>
+                        <canvas id="ticketTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Logs Section -->
+        <div class="row g-3">
+            <div class="col-lg-12">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-clock-history text-info"></i> Activity Logs</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dec 1</td>
+                                    <td>Resolved ticket "Monitor Flickering".</td>
+                                    <td><span class="badge bg-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nov 30</td>
+                                    <td>Checked-in Laptop #54321.</td>
+                                    <td><span class="badge bg-info">In Progress</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Nov 29</td>
+                                    <td>Assigned ticket "Printer Paper Jam".</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -119,16 +192,34 @@ document.getElementById('sidebarToggle').addEventListener('click', function() {
     document.getElementById('content').classList.toggle('collapsed');
 });
 
-var ctx = document.getElementById('myAssetChart').getContext('2d');
-var myAssetChart = new Chart(ctx, {
-    type: 'bar',
+var ctx1 = document.getElementById('myAssetChart').getContext('2d');
+new Chart(ctx1, {
+    type: 'pie',
     data: {
-        labels: ['Laptops', 'Monitors', 'Accessories'],
+        labels: ['Laptops', 'Monitors', 'Printers', 'Accessories'],
         datasets: [{
             label: 'My Assets',
-            data: [5, 3, 2],
-            backgroundColor: ['#36a2eb', '#ffcd56', '#4bc0c0'],
-            hoverOffset: 4
+            data: [5, 2, 1, 2],
+            backgroundColor: ['#36a2eb', '#ffcd56', '#4bc0c0', '#ff6384']
+        }]
+    }
+});
+
+var ctx2 = document.getElementById('ticketTrendChart').getContext('2d');
+new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: ['Nov 25', 'Nov 26', 'Nov 27', 'Nov 28', 'Nov 29', 'Nov 30', 'Dec 1'],
+        datasets: [{
+            label: 'Resolved Tickets',
+            data: [2, 3, 4, 3, 5, 4, 6],
+            borderColor: '#36a2eb',
+            fill: false
+        }, {
+            label: 'Pending Tickets',
+            data: [3, 2, 1, 2, 2, 1, 0],
+            borderColor: '#ff6384',
+            fill: false
         }]
     }
 });
