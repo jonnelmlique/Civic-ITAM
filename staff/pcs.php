@@ -38,11 +38,11 @@
             <button class="btn btn-orange" id="sidebarToggle">
                 <i class="bi bi-list"></i>
             </button>
-            <a class="navbar-brand ms-3" href="#">Staff Dashboard</a>
+            <a class="navbar-brand ms-3" href="#">My Pc's</a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> John Doe
+                        <i class="bi bi-person-circle"></i> TWICE
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                         <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
