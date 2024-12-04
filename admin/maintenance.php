@@ -190,8 +190,10 @@
                                 <td>Son Chaeyoung</td>
                                 <td>2024-12-01</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -203,8 +205,10 @@
                                 <td>Jherald Eslava</td>
                                 <td>2024-11-30</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -216,8 +220,10 @@
                                 <td>Rodelie Kristel Mercado</td>
                                 <td>2024-11-25</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -280,6 +286,95 @@
                                     placeholder="Additional information"></textarea>
                             </div>
                             <button type="submit" class="btn btn-orange">Add New Maintenance Request</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="viewAssetModalLabel">View Maintenance Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="viewAssetName" class="form-label">Maintenance Name</label>
+                            <input type="text" class="form-control" id="viewAssetName" disabled
+                                placeholder="Maintenance name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="viewAssetCategory" class="form-label">Category</label>
+                            <input type="text" class="form-control" id="viewAssetCategory" disabled
+                                placeholder="Category">
+                        </div>
+                        <div class="mb-3">
+                            <label for="viewAssetStatus" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="viewAssetStatus" disabled placeholder="Status">
+                        </div>
+                        <div class="mb-3">
+                            <label for="viewAssetAssignee" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="viewAssetAssignee" disabled
+                                placeholder="Assignee name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="viewAssetRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="viewAssetRemarks" rows="3" disabled
+                                placeholder="Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="editAssetModalLabel">Edit Maintenance Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="editAssetName" class="form-label">Maintenance Name</label>
+                                <input type="text" class="form-control" id="editAssetName"
+                                    placeholder="Enter Maintenance name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAssetCategory" class="form-label">Category</label>
+                                <select class="form-select" id="editAssetCategory">
+                                    <option value="Computers">Computers</option>
+                                    <option value="Printers">Printers</option>
+                                    <option value="Monitors">Monitors</option>
+                                    <option value="Accessories">Accessories</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAssetStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editAssetStatus">
+                                    <option value="Available">Available</option>
+                                    <option value="Assigned">Assigned</option>
+                                    <option value="Under Maintenance">Under Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAssetAssignee" class="form-label">Assigned To</label>
+                                <input type="text" class="form-control" id="editAssetAssignee"
+                                    placeholder="Enter assignee name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAssetRemarks" class="form-label">Remarks</label>
+                                <textarea class="form-control" id="editAssetRemarks" rows="3"
+                                    placeholder="Additional information"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Save Changes</button>
                         </form>
                     </div>
                 </div>
