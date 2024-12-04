@@ -192,8 +192,10 @@
                                 <td>Jeongyeon Yoo</td>
                                 <td>2024-11-30</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewTicketModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editTicketModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -204,8 +206,10 @@
                                 <td>Jihyo Park</td>
                                 <td>2024-12-01</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewTicketModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editTicketModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -266,6 +270,80 @@
                                 placeholder="Additional information"></textarea>
                         </div>
                         <button type="submit" class="btn btn-orange">Add Ticket</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="ticketID" class="form-label">Ticket ID</label>
+                            <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" value="PC Repair Request" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="status" value="Pending" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assignedTo" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastUpdated" class="form-label">Last Updated</label>
+                            <input type="text" class="form-control" id="lastUpdated" value="2024-12-03" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editTicketID" class="form-label">Ticket ID</label>
+                            <input type="text" class="form-control" id="editTicketID" value="TICKET123" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSubject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editStatus">
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssignedTo" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editLastUpdated" class="form-label">Last Updated</label>
+                            <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03" disabled>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Update Ticket</button>
                     </form>
                 </div>
             </div>
