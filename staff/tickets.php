@@ -57,7 +57,7 @@
 
     <div class="row mb-4">
         <div class="col-12">
-            <h3 class="text-dark">Asset Requests</h3>
+            <h3 class="text-dark">My Tickets</h3>
             <p class="text-muted">Submit requests for assets you need to perform your tasks effectively. You can also track the status of your submitted requests below.</p>
         </div>
     </div>
@@ -297,6 +297,11 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <script>
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('content').classList.toggle('collapsed');
+});
+
     function fillUpdateForm(ticketID, title, category, status, description) {
         document.getElementById('updateTicketID').value = ticketID;
         document.getElementById('updateTicketTitle').value = title;

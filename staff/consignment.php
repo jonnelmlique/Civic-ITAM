@@ -85,7 +85,6 @@
                         </tr>
                     </thead>
                     <tbody id="assetTableBody">
-                        <!-- Dynamic content will be added here by AJAX -->
                     </tbody>
                 </table>
             </div>
@@ -93,7 +92,6 @@
         </div>
     </div>
 
-     <!-- Add Asset Consignment Modal -->
 <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -137,7 +135,6 @@
     </div>
 </div>
 
-     <!-- Edit Asset Consignment Modal -->
     <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">

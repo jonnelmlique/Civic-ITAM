@@ -154,8 +154,12 @@
     <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    
 <script>
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('content').classList.toggle('collapsed');
+});
+
     function setAssetSchedule(assetID, scheduleDate) {
         document.getElementById('assetID').value = assetID;
         document.getElementById('scheduleDate').value = scheduleDate;
