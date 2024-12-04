@@ -13,28 +13,63 @@
 </head>
 
 <body>
-
     <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
         <div class="sidebar-header text-center py-3">
             <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php" class="nav-link text-white active"><i
-                        class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
-            <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
-                    Management</a></li>
-            <li><a href="./maintenance.php" class="nav-link text-white"><i class="bi bi-tools"></i> Maintenance
-                    Management</a></li>
-            <li><a href="./pcassets.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
-            <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i> Tickets</a>
+            <li>
+                <a href="./dashboard.php" class="nav-link text-white">
+                    <i class="bi bi-layout-text-window-reverse"></i> Dashboard
+                </a>
             </li>
-            <li><a href="./overdue.php" class="nav-link text-white"><i class="bi bi-exclamation-triangle"></i>
-                    Overdue</a></li>
-            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
+            <li class="nav-item">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="assetDropdown" data-bs-toggle="collapse"
+                    data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+                    <i class="bi bi-ui-checks-grid"></i> Asset Management
+                </a>
+                <div class="collapse" id="assetMenu">
+                    <ul class="nav flex-column ps-3">
+                        <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
+                        <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                    </ul>
+                </div>
             </li>
-            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i> Diagnostic
-                    History</a></li>
-            <li><a href="./users.php" class="nav-link text-white"><i class="bi bi-person"></i> Users</a></li>
+            <li>
+                <a href="./maintenance.php" class="nav-link text-white active">
+                    <i class="bi bi-tools"></i> Maintenance
+                </a>
+            </li>
+            <li>
+                <a href="./consignment.php" class="nav-link text-white">
+                    <i class="fas fa-truck"></i> Consignment
+                </a>
+            </li>
+            <li>
+                <a href="./tickets.php" class="nav-link text-white">
+                    <i class="bi bi-ticket-perforated"></i> Tickets
+                </a>
+            </li>
+            <li>
+                <a href="./overdue.php" class="nav-link text-white">
+                    <i class="bi bi-exclamation-triangle"></i> Overdue
+                </a>
+            </li>
+            <li>
+                <a href="./reports.php" class="nav-link text-white">
+                    <i class="bi bi-file-earmark-text"></i> Reports
+                </a>
+            </li>
+            <li>
+                <a href="./diagnostichistory.php" class="nav-link text-white">
+                    <i class="fas fa-history"></i> Diagnostic History
+                </a>
+            </li>
+            <li>
+                <a href="./users.php" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Manage Users
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -72,9 +107,9 @@
         <div class="container-fluid py-4">
             <div class="row mb-4">
                 <div class="col-12">
-                    <h3 class="text-dark">Maintenance Management</h3>
+                    <!-- <h3 class="text-dark">Maintenance Management</h3>
                     <p class="text-muted">Manage and track the status of maintenance requests and updates for all
-                        assets.</p>
+                        assets.</p> -->
                 </div>
             </div>
             <div class="row g-3">
@@ -130,8 +165,10 @@
 
             <div class="row mt-4">
                 <div class="col-12">
-                    <h5 class="mb-3">Maintenance Requests</h5>
-                    <p class="text-muted mb-3">Review and manage the maintenance requests for assets in the system.</p>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                        onkeyup="searchTable()">
+                    <!-- <h5 class="mb-3">Maintenance Requests</h5>
+                    <p class="text-muted mb-3">Review and manage the maintenance requests for assets in the system.</p> -->
                     <table class="table table-hover table-striped shadow-sm">
                         <thead class="bg-orange text-white">
                             <tr>

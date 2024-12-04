@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
-    <link rel="stylesheet" href="../public/css/superadmin/card.css">
+    <link rel="stylesheet" href="../public/css/superadmin/management.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 </head>
@@ -184,7 +184,7 @@
                                     data-email='{$row['email']}'
                                     data-contactnumber='{$row['contactnumber']}'
                                     data-department='{$row['department']}'
-                                    data-role='{$row['role']}'
+                                     data-role='{$formattedRole}'
                                     data-status='{$row['status']}'>View</button>
                                           <button class='btn btn-sm btn-warning edit-btn' 
                                         data-bs-toggle='modal' data-bs-target='#editUserModal'
@@ -410,7 +410,7 @@
                                     <div class="mb-3">
                                         <label for="editRole" class="form-label">Role</label>
                                         <select class="form-select" id="editRole" name="role" required>
-                                            <option value="Super Admin">Super Admin</option>
+                                            <option value="superadmin">Super Admin</option>
                                             <option value="Admin">Admin</option>
                                             <option value="Staff">Staff</option>
                                         </select>
@@ -595,7 +595,7 @@
             $('#editEmail').val(email);
             $('#editContactNumber').val(contactNumber);
             $('#editDepartment').val(department);
-            $('#editRole').val(role);
+            $('#editRole').val(formattedRole);
             $('#editStatus').val(status);
         });
         </script>
