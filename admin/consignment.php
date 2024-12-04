@@ -251,21 +251,16 @@
                                         <option value="Monitors">Monitors</option>
                                     </select>
                                 </div>
+
                                 <div class="mb-3">
-                                    <label for="consigneeName" class="form-label">Consignee</label>
-                                    <input type="text" class="form-control" id="consigneeName"
-                                        placeholder="Enter consignee name" required>
-                                </div>
-                            </div>
-                            <!-- Right Column -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="dateConsigned" class="form-label">Date Consigned</label>
-                                    <input type="date" class="form-control" id="dateConsigned" required>
+                                    <label for="assetdetailsid" class="form-label">Asset Details ID</label>
+                                    <input type="text" class="form-control" id="assetdetailsid"
+                                        placeholder="Asset details ID" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="returnDue" class="form-label">Return Due Date</label>
-                                    <input type="date" class="form-control" id="returnDue" required>
+                                    <label for="employeedid" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control" id="employeedid"
+                                        placeholder="Enter employee ID" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="consignmentStatus" class="form-label">Status</label>
@@ -275,7 +270,32 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+
+
+                                <div class="mb-3">
+                                    <label for="remarks" class="form-label">Remarks</label>
+                                    <textarea class="form-control" id="remarks" rows="3"
+                                        placeholder="Add any remarks"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="issueddate" class="form-label">Issued Date</label>
+                                    <input type="date" class="form-control" id="issueddate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="createdate" class="form-label">Create Date</label>
+                                    <input type="date" class="form-control" id="createdate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="createdby" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="createdby"
+                                        placeholder="Enter creator's name" required>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-orange">Add Consignment</button>
@@ -285,13 +305,12 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="editConsignmentModal" tabindex="-1" aria-labelledby="editConsignmentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-orange text-white">
-                    <h5 class="modal-title" id="editConsignmentModalLabel">Edit Consignment Details</h5>
+                    <h5 class="modal-title" id="editConsignmentModalLabel">Edit Consignment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -300,45 +319,55 @@
                             <!-- Left Column -->
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="editConsignmentAssetName" class="form-label">Asset Name</label>
-                                    <input type="text" class="form-control" id="editConsignmentAssetName" value="Laptop"
-                                        required>
+                                    <label for="editAssetName" class="form-label">Asset Name</label>
+                                    <input type="text" class="form-control" id="editAssetName" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editConsignmentCategory" class="form-label">Category</label>
-                                    <select class="form-select" id="editConsignmentCategory" required>
-                                        <option value="Computers" selected>Computers</option>
+                                    <label for="editCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="editCategory" required>
+                                        <option value="Computers">Computers</option>
                                         <option value="Printers">Printers</option>
                                         <option value="Monitors">Monitors</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editConsigneeName" class="form-label">Consignee</label>
-                                    <input type="text" class="form-control" id="editConsigneeName" value="John Doe"
-                                        required>
-                                </div>
-                            </div>
-                            <!-- Right Column -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="editDateConsigned" class="form-label">Date Consigned</label>
-                                    <input type="date" class="form-control" id="editDateConsigned" value="2023-12-01"
-                                        required>
+                                    <label for="editAssetDetailsID" class="form-label">Asset Details ID</label>
+                                    <input type="text" class="form-control" id="editAssetDetailsID" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="editReturnDue" class="form-label">Return Due Date</label>
-                                    <input type="date" class="form-control" id="editReturnDue" value="2023-12-31"
-                                        required>
+                                    <label for="editEmployeeID" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control" id="editEmployeeID" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="editConsignmentStatus" class="form-label">Status</label>
                                     <select class="form-select" id="editConsignmentStatus" required>
-                                        <option value="Pending Return" selected>Pending Return</option>
+                                        <option value="Pending Return">Pending Return</option>
                                         <option value="Returned">Returned</option>
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editRemarks" class="form-label">Remarks</label>
+                                    <textarea class="form-control" id="editRemarks" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editIssuedDate" class="form-label">Issued Date</label>
+                                    <input type="date" class="form-control" id="editIssuedDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editCreateDate" class="form-label">Create Date</label>
+                                    <input type="date" class="form-control" id="editCreateDate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editCreatedBy" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="editCreatedBy" required>
+                                </div>
+                            </div>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-warning">Save Changes</button>
@@ -348,50 +377,82 @@
             </div>
         </div>
     </div>
+
+
     <div class="modal fade" id="viewConsignmentModal" tabindex="-1" aria-labelledby="viewConsignmentModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-orange text-white">
-                    <h5 class="modal-title" id="viewConsignmentModalLabel">View Consignment Details</h5>
+                    <h5 class="modal-title" id="viewConsignmentModalLabel">View Consignment</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row">
-                        <!-- Left Column -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Asset Name</label>
-                                <p class="form-control-static" id="viewConsignmentAssetName">Laptop</p>
+                    <form>
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="viewConsignmentAssetName" class="form-label">Asset Name</label>
+                                    <input type="text" class="form-control" id="viewConsignmentAssetName"
+                                        value="Sample Asset" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewConsignmentCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="viewConsignmentCategory" disabled>
+                                        <option value="Computers" selected>Computers</option>
+                                        <option value="Printers">Printers</option>
+                                        <option value="Monitors">Monitors</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewAssetdetailsid" class="form-label">Asset Details ID</label>
+                                    <input type="text" class="form-control" id="viewAssetdetailsid" value="123456"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewEmployeedid" class="form-label">Employee ID</label>
+                                    <input type="text" class="form-control" id="viewEmployeedid" value="EMP123"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewConsignmentStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="viewConsignmentStatus" disabled>
+                                        <option value="Pending Return" selected>Pending Return</option>
+                                        <option value="Returned">Returned</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Category</label>
-                                <p class="form-control-static" id="viewConsignmentCategory">Computers</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Consignee</label>
-                                <p class="form-control-static" id="viewConsigneeName">John Doe</p>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="viewRemarks" class="form-label">Remarks</label>
+                                    <textarea class="form-control" id="viewRemarks" rows="3"
+                                        disabled>Sample remarks about the consignment.</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewIssueddate" class="form-label">Issued Date</label>
+                                    <input type="date" class="form-control" id="viewIssueddate" value="2024-12-04"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewCreatedate" class="form-label">Create Date</label>
+                                    <input type="date" class="form-control" id="viewCreatedate" value="2024-12-01"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="viewCreatedby" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="viewCreatedby" value="John Doe"
+                                        disabled>
+                                </div>
                             </div>
                         </div>
-                        <!-- Right Column -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Date Consigned</label>
-                                <p class="form-control-static" id="viewDateConsigned">2023-12-01</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Return Due Date</label>
-                                <p class="form-control-static" id="viewReturnDue">2023-12-31</p>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Status</label>
-                                <p class="form-control-static" id="viewConsignmentStatus">Pending Return</p>
-                            </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
                 </div>
             </div>
         </div>
