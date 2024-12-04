@@ -8,8 +8,8 @@
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-    <link rel="stylesheet" href="../public/css/admincss/dashboard.css">
-    <link rel="stylesheet" href="../public/css/admincss/sidebar.css">
+    <link rel="stylesheet" href="../public/css/staff/dashboard.css">
+    <link rel="stylesheet" href="../public/css/staff/sidebar.css">
 
 </head>
 
@@ -71,7 +71,7 @@
 
         <div class="container-fluid py-4">
             <div class="row g-3">
-
+                <!-- Card 1 -->
                 <div class="col-lg-3 col-md-6">
                     <div class="card shadow border-0">
                         <div class="card-body d-flex align-items-center">
