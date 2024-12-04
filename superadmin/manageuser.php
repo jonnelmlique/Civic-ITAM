@@ -720,7 +720,7 @@
 
         updateUserCounts();
 
-        setInterval(updateUserCounts, 10000);
+        setInterval(updateUserCounts, 1000);
         </script>
         <script>
         document.getElementById('sidebarToggle').addEventListener('click', function() {
