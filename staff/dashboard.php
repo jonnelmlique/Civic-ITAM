@@ -28,7 +28,7 @@
             <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i> My Schedule</a></li>
             <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a></li>
             <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i> My History</a></li>
-            <li><a href="./managerequests.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage requests</a></li>
+            <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage requests</a></li>
         </ul>
     </div>
 
