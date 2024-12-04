@@ -8,32 +8,36 @@
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-    <link rel="stylesheet" href="../public/css/superadmin/dashboard.css">
-    <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
+    <link rel="stylesheet" href="../public/css/admincss/dashboard.css">
+    <link rel="stylesheet" href="../public/css/admincss/sidebar.css">
 
 </head>
 
 <body>
 
-    <div id="sidebar">
-        <div class="sidebar-header text-center">
-            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 30%; height: auto;">
+    <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
+        <div class="sidebar-header text-center py-3">
+            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="./assetdetails.php"><i class="fas fa-cogs"></i> Asset Details</a></li>
-            <li><a href="./pcassets.php"><i class="fas fa-desktop"></i> PC Assets</a></li>
-            <li><a href="./status.php"><i class="fas fa-check-circle"></i> Status</a></li>
-            <li><a href="./assetconsignment.php"><i class="fas fa-truck"></i> Consignment</a></li>
-            <li><a href="./tickets.php"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="./reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="./maintenance.php"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
-            <li><a href="./diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a></li>
-            <li><a href="./manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li><a href="./dashboard.php" class="nav-link text-white active"><i
+                        class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
+            <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
+                    Management</a></li>
+            <li><a href="./maintenance.php" class="nav-link text-white"><i class="bi bi-tools"></i> Maintenance
+                    Management</a></li>
+            <li><a href="./pcassets.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
+            <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i> Tickets</a>
+            </li>
+            <li><a href="./overdue.php" class="nav-link text-white"><i class="bi bi-exclamation-triangle"></i>
+                    Overdue</a></li>
+            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
+            </li>
+            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i> Diagnostic
+                    History</a></li>
+            <li><a href="./users.php" class="nav-link text-white"><i class="bi bi-person"></i> Users</a></li>
         </ul>
-
     </div>
-
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container-fluid">
@@ -141,6 +145,7 @@
             </div>
         </div>
     </div>
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>

@@ -10,17 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/tickets.css">
-    <style>
-    #table .assetTable th {
-        white-space: nowrap;
-        text-align: center;
-    }
+    <link rel="stylesheet" href="../public/css/superadmin/card.css">
 
-    #assetTable tr {
-        white-space: nowrap;
-        text-align: center;
-    }
-    </style>
 </head>
 
 <body>
@@ -36,8 +27,8 @@
             <li><a href="./status.php"><i class="fas fa-check-circle"></i> Status</a></li>
             <li><a href="./assetconsignment.php"><i class="fas fa-truck"></i> Consignment</a></li>
             <li><a href="./tickets.php" class="active"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="#"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="#"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
+            <li><a href="./reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
+            <li><a href="./maintenance.php"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
             <li><a href="./diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a></li>
             <li><a href="./manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
         </ul>
@@ -50,7 +41,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Tickets</a>
+                <a class="navbar-brand ms-3" href="#">Ticket Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -77,79 +68,270 @@
 
         <div class="container-fluid py-4">
             <div class="row mb-4">
-                <div class="col-12 d-flex justify-content-between">
-                    <input type="text" id="searchInput" class="form-control w-50" placeholder="Search Tickets">
-                    <a href="#">
-                        <button class="btn btn-orange" id="addAssetBtn">Add</button>
-                    </a>
+                <div class="col-12">
+                    <!-- <h3 class="text-dark">Ticket Management</h3> -->
+                    <!-- <p class="text-muted">Manage and monitor your tickets effectively. Here, you can track ticket
+                        status, assigned personnel, and resolutions.</p> -->
+                    <!-- <p class="text-muted">Use the options below to review ticket status, assign new tickets, and ensure
+                        timely resolutions.</p> -->
+                    <!-- </div> -->
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-card-list card-icon text-primary me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Total Tickets</h6>
+                                    <p class="card-value mb-0">200</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-check-circle card-icon text-success me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Resolved Tickets</h6>
+                                    <p class="card-value mb-0">150</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-hourglass-split card-icon text-warning me-3"></i>
+                                <div>
+                                    <h6 class="card-title mb-1">Pending Tickets</h6>
+                                    <p class="card-value mb-0">30</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle card-icon text-danger me-3"></i>
+                                <div>
+                                    <h6 class="card-title">Overdue Tickets</h6>
+                                    <p class="card-value mb-0">20</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 mb-3">
+                        <!-- <h5 class="mb-3">Ticket Inventory</h5>
+                    <p class="text-muted mb-3">Review and manage your ticket inventory. Below is the list of all open,
+                        pending, and resolved tickets.</p> -->
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                            onkeyup="searchTable()">
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <table class="table table-hover table-striped shadow-sm">
+                        <thead class="bg-orange text-white">
+                            <tr>
+                                <th scope="col">Ticket ID</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Assigned To</th>
+                                <th scope="col">Last Updated</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ticketTableBody">
+                            <tr>
+                                <td>TICKET001</td>
+                                <td>System Crash</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>Jeongyeon Yoo</td>
+                                <td>2024-11-30</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewTicketModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editTicketModal">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>TICKET002</td>
+                                <td>Login Issue</td>
+                                <td><span class="badge bg-success">Resolved</span></td>
+                                <td>Jihyo Park</td>
+                                <td>2024-12-01</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewTicketModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editTicketModal">Edit</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered  table-hover" id="assetTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Ticket Code</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Priority</th>
-                            <th>Status</th>
-                            <th>Assigned To</th>
-                            <th>Created Date</th>
-                            <th>Created By</th>
-                            <th>Last Modified Date</th>
-                            <th>Last Modified By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>TCK-1001</td>
-                            <td>Printer Not Working</td>
-                            <td>The office printer is jammed and not functioning.</td>
-                            <td>High</td>
-                            <td>Open</td>
-                            <td>John Doe</td>
-                            <td>2024-11-01</td>
-                            <td>Jane Smith</td>
-                            <td>2024-11-05</td>
-                            <td>Michael Brown</td>
-                            <td>
-                                <center>
-                                    <div class="action-icons">
-                                        <a href="#" style="text-decoration: none;">
-                                            <button class="icon-btn">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                        </a>
-
-                                        <button class="icon-btn"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </center>
-                            </td>
-
-                        </tr>
-                    </tbody>
-
-                </table>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-end">
+                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
+                    <i class="bi bi-plus-lg"></i> Add New Ticket
+                </button>
             </div>
         </div>
     </div>
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.getElementById('content').classList.toggle('collapsed');
-    });
-    </script>
+    <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="addAssetModalLabel">Add New Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="assetName" class="form-label">Asset Name</label>
+                            <input type="text" class="form-control" id="assetName" placeholder="Enter Ticket name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetCategory" class="form-label">Category</label>
+                            <select class="form-select" id="assetCategory">
+                                <option value="">Select Category</option>
+                                <option value="Computers">Computers</option>
+                                <option value="Printers">Printers</option>
+                                <option value="Monitors">Monitors</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetStatus" class="form-label">Status</label>
+                            <select class="form-select" id="assetStatus">
+                                <option value="Available">Available</option>
+                                <option value="Assigned">Assigned</option>
+                                <option value="Under Maintenance">Under Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetAssignee" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="assetAssignee"
+                                placeholder="Enter assignee name (if applicable)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="assetRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="assetRemarks" rows="3"
+                                placeholder="Additional information"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-orange">Add Ticket</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="ticketID" class="form-label">Ticket ID</label>
+                            <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="subject" value="PC Repair Request" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="status" value="Pending" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="assignedTo" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastUpdated" class="form-label">Last Updated</label>
+                            <input type="text" class="form-control" id="lastUpdated" value="2024-12-03" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="editTicketID" class="form-label">Ticket ID</label>
+                            <input type="text" class="form-control" id="editTicketID" value="TICKET123" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editSubject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editStatus">
+                                <option value="Pending" selected>Pending</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAssignedTo" class="form-label">Assigned To</label>
+                            <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editLastUpdated" class="form-label">Last Updated</label>
+                            <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03" disabled>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Update Ticket</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
+        aria-hidden="true">
+
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('collapsed');
+        });
+        </script>
 </body>
 
 </html>
