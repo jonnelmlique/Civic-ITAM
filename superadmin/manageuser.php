@@ -155,7 +155,16 @@
                         $userId = 'EMP' . str_pad($row['id'], 3, '0', STR_PAD_LEFT); 
                         $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
                         $email = htmlspecialchars($row['email']);
-                        $role = htmlspecialchars($row['role']);
+                        $role = htmlspecialchars($row['role']);  
+                        if ($role == 'superadmin') {
+                            $formattedRole = 'Super Admin';
+                        } elseif ($role == 'admin') {
+                            $formattedRole = 'Admin';
+                        } elseif ($role == 'staff') {
+                            $formattedRole = 'Staff';
+                        } else {
+                            $formattedRole = $role; 
+                        }
                         $status = htmlspecialchars($row['status']);
                         $badgeClass = ($status === 'Activated') ? 'bg-success' : 'bg-danger';
 
@@ -163,7 +172,7 @@
                             <td>$userId</td>
                             <td>$fullName</td>
                             <td>$email</td>
-                            <td>$role</td>
+                            <td>$formattedRole</td>
                             <td><span class='badge $badgeClass'>$status</span></td>
                             <td>
                                 <button class='btn btn-sm btn-info' 
@@ -264,9 +273,9 @@
                                     <div class="mb-3">
                                         <label for="role" class="form-label">Role</label>
                                         <select class="form-select" name="role" required>
-                                            <option value="Super Admin">Super Admin</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Staff">Staff</option>
+                                            <option value="superadmin">Super Admin</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="staff">Staff</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -438,7 +447,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         <script>
         document.querySelector('#addUserModal form').addEventListener('submit', async function(event) {
             event.preventDefault();
@@ -711,7 +720,7 @@
 
         updateUserCounts();
 
-        setInterval(updateUserCounts, 10000);
+        setInterval(updateUserCounts, 1000);
         </script>
         <script>
         document.getElementById('sidebarToggle').addEventListener('click', function() {
