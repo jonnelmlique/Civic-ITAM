@@ -154,7 +154,7 @@
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-shield-lock card-icon text-danger me-3"></i>
                             <div>
-                                <h6 class="card-title mb-1">Admin Users</h6>
+                                <h6 class="card-title mb-1">Staff</h6>
                                 <p class="card-value mb-0">5</p>
                             </div>
                         </div>

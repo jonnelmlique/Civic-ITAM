@@ -19,7 +19,7 @@ try {
     $result = $stmt->get_result();
     $deactivatedUsers = $result->fetch_assoc()['deactivatedUsers'];
 
-    $stmt = $conn->prepare("SELECT COUNT(*) AS adminUsers FROM employees WHERE role = 'admin'");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS adminUsers FROM employees WHERE role = 'staff'");
     $stmt->execute();
     $result = $stmt->get_result();
     $adminUsers = $result->fetch_assoc()['adminUsers'];
