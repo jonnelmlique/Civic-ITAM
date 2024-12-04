@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/staff/management.css">
     <link rel="stylesheet" href="../public/css/staff/sidebar.css">
-
 </head>
 
 <body>
@@ -150,6 +149,12 @@
     </div>
 </div>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    
 <script>
     function setAssetSchedule(assetID, scheduleDate) {
         document.getElementById('assetID').value = assetID;
