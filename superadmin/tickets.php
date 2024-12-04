@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/tickets.css">
-    <link rel="stylesheet" href="../public/css/superadmin/card.css">
+    <link rel="stylesheet" href="../public/css/superadmin/management.css">
 
 </head>
 

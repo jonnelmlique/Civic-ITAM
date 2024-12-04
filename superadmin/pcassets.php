@@ -12,7 +12,7 @@
 
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/assetdetails.css">
-    <link rel="stylesheet" href="../public/css/superadmin/card.css">
+    <link rel="stylesheet" href="../public/css/superadmin/management.css">
 
 
 </head>

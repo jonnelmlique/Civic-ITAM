@@ -13,30 +13,66 @@
 </head>
 
 <body>
-
     <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
         <div class="sidebar-header text-center py-3">
             <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php" class="nav-link text-white active"><i
-                        class="bi bi-layout-text-window-reverse"></i> Dashboard</a></li>
-            <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
-                    Management</a></li>
-            <li><a href="./maintenance.php" class="nav-link text-white"><i class="bi bi-tools"></i> Maintenance
-                    Management</a></li>
-            <li><a href="./pcassets.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
-            <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i> Tickets</a>
+            <li>
+                <a href="./dashboard.php" class="nav-link text-white">
+                    <i class="bi bi-layout-text-window-reverse"></i> Dashboard
+                </a>
             </li>
-            <li><a href="./overdue.php" class="nav-link text-white"><i class="bi bi-exclamation-triangle"></i>
-                    Overdue</a></li>
-            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
+            <li class="nav-item">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="assetDropdown" data-bs-toggle="collapse"
+                    data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+                    <i class="bi bi-ui-checks-grid"></i> Asset Management
+                </a>
+                <div class="collapse" id="assetMenu">
+                    <ul class="nav flex-column ps-3">
+                        <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
+                        <li><a href="./pcassets.php" class="nav-link text-white active">PC's</a></li>
+                    </ul>
+                </div>
             </li>
-            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i> Diagnostic
-                    History</a></li>
-            <li><a href="./users.php" class="nav-link text-white"><i class="bi bi-person"></i> Users</a></li>
+            <li>
+                <a href="./maintenance.php" class="nav-link text-white">
+                    <i class="bi bi-tools"></i> Maintenance
+                </a>
+            </li>
+            <li>
+                <a href="./consignment.php" class="nav-link text-white">
+                    <i class="fas fa-truck"></i> Consignment
+                </a>
+            </li>
+            <li>
+                <a href="./tickets.php" class="nav-link text-white">
+                    <i class="bi bi-ticket-perforated"></i> Tickets
+                </a>
+            </li>
+            <li>
+                <a href="./overdue.php" class="nav-link text-white">
+                    <i class="bi bi-exclamation-triangle active"></i> Overdue
+                </a>
+            </li>
+            <li>
+                <a href="./reports.php" class="nav-link text-white">
+                    <i class="bi bi-file-earmark-text"></i> Reports
+                </a>
+            </li>
+            <li>
+                <a href="./diagnostichistory.php" class="nav-link text-white">
+                    <i class="fas fa-history"></i> Diagnostic History
+                </a>
+            </li>
+            <li>
+                <a href="./users.php" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Manage Users
+                </a>
+            </li>
         </ul>
     </div>
+
 
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -72,9 +108,9 @@
         <div class="container-fluid py-4">
             <div class="row mb-4">
                 <div class="col-12">
-                    <h3 class="text-dark">PC Assets Management</h3>
+                    <!-- <h3 class="text-dark">PC Assets Management</h3>
                     <p class="text-muted">Monitor and manage PC assets, including laptops, desktops, and related
-                        peripherals. Ensure all systems are functioning optimally.</p>
+                        peripherals. Ensure all systems are functioning optimally.</p> -->
                 </div>
             </div>
 
@@ -127,7 +163,9 @@
 
             <div class="row mt-4">
                 <div class="col-12">
-                    <h5 class="mb-3">PC Inventory</h5>
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                        onkeyup="searchTable()">
+                    <!-- <h5 class="mb-3">PC Inventory</h5> -->
                     <table class="table table-hover table-striped shadow-sm">
                         <thead class="bg-orange text-white">
                             <tr>
@@ -149,8 +187,10 @@
                                 <td>-</td>
                                 <td>2024-12-01</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -162,8 +202,10 @@
                                 <td>Jane Doe</td>
                                 <td>2024-11-28</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -175,8 +217,10 @@
                                 <td>-</td>
                                 <td>2024-11-20</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -200,45 +244,173 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="addAssetModalLabel">Add New Pcs</h5>
+                        <h5 class="modal-title" id="addAssetModalLabel">Add New PCs</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="mb-3">
-                                <label for="assetName" class="form-label">Asset Name</label>
-                                <input type="text" class="form-control" id="assetName" placeholder="Enter Pcs name">
+                            <div class="row g-3">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assetName" class="form-label">PC Name</label>
+                                        <input type="text" class="form-control" id="assetName"
+                                            placeholder="Enter PC Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="modelname" class="form-label">Model Name</label>
+                                        <input type="text" class="form-control" id="modelname"
+                                            placeholder="Enter Model Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="specsification" class="form-label">Specification</label>
+                                        <textarea class="form-control" id="specsification" rows="3"
+                                            placeholder="Enter Specifications"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="assetStatus">
+                                            <option value="Available">Available</option>
+                                            <option value="Assigned">Assigned</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetAssignee" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="assetAssignee"
+                                            placeholder="Enter assignee name (if applicable)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetRemarks" class="form-label">Remarks</label>
+                                        <textarea class="form-control" id="assetRemarks" rows="3"
+                                            placeholder="Additional information"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="assetCategory" class="form-label">Category</label>
-                                <select class="form-select" id="assetCategory">
-                                    <option value="">Select Category</option>
-                                    <option value="Computers">Computers</option>
-                                    <option value="Printers">Printers</option>
-                                    <option value="Monitors">Monitors</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-orange">Add PCs</button>
                             </div>
-                            <div class="mb-3">
-                                <label for="assetStatus" class="form-label">Status</label>
-                                <select class="form-select" id="assetStatus">
-                                    <option value="Available">Available</option>
-                                    <option value="Assigned">Assigned</option>
-                                    <option value="Under Maintenance">Under Maintenance</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetAssignee" class="form-label">Assigned To</label>
-                                <input type="text" class="form-control" id="assetAssignee"
-                                    placeholder="Enter assignee name (if applicable)">
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetRemarks" class="form-label">Remarks</label>
-                                <textarea class="form-control" id="assetRemarks" rows="3"
-                                    placeholder="Additional information"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-orange">Add Pcs</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-warning text-white">
+                        <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editAssetForm">
+                            <div class="row g-3">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssetName" class="form-label">Asset Name</label>
+                                        <input type="text" class="form-control" id="editAssetName"
+                                            placeholder="Enter PC Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editModelName" class="form-label">Model Name</label>
+                                        <input type="text" class="form-control" id="editModelName"
+                                            placeholder="Enter Model Name">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editSpecification" class="form-label">Specification</label>
+                                        <textarea class="form-control" id="editSpecification" rows="3"
+                                            placeholder="Enter Specifications"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="editAssetStatus">
+                                            <option value="Available">Available</option>
+                                            <option value="Assigned">Assigned</option>
+                                            <option value="Under Maintenance">Under Maintenance</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetAssignee" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="editAssetAssignee"
+                                            placeholder="Enter assignee name (if applicable)">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetRemarks" class="form-label">Remarks</label>
+                                        <textarea class="form-control" id="editAssetRemarks" rows="3"
+                                            placeholder="Additional information"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-orange">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Modal -->
+        <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-info text-white">
+                        <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Asset Name:</label>
+                                    <p class="form-control-plaintext" id="viewAssetName">Dell PC</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Model Name:</label>
+                                    <p class="form-control-plaintext" id="viewModelName">Inspiron 15</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Specification:</label>
+                                    <p class="form-control-plaintext" id="viewSpecification">Intel i5, 8GB RAM, 256GB
+                                        SSD</p>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Status:</label>
+                                    <p class="form-control-plaintext" id="viewAssetStatus">Available</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Assigned To:</label>
+                                    <p class="form-control-plaintext" id="viewAssetAssignee">John Doe</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Remarks:</label>
+                                    <p class="form-control-plaintext" id="viewAssetRemarks">In excellent condition</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-end mt-3">
+                            <button type="button" class="btn btn-orange" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
