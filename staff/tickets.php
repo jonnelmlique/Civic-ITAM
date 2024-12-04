@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIVIC | Tickets</title>
+    <title>CIVIC | Dashboard</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
@@ -38,11 +38,11 @@
             <button class="btn btn-orange" id="sidebarToggle">
                 <i class="bi bi-list"></i>
             </button>
-            <a class="navbar-brand ms-3" href="#">Staff Dashboard</a>
+            <a class="navbar-brand ms-3" href="#">My Tickets</a>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> John Doe
+                        <i class="bi bi-person-circle"></i> TWICE
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                         <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
@@ -54,13 +54,13 @@
     </nav>
 
     <div class="container-fluid py-4">
+
     <div class="row mb-4">
         <div class="col-12">
-            <h3 class="text-dark">My Tickets</h3>
-            <p class="text-muted">Track and manage your support tickets, or create a new ticket for any issue or request.</p>
+            <h3 class="text-dark">Asset Requests</h3>
+            <p class="text-muted">Submit requests for assets you need to perform your tasks effectively. You can also track the status of your submitted requests below.</p>
         </div>
     </div>
-  
 
     <div class="row g-3">
         <div class="col-lg-3 col-md-6">
@@ -112,6 +112,14 @@
         </div>
     </div>
 
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3 class="text-dark">My Tickets</h3>
+            <p class="text-muted">Track and manage your support tickets, or create a new ticket for any issue or request.</p>
+        </div>
+    </div>
+  
     <div class="row mt-4">
         <div class="col-12">
             <h5 class="mb-3">Your Tickets</h5>
