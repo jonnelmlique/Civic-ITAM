@@ -1,0 +1,198 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+
+h3.text-dark {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #343a40;
+}
+
+p.text-muted {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.card-icon {
+    font-size: 2rem;
+    margin-right: 15px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.card-value {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.card .text-primary {
+    color: #ffa641;
+}
+
+.card .text-success {
+    color: #ffa641;
+}
+
+.card .text-warning {
+    color: #ffa641;
+}
+
+.card .text-danger {
+    color: #dc3545;
+}
+
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    border-collapse: separate;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #ff6f00;
+    color: #fff;
+    font-weight: 600;
+}
+
+.table td {
+    font-size: 1rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.badge {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545;
+}
+
+.btn {
+    font-size: 0.875rem;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+}
+
+.btn-info {
+    background-color: #ff7300;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ff6600;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #ff0019;
+    color: white;
+}
+
+.btn-orange {
+    background-color: #ff6f00;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.modal-dialog {
+    max-width: 800px;
+}
+
+.modal-header {
+    background-color: #ff6f00;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+}
+
+.modal-body form .form-label {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.modal-body form .form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.modal-body form .form-select {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.modal-footer {
+    border-top: 1px solid #ddd;
+}
+
+.modal-footer .btn-close {
+    background-color: transparent;
+    border: none;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card-icon {
+        margin-bottom: 10px;
+    }
+
+    .btn-orange {
+        width: 100%;
+    }
+}
