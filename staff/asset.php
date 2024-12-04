@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIVIC | Dashboard</title>
+    <title>CIVIC | Asset</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
@@ -58,13 +58,12 @@
 
     <div class="row mb-4">
         <div class="col-12">
-            <h3 class="text-dark">Asset Requests</h3>
+            <h3 class="text-dark">My Asset</h3>
             <p class="text-muted">Submit requests for assets you need to perform your tasks effectively. You can also track the status of your submitted requests below.</p>
         </div>
     </div>
 
     <div class="row g-3">
-        <!-- Summary Cards -->
         <div class="col-lg-3 col-md-6">
             <div class="card shadow-sm border-0">
                 <div class="card-body d-flex align-items-center">
@@ -151,7 +150,6 @@
                             <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#reportIssueModal">Report Issue</button>
                         </td>
                     </tr>
-                    <!-- Example Row -->
                     <tr>
                         <td>ASSET002</td>
                         <td>HP Printer</td>
