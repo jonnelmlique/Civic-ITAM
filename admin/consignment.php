@@ -203,18 +203,18 @@
                                 <td>2024-12-15</td>
                                 <td><span class="badge bg-warning">Pending Return</span></td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#viewConsignmentModal">View</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editConsignmentModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
-                            <!-- Add more rows as needed -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- Add Consignment Button -->
             <div class="row mt-3">
                 <div class="col-12 text-end">
                     <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addConsignmentModal">
@@ -234,46 +234,170 @@
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div class="mb-3">
-                            <label for="consignmentAssetName" class="form-label">Asset Name</label>
-                            <input type="text" class="form-control" id="consignmentAssetName"
-                                placeholder="Enter asset name">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="consignmentAssetName" class="form-label">Asset Name</label>
+                                    <input type="text" class="form-control" id="consignmentAssetName"
+                                        placeholder="Enter asset name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="consignmentCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="consignmentCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Computers">Computers</option>
+                                        <option value="Printers">Printers</option>
+                                        <option value="Monitors">Monitors</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="consigneeName" class="form-label">Consignee</label>
+                                    <input type="text" class="form-control" id="consigneeName"
+                                        placeholder="Enter consignee name" required>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="dateConsigned" class="form-label">Date Consigned</label>
+                                    <input type="date" class="form-control" id="dateConsigned" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="returnDue" class="form-label">Return Due Date</label>
+                                    <input type="date" class="form-control" id="returnDue" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="consignmentStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="consignmentStatus" required>
+                                        <option value="Pending Return">Pending Return</option>
+                                        <option value="Returned">Returned</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="consignmentCategory" class="form-label">Category</label>
-                            <select class="form-select" id="consignmentCategory">
-                                <option value="">Select Category</option>
-                                <option value="Computers">Computers</option>
-                                <option value="Printers">Printers</option>
-                                <option value="Monitors">Monitors</option>
-                            </select>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-orange">Add Consignment</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="consigneeName" class="form-label">Consignee</label>
-                            <input type="text" class="form-control" id="consigneeName"
-                                placeholder="Enter consignee name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="dateConsigned" class="form-label">Date Consigned</label>
-                            <input type="date" class="form-control" id="dateConsigned">
-                        </div>
-                        <div class="mb-3">
-                            <label for="returnDue" class="form-label">Return Due Date</label>
-                            <input type="date" class="form-control" id="returnDue">
-                        </div>
-                        <div class="mb-3">
-                            <label for="consignmentStatus" class="form-label">Status</label>
-                            <select class="form-select" id="consignmentStatus">
-                                <option value="Pending Return">Pending Return</option>
-                                <option value="Returned">Returned</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-orange">Add Consignment</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="editConsignmentModal" tabindex="-1" aria-labelledby="editConsignmentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="editConsignmentModalLabel">Edit Consignment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editConsignmentAssetName" class="form-label">Asset Name</label>
+                                    <input type="text" class="form-control" id="editConsignmentAssetName" value="Laptop"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editConsignmentCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="editConsignmentCategory" required>
+                                        <option value="Computers" selected>Computers</option>
+                                        <option value="Printers">Printers</option>
+                                        <option value="Monitors">Monitors</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editConsigneeName" class="form-label">Consignee</label>
+                                    <input type="text" class="form-control" id="editConsigneeName" value="John Doe"
+                                        required>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editDateConsigned" class="form-label">Date Consigned</label>
+                                    <input type="date" class="form-control" id="editDateConsigned" value="2023-12-01"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editReturnDue" class="form-label">Return Due Date</label>
+                                    <input type="date" class="form-control" id="editReturnDue" value="2023-12-31"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editConsignmentStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="editConsignmentStatus" required>
+                                        <option value="Pending Return" selected>Pending Return</option>
+                                        <option value="Returned">Returned</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-warning">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="viewConsignmentModal" tabindex="-1" aria-labelledby="viewConsignmentModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="viewConsignmentModalLabel">View Consignment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Asset Name</label>
+                                <p class="form-control-static" id="viewConsignmentAssetName">Laptop</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Category</label>
+                                <p class="form-control-static" id="viewConsignmentCategory">Computers</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Consignee</label>
+                                <p class="form-control-static" id="viewConsigneeName">John Doe</p>
+                            </div>
+                        </div>
+                        <!-- Right Column -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Date Consigned</label>
+                                <p class="form-control-static" id="viewDateConsigned">2023-12-01</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Return Due Date</label>
+                                <p class="form-control-static" id="viewReturnDue">2023-12-31</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <p class="form-control-static" id="viewConsignmentStatus">Pending Return</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
         aria-hidden="true">
 

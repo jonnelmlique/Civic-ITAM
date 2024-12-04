@@ -190,8 +190,10 @@
                                 <td>Im Nayeon</td>
                                 <td>2024-11-30</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#viewOverdueAssetModal">View</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editOverdueAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Resolve</button>
                                 </td>
                             </tr>
@@ -203,8 +205,10 @@
                                 <td>Hirai Momo</td>
                                 <td>2024-12-01</td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#viewOverdueAssetModal">View</button>
+                                    <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#editOverdueAssetModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Resolve</button>
                                 </td>
                             </tr>
@@ -227,46 +231,56 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="addOverdueAssetModalLabel">Update</h5>
+                        <h5 class="modal-title" id="addOverdueAssetModalLabel">Add Overdue Asset</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="mb-3">
-                                <label for="assetName" class="form-label">Overdue Name</label>
-                                <input type="text" class="form-control" id="assetName" placeholder="Enter asset name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetCategory" class="form-label">Category</label>
-                                <select class="form-select" id="assetCategory">
-                                    <option selected>Choose category</option>
-                                    <option value="computers">Computers</option>
-                                    <option value="printers">Printers</option>
-                                    <option value="monitors">Monitors</option>
-                                    <option value="furniture">Furniture</option>
-                                    <option value="others">Others</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="assignedTo" class="form-label">Assigned To</label>
-                                <input type="text" class="form-control" id="assignedTo"
-                                    placeholder="Enter assignee's name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="dueDate" class="form-label">Due Date</label>
-                                <input type="date" class="form-control" id="dueDate">
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetStatus" class="form-label">Status</label>
-                                <select class="form-select" id="assetStatus">
-                                    <option value="overdue">Overdue</option>
-                                    <option value="maintenance">Under Maintenance</option>
-                                    <option value="returned">Returned</option>
-                                </select>
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assetName" class="form-label">Overdue Name</label>
+                                        <input type="text" class="form-control" id="assetName"
+                                            placeholder="Enter asset name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetCategory" class="form-label">Category</label>
+                                        <select class="form-select" id="assetCategory" required>
+                                            <option selected>Choose category</option>
+                                            <option value="computers">Computers</option>
+                                            <option value="printers">Printers</option>
+                                            <option value="monitors">Monitors</option>
+                                            <option value="furniture">Furniture</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="assignedTo" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="assignedTo"
+                                            placeholder="Enter assignee's name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="dueDate" class="form-label">Due Date</label>
+                                        <input type="date" class="form-control" id="dueDate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="assetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="assetStatus" required>
+                                            <option value="overdue">Overdue</option>
+                                            <option value="maintenance">Under Maintenance</option>
+                                            <option value="returned">Returned</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-end">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-success">Update</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-success">Add Overdue</button>
                             </div>
                         </form>
                     </div>
@@ -274,22 +288,125 @@
             </div>
         </div>
 
-    </div>
+        <div class="modal fade" id="editOverdueAssetModal" tabindex="-1" aria-labelledby="editOverdueAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="editOverdueAssetModalLabel">Edit Overdue Asset</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssetName" class="form-label">Overdue Name</label>
+                                        <input type="text" class="form-control" id="editAssetName"
+                                            placeholder="Enter asset name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetCategory" class="form-label">Category</label>
+                                        <select class="form-select" id="editAssetCategory" required>
+                                            <option selected>Choose category</option>
+                                            <option value="computers">Computers</option>
+                                            <option value="printers">Printers</option>
+                                            <option value="monitors">Monitors</option>
+                                            <option value="furniture">Furniture</option>
+                                            <option value="others">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Right Column -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="editAssignedTo" class="form-label">Assigned To</label>
+                                        <input type="text" class="form-control" id="editAssignedTo"
+                                            placeholder="Enter assignee's name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editDueDate" class="form-label">Due Date</label>
+                                        <input type="date" class="form-control" id="editDueDate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editAssetStatus" class="form-label">Status</label>
+                                        <select class="form-select" id="editAssetStatus" required>
+                                            <option value="overdue">Overdue</option>
+                                            <option value="maintenance">Under Maintenance</option>
+                                            <option value="returned">Returned</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-warning">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="viewOverdueAssetModal" tabindex="-1" aria-labelledby="viewOverdueAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="viewOverdueAssetModalLabel">View Overdue Asset</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Overdue Name</label>
+                                    <p id="viewAssetName" class="form-control-plaintext">Sample Asset Name</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Category</label>
+                                    <p id="viewAssetCategory" class="form-control-plaintext">Computers</p>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Assigned To</label>
+                                    <p id="viewAssignedTo" class="form-control-plaintext">John Doe</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Due Date</label>
+                                    <p id="viewDueDate" class="form-control-plaintext">2024-12-15</p>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <p id="viewAssetStatus" class="form-control-plaintext">Overdue</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-    <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.getElementById('content').classList.toggle('collapsed');
-    });
-    </script>
+        <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('collapsed');
+        });
+        </script>
 </body>
 
 </html>

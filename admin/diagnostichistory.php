@@ -190,8 +190,10 @@
                                 <td>2024-11-25</td>
                                 <td><span class="badge bg-success">Completed</span></td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewDiagnosticModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editDiagnosticModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -202,8 +204,10 @@
                                 <td>2024-11-28</td>
                                 <td><span class="badge bg-warning">In Progress</span></td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewDiagnosticModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editDiagnosticModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -214,8 +218,10 @@
                                 <td>2024-11-20</td>
                                 <td><span class="badge bg-danger">Failed</span></td>
                                 <td>
-                                    <button class="btn btn-sm btn-info">View</button>
-                                    <button class="btn btn-sm btn-warning">Edit</button>
+                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewDiagnosticModal">View</button>
+                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#editDiagnosticModal">Edit</button>
                                     <button class="btn btn-sm btn-danger">Delete</button>
                                 </td>
                             </tr>
@@ -274,6 +280,81 @@
             </div>
         </div>
 
+    </div>
+    <div class="modal fade" id="editDiagnosticModal" tabindex="-1" aria-labelledby="editDiagnosticModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDiagnosticModalLabel">Edit Diagnostic</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post">
+                        <div class="mb-3">
+                            <label for="editAsset" class="form-label">Asset</label>
+                            <input type="text" class="form-control" id="editAsset" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTechnician" class="form-label">Technician</label>
+                            <input type="text" class="form-control" id="editTechnician" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editDetails" class="form-label">Diagnostic Details</label>
+                            <textarea class="form-control" id="editDetails" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editStatus" required>
+                                <option value="Completed">Completed</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="viewDiagnosticModal" tabindex="-1" aria-labelledby="viewDiagnosticModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewDiagnosticModalLabel">View Diagnostic</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="viewAsset" class="form-label">Asset</label>
+                        <input type="text" class="form-control" id="viewAsset" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewTechnician" class="form-label">Technician</label>
+                        <input type="text" class="form-control" id="viewTechnician" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewDetails" class="form-label">Diagnostic Details</label>
+                        <textarea class="form-control" id="viewDetails" rows="3" readonly></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="viewStatus" class="form-label">Status</label>
+                        <select class="form-select" id="viewStatus" disabled>
+                            <option value="Completed">Completed</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Failed">Failed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
