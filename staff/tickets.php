@@ -45,16 +45,15 @@
                     <i class="bi bi-list"></i>
                 </button>
                 <a class="navbar-brand ms-3" href="#">My Tickets</a>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                        </ul>
-                    </li>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                    <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li> -->
+                    <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                </ul>
+                </li>
                 </ul>
             </div>
         </nav>
