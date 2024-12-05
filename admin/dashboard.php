@@ -110,7 +110,7 @@
             <div class="row g-3">
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="card shadow border-0">
+                    <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-box-seam card-icon text-primary"></i>
                             <div>
@@ -122,7 +122,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="card shadow border-0">
+                    <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="card shadow border-0">
+                    <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-hourglass-split card-icon text-warning"></i>
                             <div>
@@ -146,7 +146,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="card shadow border-0">
+                    <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-exclamation-triangle card-icon text-danger"></i>
                             <div>
