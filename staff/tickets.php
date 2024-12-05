@@ -49,7 +49,6 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> TWICE
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
                             <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
@@ -159,8 +158,7 @@
                                             data-bs-target="#viewTicketModal">View</button>
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editTicketModal">Edit</button>
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#updateTicketModal">Update</button>
+                                        <button class="btn btn-sm btn-danger">Solve</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -264,52 +262,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="modal fade" id="updateTicketModal" tabindex="-1" aria-labelledby="updateTicketModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="updateTicketModalLabel">Update Your Ticket</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="updateTicketForm">
-                                <div class="mb-3">
-                                    <label for="updateTicketID" class="form-label">Ticket ID</label>
-                                    <input type="text" class="form-control" id="updateTicketID" readonly>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="updateTicketTitle" class="form-label">Ticket Title</label>
-                                    <input type="text" class="form-control" id="updateTicketTitle">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="updateTicketCategory" class="form-label">Category</label>
-                                    <select class="form-select" id="updateTicketCategory">
-                                        <option value="Technical Issue">Technical Issue</option>
-                                        <option value="Request">Request</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="updateTicketDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="updateTicketDescription" rows="3"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="updateTicketStatus" class="form-label">Status</label>
-                                    <select class="form-select" id="updateTicketStatus">
-                                        <option value="In Progress">In Progress</option>
-                                        <option value="Resolved">Resolved</option>
-                                        <option value="Closed">Closed</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-orange">Update Ticket</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
 
 

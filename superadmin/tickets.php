@@ -202,8 +202,8 @@
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewTicketModal">View</button>
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editTicketModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                        data-bs-target="#editTicketModal">Assign</button>
+                                    <button class="btn btn-sm btn-danger">Solve</button>
                                 </td>
                             </tr>
                             <tr>
@@ -216,8 +216,8 @@
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewTicketModal">View</button>
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editTicketModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                        data-bs-target="#editTicketModal">Assign</button>
+                                    <button class="btn btn-sm btn-danger">Solve</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -226,154 +226,156 @@
             </div>
 
         </div>
-        <div class="row mt-3">
+        <!-- <div class="row mt-3">
             <div class="col-12 text-end">
                 <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
                     <i class="bi bi-plus-lg"></i> Add New Ticket
                 </button>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-orange text-white">
-                    <h5 class="modal-title" id="addAssetModalLabel">Add New Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="assetName" class="form-label">Asset Name</label>
-                            <input type="text" class="form-control" id="assetName" placeholder="Enter Ticket name">
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetCategory" class="form-label">Category</label>
-                            <select class="form-select" id="assetCategory">
-                                <option value="">Select Category</option>
-                                <option value="Computers">Computers</option>
-                                <option value="Printers">Printers</option>
-                                <option value="Monitors">Monitors</option>
-                                <option value="Accessories">Accessories</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetStatus" class="form-label">Status</label>
-                            <select class="form-select" id="assetStatus">
-                                <option value="Available">Available</option>
-                                <option value="Assigned">Assigned</option>
-                                <option value="Under Maintenance">Under Maintenance</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetAssignee" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="assetAssignee"
-                                placeholder="Enter assignee name (if applicable)">
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetRemarks" class="form-label">Remarks</label>
-                            <textarea class="form-control" id="assetRemarks" rows="3"
-                                placeholder="Additional information"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-orange">Add Ticket</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-orange text-white">
-                    <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="ticketID" class="form-label">Ticket ID</label>
-                            <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="subject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" value="PC Repair Request" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <input type="text" class="form-control" id="status" value="Pending" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignedTo" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastUpdated" class="form-label">Last Updated</label>
-                            <input type="text" class="form-control" id="lastUpdated" value="2024-12-03" disabled>
-                        </div>
-                    </form>
+        <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="addAssetModalLabel">Add New Ticket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="assetName" class="form-label">Asset Name</label>
+                                <input type="text" class="form-control" id="assetName" placeholder="Enter Ticket name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="assetCategory" class="form-label">Category</label>
+                                <select class="form-select" id="assetCategory">
+                                    <option value="">Select Category</option>
+                                    <option value="Computers">Computers</option>
+                                    <option value="Printers">Printers</option>
+                                    <option value="Monitors">Monitors</option>
+                                    <option value="Accessories">Accessories</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="assetStatus" class="form-label">Status</label>
+                                <select class="form-select" id="assetStatus">
+                                    <option value="Available">Available</option>
+                                    <option value="Assigned">Assigned</option>
+                                    <option value="Under Maintenance">Under Maintenance</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="assetAssignee" class="form-label">Assigned To</label>
+                                <input type="text" class="form-control" id="assetAssignee"
+                                    placeholder="Enter assignee name (if applicable)">
+                            </div>
+                            <div class="mb-3">
+                                <label for="assetRemarks" class="form-label">Remarks</label>
+                                <textarea class="form-control" id="assetRemarks" rows="3"
+                                    placeholder="Additional information"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-orange">Add Ticket</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-orange text-white">
-                    <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="editTicketID" class="form-label">Ticket ID</label>
-                            <input type="text" class="form-control" id="editTicketID" value="TICKET123" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editSubject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editStatus" class="form-label">Status</label>
-                            <select class="form-select" id="editStatus">
-                                <option value="Pending" selected>Pending</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editAssignedTo" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editLastUpdated" class="form-label">Last Updated</label>
-                            <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03" disabled>
-                        </div>
-                        <button type="submit" class="btn btn-warning">Update Ticket</button>
-                    </form>
+        <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="ticketID" class="form-label">Ticket ID</label>
+                                <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" value="PC Repair Request" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <input type="text" class="form-control" id="status" value="Pending" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="assignedTo" class="form-label">Assigned To</label>
+                                <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastUpdated" class="form-label">Last Updated</label>
+                                <input type="text" class="form-control" id="lastUpdated" value="2024-12-03" disabled>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="editTicketID" class="form-label">Ticket ID</label>
+                                <input type="text" class="form-control" id="editTicketID" value="TICKET123" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editSubject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editStatus" class="form-label">Status</label>
+                                <select class="form-select" id="editStatus">
+                                    <option value="Pending" selected>Pending</option>
+                                    <option value="Resolved">Resolved</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editAssignedTo" class="form-label">Assigned To</label>
+                                <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editLastUpdated" class="form-label">Last Updated</label>
+                                <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03"
+                                    disabled>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Update Ticket</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
-    <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
-        aria-hidden="true">
+        <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
+            aria-hidden="true">
 
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <script>
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-            document.getElementById('content').classList.toggle('collapsed');
-        });
-        </script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+            <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+            <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+            <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+            <script>
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('content').classList.toggle('collapsed');
+            });
+            </script>
 </body>
 
 </html>
