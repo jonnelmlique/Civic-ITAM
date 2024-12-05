@@ -194,9 +194,11 @@
                                 <td>
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewTicketModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    <button class="btn btn-sm btn-danger">Solve</button>
+
+                                    <!-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editTicketModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button> -->
                                 </td>
                             </tr>
                             <tr>
@@ -208,9 +210,11 @@
                                 <td>
                                     <button class="btn btn-sm btn-info" data-bs-toggle="modal"
                                         data-bs-target="#viewTicketModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                    <button class="btn btn-sm btn-danger">Solve</button>
+
+                                    <!-- <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editTicketModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                    <button class="btn btn-sm btn-danger">Delete</button> -->
                                 </td>
                             </tr>
                         </tbody>

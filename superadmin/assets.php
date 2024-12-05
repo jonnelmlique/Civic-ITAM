@@ -80,7 +80,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Dashboard</a>
+                <a class="navbar-brand ms-3" href="#">Asset Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

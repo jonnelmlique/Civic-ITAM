@@ -217,7 +217,7 @@
                                         data-bs-target="#viewTicketModal">View</button>
                                     <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editTicketModal">Assign</button>
-                                    <button class="btn btn-sm btn-danger">Solve</button>
+                                    <!-- <button class="btn btn-sm btn-danger">Solve</button> -->
                                 </td>
                             </tr>
                         </tbody>
