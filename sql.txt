@@ -35,6 +35,15 @@ CREATE TABLE pcassets (
     assignedpc VARCHAR(255) NULL
 );
 
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    subject VARCHAR(255) NOT NULL UNIQUE,
+    status VARCHAR(255) NOT NULL,
+    createdby VARCHAR(255)NOT NULL, 
+    assignedto VARCHAR(255) NOT NULL, 
+    remarks VARCHAR(255) NOT NULL, 
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+);
 
 //Not final and subject to change based on what is needed
 //pwede nyo palitan

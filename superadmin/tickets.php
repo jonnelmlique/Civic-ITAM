@@ -144,6 +144,7 @@
                                 <th scope="col">Ticket ID</th>
                                 <th scope="col">Subject</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Created By</th>
                                 <th scope="col">Assigned To</th>
                                 <th scope="col">Last Updated</th>
                                 <th scope="col">Actions</th>
@@ -154,6 +155,7 @@
                                 <td>TICKET001</td>
                                 <td>System Crash</td>
                                 <td><span class="badge bg-warning">Pending</span></td>
+                                <td>Jeongyeon Yoo</td>
                                 <td>Jeongyeon Yoo</td>
                                 <td>2024-11-30</td>
                                 <td>
@@ -168,6 +170,7 @@
                                 <td>TICKET002</td>
                                 <td>Login Issue</td>
                                 <td><span class="badge bg-success">Resolved</span></td>
+                                <td>Jeongyeon Yoo</td>
                                 <td>Jihyo Park</td>
                                 <td>2024-12-01</td>
                                 <td>
@@ -194,48 +197,74 @@
     </div>
 
 
+
     <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header bg-orange text-white">
                     <h5 class="modal-title" id="addAssetModalLabel">Add New Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <form>
-                        <div class="mb-3">
-                            <label for="assetName" class="form-label">Asset Name</label>
-                            <input type="text" class="form-control" id="assetName" placeholder="Enter Ticket name">
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="assetName" class="form-label">Asset Name</label>
+                                    <input type="text" class="form-control" id="assetName"
+                                        placeholder="Enter Ticket name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="assetCategory" class="form-label">Category</label>
+                                    <select class="form-select" id="assetCategory">
+                                        <option value="">Select Category</option>
+                                        <option value="Computers">Computers</option>
+                                        <option value="Printers">Printers</option>
+                                        <option value="Monitors">Monitors</option>
+                                        <option value="Accessories">Accessories</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="assetStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="assetStatus">
+                                        <option value="Available">Available</option>
+                                        <option value="Assigned">Assigned</option>
+                                        <option value="Under Maintenance">Under Maintenance</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="assetcreated" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="assetcreated"
+                                        placeholder="Enter creator name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="assetAssignee" class="form-label">Assigned To</label>
+                                    <input type="text" class="form-control" id="assetAssignee"
+                                        placeholder="Enter assignee name (if applicable)">
+                                </div>
+                                <!-- <div class="mb-3">
+                                    <label for="addtLastUpdated" class="form-label">Last Updated</label>
+                                    <input type="text" class="form-control" id="addLastUpdated" value="2024-12-03">
+                                </div> -->
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="assetCategory" class="form-label">Category</label>
-                            <select class="form-select" id="assetCategory">
-                                <option value="">Select Category</option>
-                                <option value="Computers">Computers</option>
-                                <option value="Printers">Printers</option>
-                                <option value="Monitors">Monitors</option>
-                                <option value="Accessories">Accessories</option>
-                            </select>
+                            <label for="addRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="addRemarks"
+                                rows="4">Request for urgent repair as the PC is not booting.</textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="assetStatus" class="form-label">Status</label>
-                            <select class="form-select" id="assetStatus">
-                                <option value="Available">Available</option>
-                                <option value="Assigned">Assigned</option>
-                                <option value="Under Maintenance">Under Maintenance</option>
-                            </select>
+                        <!-- Form Actions -->
+                        <div class="text-end mt-3">
+                            <button type="submit" class="btn btn-orange">Add Ticket</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="assetAssignee" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="assetAssignee"
-                                placeholder="Enter assignee name (if applicable)">
-                        </div>
-                        <div class="mb-3">
-                            <label for="assetRemarks" class="form-label">Remarks</label>
-                            <textarea class="form-control" id="assetRemarks" rows="3"
-                                placeholder="Additional information"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-orange">Add Ticket</button>
                     </form>
                 </div>
             </div>
@@ -245,31 +274,56 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header bg-orange text-white">
                     <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <form>
-                        <div class="mb-3">
-                            <label for="ticketID" class="form-label">Ticket ID</label>
-                            <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ticketID" class="form-label">Ticket ID</label>
+                                    <input type="text" class="form-control" id="ticketID" value="TICKET123" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="subject" value="PC Repair Request"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <input type="text" class="form-control" id="status" value="Pending" disabled>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="createdBy" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="createdBy" value="Jane Smith" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="assignedTo" class="form-label">Assigned To</label>
+                                    <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lastUpdated" class="form-label">Last Updated</label>
+                                    <input type="text" class="form-control" id="lastUpdated" value="2024-12-03"
+                                        disabled>
+                                </div>
+
+                            </div>
                         </div>
+                        <!-- Remarks -->
                         <div class="mb-3">
-                            <label for="subject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject" value="PC Repair Request" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <input type="text" class="form-control" id="status" value="Pending" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="assignedTo" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="assignedTo" value="John Doe" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lastUpdated" class="form-label">Last Updated</label>
-                            <input type="text" class="form-control" id="lastUpdated" value="2024-12-03" disabled>
+                            <label for="remarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="remarks" rows="4"
+                                disabled>Request for urgent repair as the PC is not booting.</textarea>
                         </div>
                     </form>
                 </div>
@@ -280,41 +334,72 @@
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <!-- Modal Header -->
                 <div class="modal-header bg-orange text-white">
                     <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
+                <!-- Modal Body -->
                 <div class="modal-body">
                     <form>
-                        <div class="mb-3">
-                            <label for="editTicketID" class="form-label">Ticket ID</label>
-                            <input type="text" class="form-control" id="editTicketID" value="TICKET123" disabled>
+                        <div class="row g-3">
+                            <!-- Left Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editTicketID" class="form-label">Ticket ID</label>
+                                    <input type="text" class="form-control" id="editTicketID" value="TICKET123"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editSubject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editStatus" class="form-label">Status</label>
+                                    <select class="form-select" id="editStatus">
+                                        <option value="Pending" selected>Pending</option>
+                                        <option value="Resolved">Resolved</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Closed">Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Right Column -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="editCreatedBy" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="editCreatedBy" value="Jane Smith"
+                                        disabled>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editAssignedTo" class="form-label">Assigned To</label>
+                                    <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editLastUpdated" class="form-label">Last Updated</label>
+                                    <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03"
+                                        disabled>
+                                </div>
+                            </div>
                         </div>
+                        <!-- Remarks -->
                         <div class="mb-3">
-                            <label for="editSubject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="editSubject" value="PC Repair Request">
+                            <label for="editRemarks" class="form-label">Remarks</label>
+                            <textarea class="form-control" id="editRemarks"
+                                rows="4">Request for urgent repair as the PC is not booting.</textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="editStatus" class="form-label">Status</label>
-                            <select class="form-select" id="editStatus">
-                                <option value="Pending" selected>Pending</option>
-                                <option value="Resolved">Resolved</option>
-                            </select>
+                        <!-- Update Button -->
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-warning">Update Ticket</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="editAssignedTo" class="form-label">Assigned To</label>
-                            <input type="text" class="form-control" id="editAssignedTo" value="John Doe">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editLastUpdated" class="form-label">Last Updated</label>
-                            <input type="text" class="form-control" id="editLastUpdated" value="2024-12-03" disabled>
-                        </div>
-                        <button type="submit" class="btn btn-warning">Update Ticket</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
 
 
     <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
