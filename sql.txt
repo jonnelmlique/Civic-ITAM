@@ -18,6 +18,24 @@ CREATE TABLE employees (
     status VARCHAR(100) NOT NULL
 );
 
+
+CREATE TABLE pcassets (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    pc_id VARCHAR(255) NOT NULL UNIQUE,
+    cpu_model VARCHAR(255) NOT NULL,
+    cpu_hertz VARCHAR(255)NOT NULL, 
+    cpu_health VARCHAR(255) NOT NULL, 
+    hdd_model VARCHAR(255) NOT NULL, 
+    hdd_size VARCHAR(255) NOT NULL, 
+    hdd_health VARCHAR(255) NOT NULL, 
+    ram_size VARCHAR(255) NOT NULL,
+    ram_health VARCHAR(255) NOT NULL,
+    os_version VARCHAR(255) NOT NULL, 
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    assignedpc VARCHAR(255) NULL
+);
+
+
 //Not final and subject to change based on what is needed
 //pwede nyo palitan
 //this table is based on this 
