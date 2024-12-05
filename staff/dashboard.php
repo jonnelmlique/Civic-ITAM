@@ -24,20 +24,20 @@
                         class="bi bi-layout-text-window-reverse"></i>
                     Dashboard</a></li>
             <li><a href="./asset.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
-                    Management</a>
+                    Request</a>
             </li>
-            <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
-            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
+            <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
+            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li> -->
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
                     Tickets</a></li>
-            <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
+            <!-- <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
                     Schedule</a></li>
             <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
             </li>
             <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i>
                     Diagnostic History</a></li>
             <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage
-                    requests</a></li>
+                    requests</a></li> -->
         </ul>
     </div>
     <div id="content">
@@ -46,7 +46,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Asset Management</a>
+                <a class="navbar-brand ms-3" href="#"> Dashboard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -139,24 +139,6 @@
                 </div>
             </div>
 
-            <div class="row g-3">
-                <div class="col-lg-6">
-                    <div class="card shadow border-0 mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">My Asset</h5>
-                            <canvas id="myAssetChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card shadow border-0 mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">My Ticket Update</h5>
-                            <canvas id="ticketTrendChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Activity Logs Section -->
             <div class="row g-3">
@@ -208,38 +190,6 @@
     document.getElementById('sidebarToggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('collapsed');
         document.getElementById('content').classList.toggle('collapsed');
-    });
-
-    var ctx1 = document.getElementById('myAssetChart').getContext('2d');
-    new Chart(ctx1, {
-        type: 'pie',
-        data: {
-            labels: ['Laptops', 'Monitors', 'Printers', 'Accessories'],
-            datasets: [{
-                label: 'My Assets',
-                data: [5, 2, 1, 2],
-                backgroundColor: ['#36a2eb', '#ffcd56', '#4bc0c0', '#ff6384']
-            }]
-        }
-    });
-
-    var ctx2 = document.getElementById('ticketTrendChart').getContext('2d');
-    new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: ['Nov 25', 'Nov 26', 'Nov 27', 'Nov 28', 'Nov 29', 'Nov 30', 'Dec 1'],
-            datasets: [{
-                label: 'Resolved Tickets',
-                data: [2, 3, 4, 3, 5, 4, 6],
-                borderColor: '#36a2eb',
-                fill: false
-            }, {
-                label: 'Pending Tickets',
-                data: [3, 2, 1, 2, 2, 1, 0],
-                borderColor: '#ff6384',
-                fill: false
-            }]
-        }
     });
     </script>
 </body>

@@ -16,24 +16,64 @@
 
 <body>
 
-    <div id="sidebar">
-        <div class="sidebar-header text-center">
-            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 30%; height: auto;">
+    <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
+        <div class="sidebar-header text-center py-3">
+            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="./assetdetails.php"><i class="fas fa-cogs"></i> Asset Details</a></li>
-            <li><a href="./pcassets.php"><i class="fas fa-desktop"></i> PC Assets</a></li>
-            <li><a href="./status.php"><i class="fas fa-check-circle"></i> Status</a></li>
-            <li><a href="./assetconsignment.php"><i class="fas fa-truck"></i> Consignment</a></li>
-            <li><a href="./tickets.php"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="./reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="./maintenance.php" class="active"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
-            <li><a href="./diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a>
+            <li>
+                <a href="./dashboard.php" class="nav-link text-white">
+                    <i class="bi bi-layout-text-window-reverse"></i> Dashboard
+                </a>
             </li>
-            <li><a href="./manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li class="nav-item">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="assetDropdown" data-bs-toggle="collapse"
+                    data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+                    <i class="bi bi-ui-checks-grid"></i> Asset Management
+                </a>
+                <div class="collapse" id="assetMenu">
+                    <ul class="nav flex-column ps-3">
+                        <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
+                        <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="./maintenance.php" class="nav-link text-white active">
+                    <i class="bi bi-tools"></i> Maintenance
+                </a>
+            </li>
+            <li>
+                <a href="./consignment.php" class="nav-link text-white">
+                    <i class="fas fa-truck"></i> Consignment
+                </a>
+            </li>
+            <li>
+                <a href="./tickets.php" class="nav-link text-white">
+                    <i class="bi bi-ticket-perforated"></i> Tickets
+                </a>
+            </li>
+            <li>
+                <a href="./overdue.php" class="nav-link text-white">
+                    <i class="bi bi-exclamation-triangle"></i> Overdue
+                </a>
+            </li>
+            <li>
+                <a href="./reports.php" class="nav-link text-white">
+                    <i class="bi bi-file-earmark-text"></i> Reports
+                </a>
+            </li>
+            <li>
+                <a href="./diagnostichistory.php" class="nav-link text-white">
+                    <i class="fas fa-history"></i> Diagnostic History
+                </a>
+            </li>
+            <li>
+                <a href="./users.php" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Manage Users
+                </a>
+            </li>
         </ul>
-
     </div>
 
     <div id="content">
@@ -42,7 +82,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Maintenance</a>
+                <a class="navbar-brand ms-3" href="#">Dashboard</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

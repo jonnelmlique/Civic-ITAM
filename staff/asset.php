@@ -23,20 +23,20 @@
             <li><a href="./dashboard.php" class="nav-link text-white"><i class="bi bi-layout-text-window-reverse"></i>
                     Dashboard</a></li>
             <li><a href="./asset.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
-                    Management</a>
+                    Request</a>
             </li>
-            <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
-            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li>
+            <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
+            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li> -->
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
                     Tickets</a></li>
-            <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
+            <!-- <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
                     Schedule</a></li>
             <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
             </li>
             <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i>
                     Diagnostic History</a></li>
             <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage
-                    requests</a></li>
+                    requests</a></li> -->
         </ul>
     </div>
     <div id="content">

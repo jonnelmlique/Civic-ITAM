@@ -26,24 +26,67 @@
 
 <body>
 
-    <div id="sidebar">
-        <div class="sidebar-header text-center">
-            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 30%; height: auto;">
+
+    <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
+        <div class="sidebar-header text-center py-3">
+            <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-            <li><a href="./assetdetails.php"><i class="fas fa-cogs"></i> Asset Details</a></li>
-            <li><a href="./pcassets.php"><i class="fas fa-desktop"></i> PC Assets</a></li>
-            <li><a href="./status.php"><i class="fas fa-check-circle"></i> Status</a></li>
-            <li><a href="./assetconsignment.php" class="active"><i class="fas fa-truck"></i> Consignment</a></li>
-            <li><a href="./tickets.php"><i class="fas fa-ticket-alt"></i> Tickets</a></li>
-            <li><a href="./reports.php"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="./maintenance.php"><i class="fas fa-tools"></i> Maintenance Schedule</a></li>
-            <li><a href="./diagnostichistory.php"><i class="fas fa-history"></i> Diagnostic History</a></li>
-            <li><a href="./manageuser.php"><i class="fas fa-users"></i> Manage Users</a></li>
+            <li>
+                <a href="./dashboard.php" class="nav-link text-white">
+                    <i class="bi bi-layout-text-window-reverse"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="assetDropdown" data-bs-toggle="collapse"
+                    data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+                    <i class="bi bi-ui-checks-grid"></i> Asset Management
+                </a>
+                <div class="collapse" id="assetMenu">
+                    <ul class="nav flex-column ps-3">
+                        <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
+                        <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="./maintenance.php" class="nav-link text-white">
+                    <i class="bi bi-tools"></i> Maintenance
+                </a>
+            </li>
+            <li>
+                <a href="./consignment.php" class="nav-link text-white active">
+                    <i class="fas fa-truck"></i> Consignment
+                </a>
+            </li>
+            <li>
+                <a href="./tickets.php" class="nav-link text-white">
+                    <i class="bi bi-ticket-perforated"></i> Tickets
+                </a>
+            </li>
+            <li>
+                <a href="./overdue.php" class="nav-link text-white">
+                    <i class="bi bi-exclamation-triangle"></i> Overdue
+                </a>
+            </li>
+            <li>
+                <a href="./reports.php" class="nav-link text-white">
+                    <i class="bi bi-file-earmark-text"></i> Reports
+                </a>
+            </li>
+            <li>
+                <a href="./diagnostichistory.php" class="nav-link text-white">
+                    <i class="fas fa-history"></i> Diagnostic History
+                </a>
+            </li>
+            <li>
+                <a href="./users.php" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Manage Users
+                </a>
+            </li>
         </ul>
-
     </div>
+
 
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
@@ -76,11 +119,13 @@
             </div>
         </nav>
 
+
         <div class="container-fluid py-4">
             <div class="row mb-4">
                 <div class="col-12 d-flex justify-content-between">
                     <input type="text" id="searchInput" class="form-control w-50" placeholder="Search">
-                    <button class="btn btn-orange" id="addAssetBtn" data-bs-toggle="modal" data-bs-target="#addAssetModal">Add
+                    <button class="btn btn-orange" id="addAssetBtn" data-bs-toggle="modal"
+                        data-bs-target="#addAssetModal">Add
                     </button>
                 </div>
             </div>
@@ -105,51 +150,55 @@
         </div>
     </div>
 
-     <!-- Add Asset Consignment Modal -->
-<div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-orange text-white">
-                <h5 class="modal-title" id="addAssetModalLabel">Add Asset Consignment Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="add_consignment" class="needs-validation" novalidate>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="add_id" class="form-label">ID</label>
-                            <input type="text" class="form-control" id="add_id" placeholder="Enter asset ID" required>
-                            <div class="invalid-feedback">Please provide an asset ID.</div>
+    <!-- Add Asset Consignment Modal -->
+    <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="addAssetModalLabel">Add Asset Consignment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="add_consignment" class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="add_id" class="form-label">ID</label>
+                                <input type="text" class="form-control" id="add_id" placeholder="Enter asset ID"
+                                    required>
+                                <div class="invalid-feedback">Please provide an asset ID.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="add_reference" class="form-label">Reference</label>
+                                <input type="text" class="form-control" id="add_reference" placeholder="Enter reference"
+                                    required>
+                                <div class="invalid-feedback">Please provide a reference.</div>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="add_reference" class="form-label">Reference</label>
-                            <input type="text" class="form-control" id="add_reference" placeholder="Enter reference" required>
-                            <div class="invalid-feedback">Please provide a reference.</div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="add_consignmentId" class="form-label">Consignment ID</label>
+                                <input type="text" class="form-control" id="add_consignmentId"
+                                    placeholder="Enter consignment ID" required>
+                                <div class="invalid-feedback">Please provide a consignment ID.</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="add_assetDetailsId" class="form-label">Asset Details ID</label>
+                                <input type="text" class="form-control" id="add_assetDetailsId"
+                                    placeholder="Enter asset details ID" required>
+                                <div class="invalid-feedback">Please provide asset details ID.</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="add_consignmentId" class="form-label">Consignment ID</label>
-                            <input type="text" class="form-control" id="add_consignmentId" placeholder="Enter consignment ID" required>
-                            <div class="invalid-feedback">Please provide a consignment ID.</div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-orange">Add Asset</button>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="add_assetDetailsId" class="form-label">Asset Details ID</label>
-                            <input type="text" class="form-control" id="add_assetDetailsId" placeholder="Enter asset details ID" required>
-                            <div class="invalid-feedback">Please provide asset details ID.</div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-orange">Add Asset</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-     <!-- Edit Asset Consignment Modal -->
+    <!-- Edit Asset Consignment Modal -->
     <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -169,11 +218,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="consignmentId" class="form-label">Consignment ID</label>
-                            <input type="text" class="form-control" id="edit_consignmentId" placeholder="Enter consignment id">
+                            <input type="text" class="form-control" id="edit_consignmentId"
+                                placeholder="Enter consignment id">
                         </div>
                         <div class="mb-3">
                             <label for="assetDetailsId" class="form-label">Asset ID Details</label>
-                            <input type="text" class="form-control" id="edit_assetDetailsId" placeholder="Enter asset details id" disabled>
+                            <input type="text" class="form-control" id="edit_assetDetailsId"
+                                placeholder="Enter asset details id" disabled>
                         </div>
                         <button type="submit" class="btn btn-orange">Edit Asset</button>
                     </form>
@@ -190,25 +241,29 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function () {
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('collapsed');
         document.getElementById('content').classList.toggle('collapsed');
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         getConsignmentData();
 
-        $('#add_consignment').on('submit', function (event) {
+        $('#add_consignment').on('submit', function(event) {
             event.preventDefault();
 
             var reference = $('#add_reference').val();
             var consignmentId = $('#add_consignmentId').val();
             var assetDetailsId = $('#add_assetDetailsId').val();
 
-            manageAssetConsignment('add', { reference, consignmentId, assetDetailsId });
+            manageAssetConsignment('add', {
+                reference,
+                consignmentId,
+                assetDetailsId
+            });
         });
 
-        $('#edit_consignment').on('submit', function (event) {
+        $('#edit_consignment').on('submit', function(event) {
             event.preventDefault();
 
             var id = $('#edit_id').val();
@@ -216,7 +271,12 @@
             var consignmentId = $('#edit_consignmentId').val();
             var assetDetailsId = $('#edit_assetDetailsId').val();
 
-            manageAssetConsignment('update', { id, reference, consignmentId, assetDetailsId });
+            manageAssetConsignment('update', {
+                id,
+                reference,
+                consignmentId,
+                assetDetailsId
+            });
         });
     });
 
@@ -225,10 +285,10 @@
             url: 'queries/query_assetconsignment.php',
             method: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: function(data) {
                 var tableBody = $('#assetTableBody');
                 tableBody.empty();
-                data.forEach(function (asset) {
+                data.forEach(function(asset) {
                     var row = `<tr>
                         <td>${asset.id}</td>
                         <td>${asset.reference}</td>
@@ -246,7 +306,7 @@
                     tableBody.append(row);
                 });
 
-                $('.edit-btn').on('click', function () {
+                $('.edit-btn').on('click', function() {
                     const id = $(this).data('id');
                     const reference = $(this).data('reference');
                     const consignmentId = $(this).data('consignment-id');
@@ -258,12 +318,12 @@
                     $('#edit_assetDetailsId').val(assetDetailsId);
                 });
 
-                $('.delete-btn').on('click', function () {
+                $('.delete-btn').on('click', function() {
                     const id = $(this).data('id');
                     deleteAssetConsignment(id);
                 });
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.error('Error fetching data:', error);
             }
         });
@@ -274,8 +334,11 @@
         $.ajax({
             url: 'queries/query_assetconsignment.php',
             method: 'POST',
-            data: { action, ...data },
-            success: function (response) {
+            data: {
+                action,
+                ...data
+            },
+            success: function(response) {
                 var res = JSON.parse(response);
                 if (res.response_type === 'success') {
                     Swal.fire({
@@ -298,7 +361,7 @@
                     });
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error!',
@@ -322,8 +385,11 @@
                 $.ajax({
                     url: 'queries/query_assetconsignment.php',
                     method: 'POST',
-                    data: { action: 'delete', id },
-                    success: function (response) {
+                    data: {
+                        action: 'delete',
+                        id
+                    },
+                    success: function(response) {
                         var res = JSON.parse(response);
                         if (res.response_type === 'success') {
                             Swal.fire({
@@ -344,7 +410,7 @@
                             });
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error!',
