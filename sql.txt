@@ -75,3 +75,9 @@ CREATE TABLE assetconsignmenthistory (
     createdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdby VARCHAR(100)
 );
+
+ALTER TABLE `diagnostichistory`
+	ADD COLUMN `diagnosticid` VARCHAR(100) NULL DEFAULT NULL AFTER `id`,
+	ADD COLUMN `remarks` VARCHAR(255) NULL DEFAULT NULL AFTER `assetdetailsid`,
+	ADD COLUMN `status` VARCHAR(100) NULL DEFAULT NULL AFTER `createdby`;
+

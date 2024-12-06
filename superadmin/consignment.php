@@ -123,7 +123,7 @@
         <div class="container-fluid py-4">
             <div class="row mb-4">
                 <div class="col-12 d-flex justify-content-between">
-                    <input type="text" id="searchInput" class="form-control w-50" placeholder="Search">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="searchTable()">
                     <button class="btn btn-orange" id="addAssetBtn" data-bs-toggle="modal"
                         data-bs-target="#addAssetModal">Add
                     </button>
@@ -280,9 +280,21 @@
         });
     });
 
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const cells = Array.from(row.cells);
+            const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+            row.style.display = match ? '' : 'none';
+        });
+    }
+
     function getConsignmentData() {
         $.ajax({
-            url: 'queries/query_assetconsignment.php',
+            url: 'queries/assetconsignment/query_assetconsignment.php',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -332,7 +344,7 @@
     // Add and Update
     function manageAssetConsignment(action, data) {
         $.ajax({
-            url: 'queries/query_assetconsignment.php',
+            url: 'queries/assetconsignment/query_assetconsignment.php',
             method: 'POST',
             data: {
                 action,
@@ -383,7 +395,7 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: 'queries/query_assetconsignment.php',
+                    url: 'queries/assetconsignment/query_assetconsignment.php',
                     method: 'POST',
                     data: {
                         action: 'delete',

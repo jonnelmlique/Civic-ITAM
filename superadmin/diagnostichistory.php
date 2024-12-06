@@ -177,54 +177,14 @@
                                 <th scope="col">Diagnostic ID</th>
                                 <th scope="col">Asset Name</th>
                                 <th scope="col">Technician</th>
+                                <th scope="col">Diagnostic Details</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>DIAG001</td>
-                                <td>Dell Laptop</td>
-                                <td>John Doe</td>
-                                <td>2024-11-25</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewDiagnosticModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editDiagnosticModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>DIAG002</td>
-                                <td>HP Printer</td>
-                                <td>Jane Smith</td>
-                                <td>2024-11-28</td>
-                                <td><span class="badge bg-warning">In Progress</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewDiagnosticModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editDiagnosticModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>DIAG003</td>
-                                <td>HP Laptop</td>
-                                <td>Mike Johnson</td>
-                                <td>2024-11-20</td>
-                                <td><span class="badge bg-danger">Failed</span></td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewDiagnosticModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editDiagnosticModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
+                        <tbody id="diagnosticTable">
+                          
                         </tbody>
                     </table>
                 </div>
@@ -249,22 +209,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="#" method="post">
+                        <form action="#" method="post" id="add_diagnostic">
                             <div class="mb-3">
-                                <label for="asset" class="form-label">Asset</label>
-                                <input type="text" class="form-control" id="asset" required>
+                                <label for="diagnosticID" class="form-label">Diagnostic ID</label>
+                                <input type="text" class="form-control" id="add_diagnosticID" required>
                             </div>
                             <div class="mb-3">
+                                <label for="asset" class="form-label">Asset</label>
+                                <select class="form-select" id="add_assetID" required>
+                                    <!--Options from AJAX -->
+                                </select>
+                            </div>  
+                            <div class="mb-3">
                                 <label for="technician" class="form-label">Technician</label>
-                                <input type="text" class="form-control" id="technician" required>
+                                <input type="text" class="form-control" id="add_conductedby" required>
                             </div>
                             <div class="mb-3">
                                 <label for="details" class="form-label">Diagnostic Details</label>
-                                <textarea class="form-control" id="details" rows="3" required></textarea>
+                                <textarea class="form-control" id="add_diagnosticDetails" rows="3" required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" required>
+                                <select class="form-select" id="add_status" required>
                                     <option value="Completed">Completed</option>
                                     <option value="In Progress">In Progress</option>
                                     <option value="Failed">Failed</option>
@@ -279,8 +245,9 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+     <!-- Edit Diagnostic Modal -->
     <div class="modal fade" id="editDiagnosticModal" tabindex="-1" aria-labelledby="editDiagnosticModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -290,11 +257,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="#" method="post">
+                    <form action="#" method="post" id="edit_diagnostic">
+
+                        <input type="text" class="form-control" id="editID" hidden>
+
                         <div class="mb-3">
-                            <label for="editAsset" class="form-label">Asset</label>
-                            <input type="text" class="form-control" id="editAsset" required>
+                            <label for="diagnosticID" class="form-label">Diagnostic ID</label>
+                            <input type="text" class="form-control" id="editDiagnosticID" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="asset" class="form-label">Asset</label>
+                            <select class="form-select" id="editAsset" required>
+                                <!--Options from AJAX -->
+                            </select>
+                        </div>  
                         <div class="mb-3">
                             <label for="editTechnician" class="form-label">Technician</label>
                             <input type="text" class="form-control" id="editTechnician" required>
@@ -320,6 +296,9 @@
             </div>
         </div>
     </div>
+
+
+     <!-- View Diagnostic Modal -->
     <div class="modal fade" id="viewDiagnosticModal" tabindex="-1" aria-labelledby="viewDiagnosticModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -329,6 +308,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="diagnosticID" class="form-label">Diagnostic ID</label>
+                        <input type="text" class="form-control" id="viewDiagnosticID" readonly>
+                    </div>
                     <div class="mb-3">
                         <label for="viewAsset" class="form-label">Asset</label>
                         <input type="text" class="form-control" id="viewAsset" readonly>
@@ -358,6 +341,9 @@
     </div>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -368,7 +354,302 @@
         document.getElementById('sidebar').classList.toggle('collapsed');
         document.getElementById('content').classList.toggle('collapsed');
     });
+
+    $(document).ready(function() {
+        getDiagnosticHistory();
+
+        $('#add_diagnostic').on('submit', function(event) {
+            event.preventDefault();
+            var diagnosticID = $('#add_diagnosticID').val();
+            var assetID = $('#add_assetID').val();
+            var conductedby = $('#add_conductedby').val();
+            var diagnosticDetails = $('#add_diagnosticDetails').val();
+            var status = $('#add_status').val();
+            addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status);
+        });
+
+        $('#edit_diagnostic').on('submit', function(event) {
+            event.preventDefault();
+            var id = $('#editID').val();
+            var diagnosticID = $('#editDiagnosticID').val();
+            var assetID = $('#editAsset').val();
+            var conductedby = $('#editTechnician').val();
+            var diagnosticDetails = $('#editDetails').val();
+            var status = $('#editStatus').val();
+            editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status);
+        });
+
+
+        $('#addDiagnosticModal').on('shown.bs.modal', function() {
+            populateAssetDropdown();
+        });
+
+        $('#editDiagnosticModal').on('shown.bs.modal', function() {
+            var assetID = $('#editDiagnosticModal').data('assetid');
+            populateAssetDropdown(assetID); 
+        });
+    });
+    
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(row => {
+            const cells = Array.from(row.cells);
+            const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+            row.style.display = match ? '' : 'none';
+        });
+    }
+
+    function getDiagnosticHistory() {
+        $.ajax({
+            url: 'queries/diagnostichistory/query_getDiagnosticHistory.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var tableBody = $('#diagnosticTable');
+                tableBody.empty();
+                response.data.forEach(function(diagnosticData) {
+                    var statusClass = '';
+                    var statusText = diagnosticData.status;
+                    if (statusText === 'Completed') {
+                        statusClass = 'bg-success';
+                    } else if (statusText === 'In Progress') {
+                        statusClass = 'bg-warning';
+                    } else if (statusText === 'Failed') {
+                        statusClass = 'bg-danger';
+                    }
+
+                    var row = `<tr>
+                        <td>${diagnosticData.diagnosticid}</td>
+                        <td>${diagnosticData.computername}</td>
+                        <td>${diagnosticData.conductedby}</td>
+                        <td>${diagnosticData.remarks}</td>
+                        <td>${diagnosticData.createdate}</td>
+                        <td><span class="badge ${statusClass}">${statusText}</span></td>
+                        <td>
+                            <div class="action-icons">
+                                <button class="view-btn btn-sm btn-info" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.computername}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-bs-target="#viewDiagnosticModal">View</button>
+
+                                <button class="edit-btn btn-sm btn-warning" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.assetdetailsid}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-bs-target="#editDiagnosticModal">Edit</button>
+
+                                <button class="delete-btn btn-sm btn-danger" data-id="${diagnosticData.id}">Delete</button>
+                            </div>
+                        </td>
+                    </tr>`;
+                    tableBody.append(row);
+                });
+
+                $('#diagnosticTable').on('click', '.edit-btn', function() {
+                    var editID = $(this).data('id');
+                    var diagnosticID = $(this).data('diagnosticid');
+                    var assetID = $(this).data('assetid');
+                    var conductedby = $(this).data('conductedby');
+                    var diagnosticRemarks = $(this).data('diagnostic-remarks');
+                    var status = $(this).data('status');
+
+                    
+                    $('#editID').val(editID);
+                    $('#editDiagnosticID').val(diagnosticID);
+                    $('#editAsset').val(assetID); 
+                    $('#editTechnician').val(conductedby);
+                    $('#editDetails').val(diagnosticRemarks);
+                    $('#editStatus').val(status);
+
+                    $('#editDiagnosticModal').data('assetid', assetID);
+                });
+
+                
+                $('#diagnosticTable').on('click', '.view-btn', function() {
+                    var diagnosticID = $(this).data('diagnosticid');
+                    var assetID = $(this).data('assetid');
+                    var conductedby = $(this).data('conductedby');
+                    var diagnosticRemarks = $(this).data('diagnostic-remarks');
+                    var status = $(this).data('status');
+
+                    $('#viewDiagnosticID').val(diagnosticID);
+                    $('#viewAsset').val(assetID); 
+                    $('#viewTechnician').val(conductedby);
+                    $('#viewDetails').val(diagnosticRemarks);
+                    $('#viewStatus').val(status);
+                    
+                });
+
+                $('.delete-btn').on('click', function() {
+                    const id = $(this).data('id');
+                    deleteDiagnosticHistory(id);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error during AJAX request:', error, xhr.responseText);
+                alert('An error occurred while fetching diagnostic history.');
+            }
+        });
+    }
+
+    function addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status) {
+        $.ajax({
+            url: 'queries/diagnostichistory/query_insertDiagnosticHistory.php',
+            method: 'POST',
+            data: {
+                diagnosticID: diagnosticID,
+                assetID: assetID,
+                conductedby: conductedby,
+                diagnosticDetails: diagnosticDetails,
+                status: status
+            },
+            success: function(response) {
+                var res = JSON.parse(response);
+                if (res.response_type === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $('#addDiagnosticModal').modal('hide');
+                    getDiagnosticHistory();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while inserting the diagnostic: ' + error);
+            }
+        });
+    }
+
+    function editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status) {
+        $.ajax({
+            url: 'queries/diagnostichistory/query_updateDiagnosticHistory.php',
+            method: 'POST',
+            data: {
+                id: id,
+                diagnosticID: diagnosticID,
+                assetID: assetID,
+                conductedby: conductedby,
+                diagnosticDetails: diagnosticDetails,
+                status: status
+            },
+            success: function(response) {
+                var res = JSON.parse(response);
+                if (res.response_type === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    $('#editDiagnosticModal').modal('hide');
+                    getDiagnosticHistory();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: res.response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred while updating the diagnostic: ' + error);
+            }
+        });
+    }
+
+    function deleteDiagnosticHistory(id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this diagnostic history!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Proceed with deletion if confirmed
+                $.ajax({
+                    url: 'queries/diagnostichistory/query_deleteDiagnosticHistory.php',
+                    method: 'POST',
+                    data: {
+                        id: id,
+                    },
+                    success: function(response) {
+                        var res = JSON.parse(response);
+                        if (res.response_type === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: res.response,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                            $('#editDiagnosticModal').modal('hide');
+                            getDiagnosticHistory();  // Refresh the diagnostic history
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: res.response,
+                                showConfirmButton: false,
+                                timer: 2000
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: 'An error occurred while deleting the diagnostic history.',
+                            confirmButtonText: 'Try Again'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function populateAssetDropdown(selectedAssetID) {
+        $.ajax({
+            url: 'queries/diagnostichistory/query_getAssetComputerName.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var addDropdown = $('#add_assetID');
+                var editDropdown = $('#editAsset');
+
+                addDropdown.empty();
+                editDropdown.empty();
+
+                addDropdown.append('<option value="">Select Asset</option>');
+                editDropdown.append('<option value="">Select Asset</option>');
+
+                response.forEach(function(item) {
+                    addDropdown.append('<option value="' + item.id + '">' + item.computername + '</option>');
+                    editDropdown.append('<option value="' + item.id + '">' + item.computername + '</option>');
+                });
+
+                if (selectedAssetID) {
+                    editDropdown.val(selectedAssetID).trigger('change');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching asset names: ", error);
+            }
+        });
+    }
     </script>
+
 </body>
 
 </html>
