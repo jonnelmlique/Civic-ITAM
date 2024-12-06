@@ -1,3 +1,79 @@
+<?php
+        session_start();
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "civicitam";
+
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['addAsset'])) {
+                $name = $conn->real_escape_string($_POST['assetName']);
+                $category = $conn->real_escape_string($_POST['assetCategory']);
+                $status = $conn->real_escape_string($_POST['assetStatus']);
+                $location = $conn->real_escape_string($_POST['assetLocation']);
+                $description = $conn->real_escape_string($_POST['assetDescription']);
+
+                $sql = "INSERT INTO assetdetails (computername, category, status, location, description) 
+                        VALUES ('$name', '$category', '$status', '$location', '$description')";
+
+                if ($conn->query($sql)) {
+                    $_SESSION['message'] = ['type' => 'success', 'text' => 'Asset added successfully!'];
+                } else {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Error: ' . $conn->error];
+                }
+            }
+
+            if (isset($_POST['deleteAsset'])) {
+                $id = $conn->real_escape_string($_POST['assetId']);
+                $sql = "DELETE FROM assetdetails WHERE id=$id";
+                if ($conn->query($sql)) {
+                    $_SESSION['message'] = ['type' => 'success', 'text' => 'Asset deleted successfully!'];
+                } else {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Error: ' . $conn->error];
+                }
+            }
+
+            if (isset($_POST['updateAsset'])) {
+                $id = $conn->real_escape_string($_POST['assetId']);
+                $name = $conn->real_escape_string($_POST['assetName']);
+                $category = $conn->real_escape_string($_POST['assetCategory']);
+                $status = $conn->real_escape_string($_POST['assetStatus']);
+                $location = $conn->real_escape_string($_POST['assetLocation']);
+                $description = $conn->real_escape_string($_POST['assetDescription']);
+
+                $sql = "UPDATE assetdetails SET computername='$name', category='$category', status='$status', 
+                        location='$location', description='$description' WHERE id=$id";
+                if ($conn->query($sql)) {
+                    $_SESSION['message'] = ['type' => 'success', 'text' => 'Asset updated successfully!'];
+                } else {
+                    $_SESSION['message'] = ['type' => 'error', 'text' => 'Error: ' . $conn->error];
+                }
+            }
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
+        }
+
+       
+        $assets = $conn->query("SELECT id, computername, category, status, location, description, lastmodifieddate 
+                                FROM assetdetails");
+?>
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -93,12 +169,12 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
-                                </li> -->
-                                <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                                </li>
+                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -169,6 +245,8 @@
                 </div>
             </div>
 
+
+    
             <div class="row mt-4">
                 <div class="col-12">
                     <input type="text" id="searchInput" class="form-control" placeholder="Search"
@@ -189,52 +267,180 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>ASSET001</td>
-                                <td>Dell Laptop</td>
-                                <td>Computers</td>
-                                <td><span class="badge bg-success">Available</span></td>
-                                <td>Myoui Mina</td>
-                                <td>2024-11-25</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ASSET002</td>
-                                <td>HP Printer</td>
-                                <td>Printers</td>
-                                <td><span class="badge bg-warning">Under Maintenance</span></td>
-                                <td>Son Chaeyoung</td>
-                                <td>2024-12-02</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ASSET003</td>
-                                <td>Hp Laptop</td>
-                                <td>Monitors</td>
-                                <td><span class="badge bg-success">Available</span></td>
-                                <td>Rodelie Mercado</td>
-                                <td>2024-12-01</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                        data-bs-target="#viewAssetModal">View</button>
-                                    <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                        data-bs-target="#editAssetModal">Edit</button>
-                                    <button class="btn btn-sm btn-danger">Delete</button>
-                                </td>
-                            </tr>
+                            <?php while ($row = $assets->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= $row['id'] ?></td>
+                                    <td><?= htmlspecialchars($row['computername']) ?></td>
+                                    <td><?= htmlspecialchars($row['category']) ?></td>
+                                    <td>
+                                        <span
+                                            class="badge 
+                                <?= $row['status'] === 'Available' ? 'bg-success' : ($row['status'] === 'Assigned' ? 'bg-warning' : 'bg-danger') ?>">
+                                            <?= htmlspecialchars($row['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td><?= htmlspecialchars($row['location'] ?? 'N/A') ?></td>
+                                    <td><?= htmlspecialchars($row['lastmodifieddate']) ?></td>
+                                    <td>
+                                        <!-- View Button -->
+                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#viewAssetModal<?= $row['id'] ?>">View</button>
 
+                                        <!-- Edit and Delete Buttons -->
+                                        <form method="POST" class="d-inline">
+                                            <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
+                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                                data-bs-target="#editAssetModal<?= $row['id'] ?>">Edit</button>
+                                            <button type="submit" name="deleteAsset"
+                                                class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+
+
+
+
+                                    <!-- VIEW ASSET MODAL -->
+                                    <div class="modal fade" id="viewAssetModal<?= $row['id'] ?>" tabindex="-1"
+                                        aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-orange text-white">
+                                                    <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <!-- Left Column -->
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Asset Name</label>
+                                                                <p class="form-control-static" id="viewAssetName">
+                                                                    <?= htmlspecialchars($row['computername']) ?></p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Category</label>
+                                                                <p class="form-control-static" id="viewAssetCategory">
+                                                                    <?= htmlspecialchars($row['category']) ?></p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Status</label>
+                                                                <p class="form-control-static" id="viewAssetStatus">
+                                                                    <?= htmlspecialchars($row['status']) ?></p>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Right Column -->
+                                                        <div class="col-md-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Assigned To</label>
+                                                                <p class="form-control-static" id="viewAssetAssignee">
+                                                                    <?= htmlspecialchars($row['location'] ?? 'N/A') ?>
+                                                                </p>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Description</label>
+                                                                <p class="form-control-static" id="viewAssetRemarks">
+                                                                    <?= htmlspecialchars($row['description'] ?? 'N/A') ?></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- END OF VIEW ASSET MODAL -->
+
+
+
+
+                                     <!-- EDIT ASSET MODAL -->
+                                    <div class="modal fade" id="editAssetModal<?= $row['id'] ?>" tabindex="-1"
+                                        aria-labelledby="editAssetModalLabel" aria-hidden="true">
+
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-orange text-white">
+                                                    <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="POST">
+                                                        <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
+                                                        <div class="row">
+                                                            <!-- Left Column -->
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label for="editAssetName" class="form-label">Asset
+                                                                        Name</label>
+                                                                    <input type="text" name="assetName" class="form-control"
+                                                                        value="<?= htmlspecialchars($row['computername']) ?>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="editAssetCategory"
+                                                                        class="form-label">Category</label>
+                                                                    <select class="form-select" id="editAssetCategory"
+                                                                        required>
+                                                                        <option <?= $row['category'] === 'Computers' ? 'selected' : '' ?>>Computers</option>
+                                                                        <option <?= $row['category'] === 'Printers' ? 'selected' : '' ?>>Printers</option>
+                                                                        <option <?= $row['category'] === 'Monitors' ? 'selected' : '' ?>>Monitors</option>
+                                                                        <option <?= $row['category'] === 'Accessories' ? 'selected' : '' ?>>Accessories</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="editAssetStatus"
+                                                                        class="form-label">Status</label>
+                                                                    <select class="form-select" id="editAssetStatus"
+                                                                        required>
+                                                                        <option <?= $row['status'] === 'Available' ? 'selected' : '' ?>>Available</option>
+                                                                        <option <?= $row['status'] === 'Assigned' ? 'selected' : '' ?>>Assigned</option>
+                                                                        <option <?= $row['status'] === 'Under Maintenance' ? 'selected' : '' ?>>Under Maintenance</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <!-- Right Column -->
+                                                            <div class="col-md-6">
+                                                                <div class="mb-3">
+                                                                    <label for="editAssetAssignee"
+                                                                        class="form-label">Assigned To</label>
+                                                                    <input type="text" name="assetLocation"
+                                                                        class="form-control"
+                                                                        value="<?= htmlspecialchars($row['location']) ?>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="editAssetRemarks"
+                                                                        class="form-label">Description</label>
+                                                                    <textarea name="assetDescription"
+                                                                        class="form-control"><?= htmlspecialchars($row['description']) ?></textarea>
+                                                                   </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-warning">Save
+                                                                Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- END OF EDIT ASSET MODAL -->
+
+
+
+
+
+
+
+                                <?php endwhile; ?>
                         </tbody>
                     </table>
                 </div>
@@ -260,19 +466,19 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST">
                             <div class="row">
                                 <!-- Left Column -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="assetName" class="form-label">Asset Name</label>
-                                        <input type="text" class="form-control" id="assetName"
+                                        <input type="text" class="form-control" id="assetName" name="assetName"
                                             placeholder="Enter asset name" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetCategory" class="form-label">Category</label>
-                                        <select class="form-select" id="assetCategory" required>
-                                            <option value="" disabled selected>Select Category</option>
+                                        <select class="form-select" id="assetCategory" name="assetCategory" required>
+                                            <option value="">Select Category</option>
                                             <option value="Computers">Computers</option>
                                             <option value="Printers">Printers</option>
                                             <option value="Monitors">Monitors</option>
@@ -281,24 +487,24 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetStatus" class="form-label">Status</label>
-                                        <select class="form-select" id="assetStatus" required>
+                                        <select class="form-select" id="assetStatus" name="assetStatus" required>
                                             <option value="Available">Available</option>
                                             <option value="Assigned">Assigned</option>
                                             <option value="Under Maintenance">Under Maintenance</option>
                                         </select>
-                                    </div>
+                                    </div>  
                                 </div>
 
                                 <!-- Right Column -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="assetAssignee" class="form-label">Assigned To</label>
-                                        <input type="text" class="form-control" id="assetAssignee"
-                                            placeholder="Enter assignee name (if applicable)">
+                                        <input type="text" class="form-control" id="assetLocation" name="assetLocation"
+                                            placeholder="Enter assignee name">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="assetRemarks" class="form-label">Remarks</label>
-                                        <textarea class="form-control" id="assetRemarks" rows="5"
+                                        <label for="assetRemarks" class="form-label">Description</label>
+                                        <textarea class="form-control" id="assetDescription" name="assetDescription" rows="3"
                                             placeholder="Additional information"></textarea>
                                     </div>
                                 </div>
@@ -306,7 +512,7 @@
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-orange">Add Asset</button>
+                                <button type="submit" name="addAsset" class="btn btn-orange">Add Asset</button>
                             </div>
                         </form>
                     </div>
@@ -314,113 +520,6 @@
             </div>
         </div>
 
-
-
-        <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Left Column -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Asset Name</label>
-                                    <p class="form-control-static" id="viewAssetName">Laptop</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Category</label>
-                                    <p class="form-control-static" id="viewAssetCategory">Computers</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Status</label>
-                                    <p class="form-control-static" id="viewAssetStatus">Available</p>
-                                </div>
-                            </div>
-                            <!-- Right Column -->
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Assigned To</label>
-                                    <p class="form-control-static" id="viewAssetAssignee">John Doe</p>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Remarks</label>
-                                    <p class="form-control-static" id="viewAssetRemarks">No remarks</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange
-                     text-white">
-                        <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="row">
-                                <!-- Left Column -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="editAssetName" class="form-label">Asset Name</label>
-                                        <input type="text" class="form-control" id="editAssetName" value="Laptop"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editAssetCategory" class="form-label">Category</label>
-                                        <select class="form-select" id="editAssetCategory" required>
-                                            <option value="Computers" selected>Computers</option>
-                                            <option value="Printers">Printers</option>
-                                            <option value="Monitors">Monitors</option>
-                                            <option value="Accessories">Accessories</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editAssetStatus" class="form-label">Status</label>
-                                        <select class="form-select" id="editAssetStatus" required>
-                                            <option value="Available" selected>Available</option>
-                                            <option value="Assigned">Assigned</option>
-                                            <option value="Under Maintenance">Under Maintenance</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- Right Column -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="editAssetAssignee" class="form-label">Assigned To</label>
-                                        <input type="text" class="form-control" id="editAssetAssignee" value="John Doe">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editAssetRemarks" class="form-label">Remarks</label>
-                                        <textarea class="form-control" id="editAssetRemarks"
-                                            rows="5">No remarks</textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-warning">Save Changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
         <div class="modal fade" id="addMaintenanceModal" tabindex="-1" aria-labelledby="addMaintenanceModalLabel"
@@ -433,10 +532,10 @@
             <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
             <script>
-            document.getElementById('sidebarToggle').addEventListener('click', function() {
-                document.getElementById('sidebar').classList.toggle('collapsed');
-                document.getElementById('content').classList.toggle('collapsed');
-            });
+                document.getElementById('sidebarToggle').addEventListener('click', function () {
+                    document.getElementById('sidebar').classList.toggle('collapsed');
+                    document.getElementById('content').classList.toggle('collapsed');
+                });
             </script>
 </body>
 
