@@ -282,7 +282,7 @@
 
     function getConsignmentData() {
         $.ajax({
-            url: 'queries/query_assetconsignment.php',
+            url: './queries/query_assetconsignment.php',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -332,7 +332,7 @@
     // Add and Update
     function manageAssetConsignment(action, data) {
         $.ajax({
-            url: 'queries/query_assetconsignment.php',
+            url: './queries/query_assetconsignment.php',
             method: 'POST',
             data: {
                 action,

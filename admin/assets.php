@@ -194,6 +194,26 @@
                 </div>
             </div>
 
+            <?php
+
+
+$total_assets_query = "SELECT COUNT(*) as total FROM assetdetails";
+$total_assets_result = $conn->query($total_assets_query);
+$total_assets = $total_assets_result->fetch_assoc()['total'];
+
+$available_assets_query = "SELECT COUNT(*) as available FROM assetdetails WHERE status = 'Available'";
+$available_assets_result = $conn->query($available_assets_query);
+$available_assets = $available_assets_result->fetch_assoc()['available'];
+
+
+$assigned_assets_query = "SELECT COUNT(*) as assigned FROM assetdetails WHERE status = 'Assigned'";
+$assigned_assets_result = $conn->query($assigned_assets_query);
+$assigned_assets = $assigned_assets_result->fetch_assoc()['assigned'];
+
+$disposed_assets_query = "SELECT COUNT(*) as disposed FROM assetdetails WHERE status = 'To Dispose'";
+$disposed_assets_result = $conn->query($disposed_assets_query);
+$disposed_assets = $disposed_assets_result->fetch_assoc()['disposed'];
+?>
 
             <div class="row g-3">
                 <div class="col-lg-3 col-md-6">
@@ -202,7 +222,7 @@
                             <i class="bi bi-box-seam card-icon text-primary"></i>
                             <div>
                                 <h6 class="card-title">Total Assets</h6>
-                                <p class="card-value">150</p>
+                                <p class="card-value"><?= $total_assets ?></p>
                             </div>
                         </div>
                     </div>
@@ -214,7 +234,7 @@
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
                                 <h6 class="card-title">Available Assets</h6>
-                                <p class="card-value">120</p>
+                                <p class="card-value"><?= $available_assets ?></p>
                             </div>
                         </div>
                     </div>
@@ -226,7 +246,7 @@
                             <i class="bi bi-people-fill card-icon text-warning"></i>
                             <div>
                                 <h6 class="card-title">Assigned Assets</h6>
-                                <p class="card-value">25</p>
+                                <p class="card-value"><?= $assigned_assets ?></p>
                             </div>
                         </div>
                     </div>
@@ -238,7 +258,7 @@
                             <i class="bi bi-trash card-icon text-danger"></i>
                             <div>
                                 <h6 class="card-title">Asset to Dispose</h6>
-                                <p class="card-value">5</p>
+                                <p class="card-value"><?= $disposed_assets ?></p>
                             </div>
                         </div>
                     </div>
@@ -246,7 +266,7 @@
             </div>
 
 
-    
+
             <div class="row mt-4">
                 <div class="col-12">
                     <input type="text" id="searchInput" class="form-control" placeholder="Search"
@@ -268,170 +288,211 @@
                         </thead>
                         <tbody>
                             <?php while ($row = $assets->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?= $row['id'] ?></td>
-                                    <td><?= htmlspecialchars($row['computername']) ?></td>
-                                    <td><?= htmlspecialchars($row['category']) ?></td>
-                                    <td>
-                                        <span
-                                            class="badge 
+                            <tr>
+                                <td><?= $row['id'] ?></td>
+                                <td><?= htmlspecialchars($row['computername']) ?></td>
+                                <td><?= htmlspecialchars($row['category']) ?></td>
+                                <td>
+                                    <span
+                                        class="badge 
                                 <?= $row['status'] === 'Available' ? 'bg-success' : ($row['status'] === 'Assigned' ? 'bg-warning' : 'bg-danger') ?>">
-                                            <?= htmlspecialchars($row['status']) ?>
-                                        </span>
-                                    </td>
-                                    <td><?= htmlspecialchars($row['location'] ?? 'N/A') ?></td>
-                                    <td><?= htmlspecialchars($row['lastmodifieddate']) ?></td>
-                                    <td>
-                                        <!-- View Button -->
-                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewAssetModal<?= $row['id'] ?>">View</button>
+                                        <?= htmlspecialchars($row['status']) ?>
+                                    </span>
+                                </td>
+                                <td><?= htmlspecialchars($row['location'] ?? 'N/A') ?></td>
+                                <td><?= htmlspecialchars($row['lastmodifieddate']) ?></td>
+                                <td>
+                                    <!-- View Button -->
+                                    <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#viewAssetModal<?= $row['id'] ?>">View</button>
 
-                                        <!-- Edit and Delete Buttons -->
-                                        <form method="POST" class="d-inline">
-                                            <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
-                                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#editAssetModal<?= $row['id'] ?>">Edit</button>
-                                            <button type="submit" name="deleteAsset"
-                                                class="btn btn-sm btn-danger">Delete</button>
-                                        </form>
-                                    </td>
-
-
-
-
-                                    <!-- VIEW ASSET MODAL -->
-                                    <div class="modal fade" id="viewAssetModal<?= $row['id'] ?>" tabindex="-1"
-                                        aria-labelledby="viewAssetModalLabel" aria-hidden="true">
-
-                                        <div class="modal-dialog modal-lg">
+                                    <!-- Edit and Delete Buttons -->
+                                    <form method="POST" class="d-inline">
+                                        <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
+                                        <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#editAssetModal<?= $row['id'] ?>">Edit</button>
+                                        <button type="submit" name="deleteAsset"
+                                            class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#qrModal<?= $row['id'] ?>">Generate QR</button>
+                                    <!-- QR Code Modal (Design Only) -->
+                                    <div class="modal fade" id="qrModal<?= $row['id'] ?>" tabindex="-1"
+                                        aria-labelledby="qrModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header bg-orange text-white">
-                                                    <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="qrModalLabel">QR Code for Asset ID:
+                                                        <?= $row['id'] ?></h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
+                                                    <!-- QR Code Placeholder (Design Only) -->
+                                                    <div class="text-center">
+                                                        <div class="bg-light p-5"
+                                                            style="width: 200px; height: 200px; margin: 0 auto; display: flex; justify-content: center; align-items: center; font-size: 16px;">
+                                                            <span>QR Code Placeholder</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+
+
+
+                                <!-- VIEW ASSET MODAL -->
+                                <div class="modal fade" id="viewAssetModal<?= $row['id'] ?>" tabindex="-1"
+                                    aria-labelledby="viewAssetModalLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-orange text-white">
+                                                <h5 class="modal-title" id="viewAssetModalLabel">View Asset Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <!-- Left Column -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Asset Name</label>
+                                                            <p class="form-control-static" id="viewAssetName">
+                                                                <?= htmlspecialchars($row['computername']) ?></p>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Category</label>
+                                                            <p class="form-control-static" id="viewAssetCategory">
+                                                                <?= htmlspecialchars($row['category']) ?></p>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Status</label>
+                                                            <p class="form-control-static" id="viewAssetStatus">
+                                                                <?= htmlspecialchars($row['status']) ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Right Column -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Assigned To</label>
+                                                            <p class="form-control-static" id="viewAssetAssignee">
+                                                                <?= htmlspecialchars($row['location'] ?? 'N/A') ?>
+                                                            </p>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Description</label>
+                                                            <p class="form-control-static" id="viewAssetRemarks">
+                                                                <?= htmlspecialchars($row['description'] ?? 'N/A') ?>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END OF VIEW ASSET MODAL -->
+
+
+
+
+                                <!-- EDIT ASSET MODAL -->
+                                <div class="modal fade" id="editAssetModal<?= $row['id'] ?>" tabindex="-1"
+                                    aria-labelledby="editAssetModalLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-orange text-white">
+                                                <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST">
+                                                    <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
                                                     <div class="row">
                                                         <!-- Left Column -->
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
-                                                                <label class="form-label">Asset Name</label>
-                                                                <p class="form-control-static" id="viewAssetName">
-                                                                    <?= htmlspecialchars($row['computername']) ?></p>
+                                                                <label for="editAssetName" class="form-label">Asset
+                                                                    Name</label>
+                                                                <input type="text" name="assetName" class="form-control"
+                                                                    value="<?= htmlspecialchars($row['computername']) ?>">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label class="form-label">Category</label>
-                                                                <p class="form-control-static" id="viewAssetCategory">
-                                                                    <?= htmlspecialchars($row['category']) ?></p>
+                                                                <label for="editAssetCategory"
+                                                                    class="form-label">Category</label>
+                                                                <select class="form-select" id="editAssetCategory"
+                                                                    required>
+                                                                    <option
+                                                                        <?= $row['category'] === 'Computers' ? 'selected' : '' ?>>
+                                                                        Computers</option>
+                                                                    <option
+                                                                        <?= $row['category'] === 'Printers' ? 'selected' : '' ?>>
+                                                                        Printers</option>
+                                                                    <option
+                                                                        <?= $row['category'] === 'Monitors' ? 'selected' : '' ?>>
+                                                                        Monitors</option>
+                                                                    <option
+                                                                        <?= $row['category'] === 'Accessories' ? 'selected' : '' ?>>
+                                                                        Accessories</option>
+                                                                </select>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label class="form-label">Status</label>
-                                                                <p class="form-control-static" id="viewAssetStatus">
-                                                                    <?= htmlspecialchars($row['status']) ?></p>
+                                                                <label for="editAssetStatus"
+                                                                    class="form-label">Status</label>
+                                                                <select class="form-select" id="editAssetStatus"
+                                                                    required>
+                                                                    <option
+                                                                        <?= $row['status'] === 'Available' ? 'selected' : '' ?>>
+                                                                        Available</option>
+                                                                    <option
+                                                                        <?= $row['status'] === 'Assigned' ? 'selected' : '' ?>>
+                                                                        Assigned</option>
+                                                                    <option
+                                                                        <?= $row['status'] === 'Under Maintenance' ? 'selected' : '' ?>>
+                                                                        Under Maintenance</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                         <!-- Right Column -->
                                                         <div class="col-md-6">
                                                             <div class="mb-3">
-                                                                <label class="form-label">Assigned To</label>
-                                                                <p class="form-control-static" id="viewAssetAssignee">
-                                                                    <?= htmlspecialchars($row['location'] ?? 'N/A') ?>
-                                                                </p>
+                                                                <label for="editAssetAssignee"
+                                                                    class="form-label">Assigned To</label>
+                                                                <input type="text" name="assetLocation"
+                                                                    class="form-control"
+                                                                    value="<?= htmlspecialchars($row['location']) ?>">
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label class="form-label">Description</label>
-                                                                <p class="form-control-static" id="viewAssetRemarks">
-                                                                    <?= htmlspecialchars($row['description'] ?? 'N/A') ?></p>
+                                                                <label for="editAssetRemarks"
+                                                                    class="form-label">Description</label>
+                                                                <textarea name="assetDescription"
+                                                                    class="form-control"><?= htmlspecialchars($row['description']) ?></textarea>
+                                                                </textarea>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-warning">Save
+                                                            Changes</button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- END OF VIEW ASSET MODAL -->
-
-
-
-
-                                     <!-- EDIT ASSET MODAL -->
-                                    <div class="modal fade" id="editAssetModal<?= $row['id'] ?>" tabindex="-1"
-                                        aria-labelledby="editAssetModalLabel" aria-hidden="true">
-
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header bg-orange text-white">
-                                                    <h5 class="modal-title" id="editAssetModalLabel">Edit Asset Details</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form method="POST">
-                                                        <input type="hidden" name="assetId" value="<?= $row['id'] ?>">
-                                                        <div class="row">
-                                                            <!-- Left Column -->
-                                                            <div class="col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="editAssetName" class="form-label">Asset
-                                                                        Name</label>
-                                                                    <input type="text" name="assetName" class="form-control"
-                                                                        value="<?= htmlspecialchars($row['computername']) ?>">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="editAssetCategory"
-                                                                        class="form-label">Category</label>
-                                                                    <select class="form-select" id="editAssetCategory"
-                                                                        required>
-                                                                        <option <?= $row['category'] === 'Computers' ? 'selected' : '' ?>>Computers</option>
-                                                                        <option <?= $row['category'] === 'Printers' ? 'selected' : '' ?>>Printers</option>
-                                                                        <option <?= $row['category'] === 'Monitors' ? 'selected' : '' ?>>Monitors</option>
-                                                                        <option <?= $row['category'] === 'Accessories' ? 'selected' : '' ?>>Accessories</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="editAssetStatus"
-                                                                        class="form-label">Status</label>
-                                                                    <select class="form-select" id="editAssetStatus"
-                                                                        required>
-                                                                        <option <?= $row['status'] === 'Available' ? 'selected' : '' ?>>Available</option>
-                                                                        <option <?= $row['status'] === 'Assigned' ? 'selected' : '' ?>>Assigned</option>
-                                                                        <option <?= $row['status'] === 'Under Maintenance' ? 'selected' : '' ?>>Under Maintenance</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Right Column -->
-                                                            <div class="col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="editAssetAssignee"
-                                                                        class="form-label">Assigned To</label>
-                                                                    <input type="text" name="assetLocation"
-                                                                        class="form-control"
-                                                                        value="<?= htmlspecialchars($row['location']) ?>">
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <label for="editAssetRemarks"
-                                                                        class="form-label">Description</label>
-                                                                    <textarea name="assetDescription"
-                                                                        class="form-control"><?= htmlspecialchars($row['description']) ?></textarea>
-                                                                   </textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-warning">Save
-                                                                Changes</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
                                 <!-- END OF EDIT ASSET MODAL -->
 
 
@@ -492,7 +553,7 @@
                                             <option value="Assigned">Assigned</option>
                                             <option value="Under Maintenance">Under Maintenance</option>
                                         </select>
-                                    </div>  
+                                    </div>
                                 </div>
 
                                 <!-- Right Column -->
@@ -504,8 +565,8 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="assetRemarks" class="form-label">Description</label>
-                                        <textarea class="form-control" id="assetDescription" name="assetDescription" rows="3"
-                                            placeholder="Additional information"></textarea>
+                                        <textarea class="form-control" id="assetDescription" name="assetDescription"
+                                            rows="3" placeholder="Additional information"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -532,10 +593,35 @@
             <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
             <script>
-                document.getElementById('sidebarToggle').addEventListener('click', function () {
-                    document.getElementById('sidebar').classList.toggle('collapsed');
-                    document.getElementById('content').classList.toggle('collapsed');
-                });
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('content').classList.toggle('collapsed');
+            });
+            </script>
+            <script>
+            function searchTable() {
+                const input = document.getElementById('searchInput').value.toLowerCase();
+
+                const tableBody = document.getElementById('assetTableBody');
+                const rows = tableBody.getElementsByTagName('tr');
+
+                for (let i = 0; i < rows.length; i++) {
+                    const row = rows[i];
+
+                    const cells = row.getElementsByTagName('td');
+                    let rowText = "";
+                    for (let j = 0; j < cells.length; j++) {
+                        rowText += cells[j].textContent || cells[j].innerText;
+                    }
+
+                    if (rowText.toLowerCase().includes(input)) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                        / Hide row
+                    }
+                }
+            }
             </script>
 </body>
 

@@ -448,8 +448,8 @@
                                         <label for="editRole" class="form-label">Role</label>
                                         <select class="form-select" id="editRole" name="role" required>
                                             <!-- <option value="Super Admin">Super Admin</option> -->
-                                            <option value="Admin">Admin</option>
-                                            <option value="Staff">Staff</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="staff">Staff</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
