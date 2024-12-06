@@ -514,7 +514,7 @@ if (!isset($_SESSION['username'])) {
                 text: response.message,
                 confirmButtonText: 'Okay'
             }).then(() => {
-                location.reload(); // Refresh to show changes
+                location.reload();
             });
         } else {
             Swal.fire({
@@ -527,11 +527,10 @@ if (!isset($_SESSION['username'])) {
     }
 
     $('#editTicketForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
+        event.preventDefault();
         let formData = new FormData(this);
 
-        fetch('./queriies/tickets/queries-update-tickets.php', {
+        fetch('./queries/tickets/queries-update-tickets.php', {
                 method: 'POST',
                 body: formData
             })
