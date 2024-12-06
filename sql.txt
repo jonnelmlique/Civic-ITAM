@@ -17,6 +17,33 @@ CREATE TABLE employees (
     role VARCHAR(100) NOT NULL,
     status VARCHAR(100) NOT NULL
 );
+//not ffinal
+CREATE TABLE pcassets (
+    id INT AUTO_INCREMENT PRIMARY KEY, 
+    pc_id VARCHAR(255) NOT NULL UNIQUE,
+    cpu_model VARCHAR(255) NOT NULL,
+    cpu_hertz VARCHAR(255)NOT NULL, 
+    cpu_health VARCHAR(255) NOT NULL, 
+    hdd_model VARCHAR(255) NOT NULL, 
+    hdd_size VARCHAR(255) NOT NULL, 
+    hdd_health VARCHAR(255) NOT NULL, 
+    ram_size VARCHAR(255) NOT NULL,
+    ram_health VARCHAR(255) NOT NULL,
+    os_version VARCHAR(255) NOT NULL, 
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    assignedpc VARCHAR(255) NULL
+);
+CREATE TABLE tickets (
+    ticketid INT AUTO_INCREMENT PRIMARY KEY, 
+    subject VARCHAR(255) NOT NULL,         
+    description TEXT NOT NULL,              
+    category VARCHAR(255) NOT NULL,          
+    status VARCHAR(255) DEFAULT 'Open',      
+    createdby VARCHAR(255) NOT NULL,                
+    assignedto VARCHAR(255) NULL,            
+    lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
+);
+
 
 //Not final and subject to change based on what is needed
 //pwede nyo palitan

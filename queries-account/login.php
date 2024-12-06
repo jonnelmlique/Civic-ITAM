@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("SELECT id, email, password, role, status FROM employees WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, email, username, password, role, status FROM employees WHERE email = ?");
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 session_start();
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
+                $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['status'] = $user['status'];
 

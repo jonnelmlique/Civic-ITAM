@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/staff/management.css">
     <link rel="stylesheet" href="../public/css/staff/sidebar.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -45,17 +53,28 @@
                     <i class="bi bi-list"></i>
                 </button>
                 <a class="navbar-brand ms-3" href="#">My Tickets</a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                    <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li> -->
-                    <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
-                </ul>
-                </li>
-                </ul>
-            </div>
+                                <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
         </nav>
 
         <div class="container-fluid py-4">
@@ -126,12 +145,8 @@
                             issue or request.</p> -->
                     </div>
                 </div>
-
                 <div class="row mt-4">
                     <div class="col-12">
-                        <!-- <h5 class="mb-3">Your Tickets</h5>
-                        <p class="text-muted mb-3">Below is the list of tickets you have submitted. Track their status
-                            or update them if needed.</p> -->
                         <input type="text" id="searchInput" class="form-control" placeholder="Search"
                             onkeyup="searchTable()">
                         <table class="table table-hover table-striped shadow-sm">
@@ -145,145 +160,409 @@
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>TICKET001</td>
-                                    <td>PC Not Booting</td>
-                                    <td>Technical Issue</td>
-                                    <td><span class="badge bg-warning">In Progress</span></td>
-                                    <td>2024-12-01</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewTicketModal">View</button>
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editTicketModal">Edit</button>
-                                        <button class="btn btn-sm btn-danger">Solve</button>
-                                    </td>
-                                </tr>
+                            <tbody id="ticketTableBody">
+                                <?php
+                include '../src/config/config.php';
+
+                $createdBy = $_SESSION['username'];
+                $sql = "SELECT ticketid, subject, description, category, status, assignedto, lastupdated FROM tickets WHERE createdby = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param('s', $createdBy);
+                $stmt->execute();
+                $result = $stmt->get_result();
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $ticketId = 'TCK' . str_pad($row['ticketid'], 3, '0', STR_PAD_LEFT);
+                        $subject = htmlspecialchars($row['subject']);
+                        $category = htmlspecialchars($row['category']);
+                        $description = htmlspecialchars($row['description']);
+                        $status = htmlspecialchars($row['status']);
+                        $assignedTo = $row['assignedto'] ?? 'Not Assigned';
+                        $lastUpdated = htmlspecialchars($row['lastupdated']);
+                        $badgeClass = ($status === 'Open') ? 'bg-primary' : (($status === 'In Progress') ? 'bg-warning' : 'bg-secondary');
+
+                        echo "<tr>
+                            <td>$ticketId</td>
+                            <td>$subject</td>
+                            <td>$category</td>
+                            <td><span class='badge $badgeClass'>$status</span></td>
+                            <td>$lastUpdated</td>
+                            <td>
+                                <button class='btn btn-sm btn-info' 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#viewTicketModal' 
+                                    data-id='{$row['ticketid']}'
+                                    data-subject='$subject'
+                                    data-category='$category'
+                                    data-description='$description'
+                                    data-status='$status'
+                                    data-assignedto='$assignedTo'
+                                    data-lastupdated='$lastUpdated'>
+                                    View
+                                </button>
+
+                                <button class='btn btn-sm btn-warning edit-btn' 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#editTicketModal'
+                                    data-id='{$row['ticketid']}'
+                                    data-subject='$subject'
+                                    data-category='$category'
+                                    data-description='$description'
+                                    data-status='$status'
+                                    data-lastupdated='$lastUpdated'>
+                                    Edit
+                                </button>
+
+                                <button class='btn btn-sm btn-danger' data-id='{$row['ticketid']}'>Close</button>
+                            </td>
+                        </tr>";
+                    }
+                } else {
+                    echo "<tr>
+                        <td colspan='6' class='text-center'>No records found</td>
+                    </tr>";
+                }
+
+                $stmt->close();
+                $conn->close();
+                ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="row mt-3">
-                    <div class="col-12 text-end">
-                        <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#createTicketModal">
-                            <i class="bi bi-plus-lg"></i> Create New Ticket
-                        </button>
-                    </div>
+                </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-12 text-end">
+                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+                    <i class="bi bi-plus-lg"></i> Create New Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="viewTicketModalLabel">View Ticket Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Title:</strong> <span id="viewTicketSubject"></span></p>
+                    <p><strong>Category:</strong> <span id="viewTicketCategory"></span></p>
+                    <p><strong>Description:</strong> <span id="viewTicketDescription"></span></p>
+                    <p><strong>Status:</strong> <span id="viewTicketStatus"></span></p>
+                    <p><strong>Last Updated:</strong> <span id="viewTicketLastUpdated"></span></p>
+                    <p><strong>Assigned To:</strong> <span id="viewTicketAssignedTo"></span></p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="viewTicketModalLabel">View Ticket Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTicketForm">
+                        <input type="hidden" id="editTicketId" name="ticketId">
+                        <div class="mb-3">
+                            <label for="editTicketTitle" class="form-label">Ticket Title</label>
+                            <input type="text" class="form-control" id="editTicketTitle" name="subject" required>
                         </div>
-                        <div class="modal-body">
-                            <p><strong>Title:</strong> PC Not Booting</p>
-                            <p><strong>Category:</strong> Technical Issue</p>
-                            <p><strong>Description:</strong> The assigned PC does not boot properly and displays a black
-                                screen.</p>
-                            <p><strong>Status:</strong> In Progress</p>
-                            <p><strong>Last Updated:</strong> 2024-12-01</p>
+                        <div class="mb-3">
+                            <label for="editTicketCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editTicketCategory" name="category" required>
+                                <option value="Technical Issue">Technical Issue</option>
+                                <option value="Request">Request</option>
+                            </select>
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="editTicketDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="editTicketDescription" name="description" rows="3"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-orange">Save Changes</button>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="createTicketModal" tabindex="-1" aria-labelledby="createTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="createTicketModalLabel">Create New Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./queries/tickets/queries-tickets.php" method="POST" id="createTicketForm">
+                        <div class="mb-3">
+                            <label for="newTicketTitle" class="form-label">Ticket Title</label>
+                            <input type="text" class="form-control" id="newTicketTitle" name="subject"
+                                placeholder="Enter the title of your issue" required>
                         </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="editTicketTitle" class="form-label">Ticket Title</label>
-                                    <input type="text" class="form-control" id="editTicketTitle" value="PC Not Booting">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editTicketCategory" class="form-label">Category</label>
-                                    <select class="form-select" id="editTicketCategory">
-                                        <option value="Technical Issue" selected>Technical Issue</option>
-                                        <option value="Request">Request</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editTicketDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="editTicketDescription"
-                                        rows="3">The assigned PC does not boot properly and displays a black screen.</textarea>
-                                </div>
-                                <button type="submit" class="btn btn-orange">Save Changes</button>
-                            </form>
+
+                        <div class="mb-3">
+                            <label for="newTicketDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="newTicketDescription" name="description" rows="4"
+                                placeholder="Provide details about the issue or request" required></textarea>
                         </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="newTicketCategory" class="form-label">Category</label>
+                            <select class="form-select" id="newTicketCategory" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="Technical Issue">Technical Issue</option>
+                                <option value="Request">Request</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newTicketStatus" class="form-label">Status</label>
+                            <select class="form-select" id="newTicketStatus" name="status" required disabled>
+                                <option value="Open" selected>Open</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newTicketCreatedBy" class="form-label">Created By</label>
+                            <input type="text" class="form-control" id="newTicketCreatedBy" name="createdBy"
+                                value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required readonly>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-orange">Submit Ticket</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="modal fade" id="createTicketModal" tabindex="-1" aria-labelledby="createTicketModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="createTicketModalLabel">Create New Ticket</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="newTicketTitle" class="form-label">Ticket Title</label>
-                                    <input type="text" class="form-control" id="newTicketTitle"
-                                        placeholder="Enter the title of your issue">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newTicketCategory" class="form-label">Category</label>
-                                    <select class="form-select" id="newTicketCategory">
-                                        <option value="">Select Category</option>
-                                        <option value="Technical Issue">Technical Issue</option>
-                                        <option value="Request">Request</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="newTicketDescription" class="form-label">Description</label>
-                                    <textarea class="form-control" id="newTicketDescription" rows="4"
-                                        placeholder="Provide details about the issue or request"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-orange">Submit Ticket</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+    document.getElementById('sidebarToggle').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('collapsed');
+        document.getElementById('content').classList.toggle('collapsed');
+    });
 
+    function fillUpdateForm(ticketID, title, category, status, description) {
+        document.getElementById('updateTicketID').value = ticketID;
+        document.getElementById('updateTicketTitle').value = title;
+        document.getElementById('updateTicketCategory').value = category;
+        document.getElementById('updateTicketDescription').value = description;
+        document.getElementById('updateTicketStatus').value = status;
+    }
+    </script>
+    <script>
+    document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        const url = this.action;
 
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-            <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-            <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-            <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
-            <script>
-            document.getElementById('sidebarToggle').addEventListener('click', function() {
-                document.getElementById('sidebar').classList.toggle('collapsed');
-                document.getElementById('content').classList.toggle('collapsed');
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
             });
 
-            function fillUpdateForm(ticketID, title, category, status, description) {
-                document.getElementById('updateTicketID').value = ticketID;
-                document.getElementById('updateTicketTitle').value = title;
-                document.getElementById('updateTicketCategory').value = category;
-                document.getElementById('updateTicketDescription').value = description;
-                document.getElementById('updateTicketStatus').value = status;
+            const result = await response.json();
+
+            console.log(result);
+
+            if (response.ok && result.success) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: result.message,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+
+                    document.querySelector('#createTicketModal form').reset();
+                    const modalElement = document.getElementById('createTicketModal');
+                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                    modalInstance.hide();
+
+                    const newRow = document.createElement('tr');
+                    const ticketId = 'TCK' + String(result.data.TicketID).padStart(4, '0');
+                    const subject = result.data.Subject || 'N/A';
+                    const category = result.data.Category || 'N/A';
+                    const status = result.data.Status || 'N/A';
+                    const lastUpdated = result.data.LastUpdated ||
+                        'N/A';
+
+                    const badgeClass = status === 'Open' ? 'bg-primary' : status ===
+                        'In Progress' ? 'bg-warning' : 'bg-secondary';
+
+                    newRow.innerHTML = `
+                        <td>${ticketId}</td>
+                        <td>${subject}</td>
+                        <td>${category}</td>
+                        <td><span class='badge ${badgeClass}'>${status}</span></td>
+                        <td>${lastUpdated}</td>
+                        <td>
+                            <button class='btn btn-sm btn-info' 
+                                data-bs-toggle='modal' data-bs-target='#viewTicketModal'
+                                data-id='${result.data.TicketID}'>View</button>
+                            <button class='btn btn-sm btn-warning' 
+                                data-bs-toggle='modal' data-bs-target='#editTicketModal'
+                                data-id='${result.data.TicketID}'>Edit</button>
+                            <button class='btn btn-sm btn-danger' data-id='${result.data.TicketID}'>Solve</button>
+                        </td>
+                    `;
+
+
+                    const tableBody = document.getElementById('ticketTableBody');
+                    tableBody.appendChild(newRow);
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error!',
+                    text: result.message || 'Something went wrong!',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                });
             }
-            </script>
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An unexpected error occurred. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    });
+    </script>
+    <script>
+    document.querySelector('table tbody').addEventListener('click', function(event) {
+        if (event.target.matches('button[data-bs-target="#viewTicketModal"]')) {
+            const button = event.target;
+
+            const ticketId = button.getAttribute('data-id');
+            const subject = button.getAttribute('data-subject');
+            const category = button.getAttribute('data-category');
+            const description = button.getAttribute('data-description');
+            const status = button.getAttribute('data-status');
+            const lastUpdated = button.getAttribute('data-lastupdated');
+            const assignedTo = button.getAttribute('data-assignedto') ||
+                'Not Assigned';
+
+            document.getElementById('viewTicketSubject').textContent = subject;
+            document.getElementById('viewTicketCategory').textContent = category;
+            document.getElementById('viewTicketDescription').textContent = description;
+            document.getElementById('viewTicketStatus').textContent = status;
+            document.getElementById('viewTicketLastUpdated').textContent = lastUpdated;
+            document.getElementById('viewTicketAssignedTo').textContent = assignedTo;
+        }
+    });
+    </script>
+    <script>
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const tableBody = document.getElementById('ticketTableBody');
+        const rows = tableBody.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const cells = row.getElementsByTagName('td');
+            let isMatch = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const cellContent = cells[j].textContent || cells[j].innerText;
+                    if (cellContent.toLowerCase().indexOf(filter) > -1) {
+                        isMatch = true;
+                        break;
+                    }
+                }
+            }
+
+            row.style.display = isMatch ? '' : 'none';
+        }
+    }
+    </script>
+    <script>
+    function handleUpdateResponse(response) {
+        if (response.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: response.message,
+                confirmButtonText: 'Okay'
+            }).then(() => {
+                location.reload(); // Refresh to show changes
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: response.message,
+                confirmButtonText: 'Okay'
+            });
+        }
+    }
+
+    $('#editTicketForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        let formData = new FormData(this);
+
+        fetch('./queriies/tickets/queries-update-tickets.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => handleUpdateResponse(data))
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'An error occurred while processing your request.',
+                    confirmButtonText: 'Okay'
+                });
+            });
+    });
+    </script>
+
+    <script>
+    $(document).on('click', '.edit-btn', function() {
+        var ticketId = $(this).data('id');
+        var title = $(this).data('subject');
+        var category = $(this).data('category');
+        var description = $(this).data('description');
+
+        // Populate modal fields
+        $('#editTicketId').val(ticketId);
+        $('#editTicketTitle').val(title);
+        $('#editTicketCategory').val(category);
+        $('#editTicketDescription').val(description);
+    });
+    </script>
+
 </body>
 
 </html>
