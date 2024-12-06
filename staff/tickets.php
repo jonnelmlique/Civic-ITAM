@@ -162,7 +162,7 @@ if (!isset($_SESSION['username'])) {
                     include '../src/config/config.php';
 
                     $createdBy = $_SESSION['username'];
-                    $sql = "SELECT ticketid, subject, description, category, status, assignedto, lastupdated FROM tickets WHERE createdby = ?";
+                    $sql = "SELECT ticketid, subject, description, category, status, assignedto, lastupdated FROM tickets WHERE createdby = ? ORDER BY ticketid DESC";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param('s', $createdBy);
                     $stmt->execute();

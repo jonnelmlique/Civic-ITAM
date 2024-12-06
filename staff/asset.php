@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +18,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/staff/management.css">
     <link rel="stylesheet" href="../public/css/staff/sidebar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 
 </head>
 
@@ -45,7 +55,7 @@
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Asset Management</a>
+                <a class="navbar-brand ms-3" href="#">Asset Request</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -108,7 +118,7 @@
                             <i class="bi bi-send-check card-icon text-primary"></i>
                             <div>
                                 <h6 class="card-title">Total Requests</h6>
-                                <p class="card-value">15</p>
+                                <p class="card-value" id="totalRequests">0</p>
                             </div>
                         </div>
                     </div>
@@ -120,7 +130,7 @@
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
                                 <h6 class="card-title">Approved Requests</h6>
-                                <p class="card-value">10</p>
+                                <p class="card-value" id="approvedRequests">0</p>
                             </div>
                         </div>
                     </div>
@@ -132,7 +142,7 @@
                             <i class="bi bi-hourglass-split card-icon text-warning"></i>
                             <div>
                                 <h6 class="card-title">Pending Requests</h6>
-                                <p class="card-value">3</p>
+                                <p class="card-value" id="pendingRequests">0</p>
                             </div>
                         </div>
                     </div>
@@ -144,7 +154,7 @@
                             <i class="bi bi-x-circle card-icon text-danger"></i>
                             <div>
                                 <h6 class="card-title">Declined Requests</h6>
-                                <p class="card-value">2</p>
+                                <p class="card-value" id="declinedRequests">0</p>
                             </div>
                         </div>
                     </div>
@@ -159,80 +169,137 @@
                             issues.</p> -->
                     </div>
                 </div>
+                <!-- //tobechange -->
+                <?php
+include '../src/config/config.php';
 
+$username = $_SESSION['username'];
+
+$sql = "SELECT requestid, assetname, category, reason, status, createddate 
+        FROM assetrequests 
+        WHERE requestedby = ? 
+        ORDER BY createddate DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('s', $username);
+$stmt->execute();
+$result = $stmt->get_result();
+
+?>
 
                 <div class="row mt-4">
                     <div class="col-12">
-                        <!-- <h5 class="mb-3">Assigned Assets</h5>
-                        <p class="text-muted mb-3">Below is the list of assets currently assigned to you.</p> -->
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search"
+                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
                             onkeyup="searchTable()">
-                        <table class="table table-hover table-striped shadow-sm">
+                        <table class="table table-hover table-striped shadow-sm" id="assetRequestsTable">
                             <thead class="bg-orange text-white">
                                 <tr>
-                                    <th scope="col">Asset ID</th>
-                                    <th scope="col">Name</th>
+                                    <th scope="col">Asset Name</th>
                                     <th scope="col">Category</th>
+                                    <th scope="col">Reason</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Last Updated</th>
+                                    <th scope="col">Created Date</th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        ?>
                                 <tr>
-                                    <td>ASSET001</td>
-                                    <td>Dell Laptop</td>
-                                    <td>Computers</td>
-                                    <td><span class="badge bg-success">In Use</span></td>
-                                    <td>2024-12-01</td>
+                                    <td><?php echo htmlspecialchars($row['assetname']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['category']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['reason']); ?></td>
+                                    <td>
+                                        <span class="badge <?php echo getStatusClass($row['status']); ?>">
+                                            <?php echo htmlspecialchars($row['status']); ?>
+                                        </span>
+                                    </td>
+                                    <td><?php echo date("Y-m-d", strtotime($row['createddate'])); ?></td>
                                     <td>
                                         <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewAssetModal">View</button>
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editAssetModal">Edit</button>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#reportIssueModal">Report Issue</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ASSET002</td>
-                                    <td>HP Printer</td>
-                                    <td>Printers</td>
-                                    <td><span class="badge bg-warning">Under Maintenance</span></td>
-                                    <td>2024-11-30</td>
-                                    <td>
+                                            data-bs-target="#viewAssetModal"
+                                            data-requestid="<?php echo $row['requestid']; ?>">
+                                            View
+                                        </button>
                                         <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewAssetModal">View</button>
-                                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#editAssetModal">Edit</button>
-                                        <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#reportIssueModal">Report Issue</button>
+                                            data-bs-target="#viewAssetModal"
+                                            data-assetname="<?php echo htmlspecialchars($row['assetname']); ?>"
+                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
+                                            data-reason="<?php echo htmlspecialchars($row['reason']); ?>"
+                                            data-status="<?php echo htmlspecialchars($row['status']); ?>"
+                                            data-createddate="<?php echo htmlspecialchars($row['createddate']); ?>">
+                                            View
+                                        </button>
+                                        <!-- <button class="btn btn-sm btn-info" data-bs-toggle="modal"
+                                            data-bs-target="#editAssetModal"
+                                            data-requestid="<?php echo $row['requestid']; ?>"
+                                            data-assetname="<?php echo htmlspecialchars($row['assetname']); ?>"
+                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
+                                            data-remarks="<?php echo htmlspecialchars($row['reason']); ?>">
+                                            Edit
+                                        </button> -->
+
+
+
+
                                     </td>
                                 </tr>
+                                <?php
+                    }
+                } else {
+                    ?>
+                                <tr>
+                                    <td colspan="6" class="text-center">No asset requests found.</td>
+                                </tr>
+                                <?php
+                }
+                $stmt->close();
+                $conn->close();
+                ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div>
 
+                <?php
+function getStatusClass($status)
+{
+    switch ($status) {
+        case 'Pending':
+            return 'bg-warning';
+        case 'In Use':
+            return 'bg-success';
+        case 'Under Maintenance':
+            return 'bg-danger';
+        default:
+            return 'bg-secondary';
+    }
+}
+?>
+
+
+            </div>
             <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="viewAssetModalLabel">Asset Details</h5>
+                            <h5 class="modal-title" id="viewAssetModalLabel">Asset Requst Details</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p><strong>Asset Name:</strong> Dell Laptop</p>
-                            <p><strong>Category:</strong> Computers</p>
-                            <p><strong>Status:</strong> In Use</p>
-                            <p><strong>Assigned On:</strong> 2024-11-01</p>
-                            <p><strong>Remarks:</strong> No issues reported.</p>
+                            <p><strong>Asset Name:</strong> <span id="assetName"></span></p>
+                            <p><strong>Category:</strong> <span id="assetCategory"></span></p>
+                            <p><strong>Status:</strong> <span id="assetStatus"></span></p>
+                            <p><strong>Reason:</strong> <span id="assetReason"></span></p>
+                            <p><strong>Created Date:</strong> <span id="assetCreatedDate"></span></p>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
                 aria-hidden="true">
@@ -246,12 +313,12 @@
                             <form>
                                 <div class="mb-3">
                                     <label for="editAssetName" class="form-label">Asset Name</label>
-                                    <input type="text" class="form-control" id="editAssetName" value="Dell Laptop">
+                                    <input type="text" class="form-control" id="editAssetName">
                                 </div>
                                 <div class="mb-3">
                                     <label for="editAssetCategory" class="form-label">Category</label>
                                     <select class="form-select" id="editAssetCategory">
-                                        <option value="Computers" selected>Computers</option>
+                                        <option value="Computers">Computers</option>
                                         <option value="Printers">Printers</option>
                                         <option value="Monitors">Monitors</option>
                                         <option value="Accessories">Accessories</option>
@@ -259,8 +326,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="editAssetRemarks" class="form-label">Remarks</label>
-                                    <textarea class="form-control" id="editAssetRemarks"
-                                        rows="3">No issues reported.</textarea>
+                                    <textarea class="form-control" id="editAssetRemarks" rows="3"></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-orange">Save Changes</button>
                             </form>
@@ -269,7 +335,8 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="reportIssueModal" tabindex="-1" aria-labelledby="reportIssueModalLabel"
+
+            <!-- <div class="modal fade" id="reportIssueModal" tabindex="-1" aria-labelledby="reportIssueModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -294,7 +361,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="row mt-3">
                 <div class="col-12 text-end">
@@ -304,7 +371,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="requestAssetModal" tabindex="-1" aria-labelledby="requestAssetModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -316,6 +382,9 @@
                     <div class="modal-body">
                         <form>
                             <div class="mb-3">
+                                <input type="hidden" id="sessionUsername"
+                                    value="<?php echo htmlspecialchars($_SESSION['username']); ?>">
+
                                 <label for="requestAssetName" class="form-label">Asset Name</label>
                                 <input type="text" class="form-control" id="requestAssetName"
                                     placeholder="Enter asset name">
@@ -348,6 +417,10 @@
         <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
         document.getElementById('sidebarToggle').addEventListener('click', function() {
@@ -355,6 +428,135 @@
             document.getElementById('content').classList.toggle('collapsed');
         });
         </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const requestForm = document.querySelector('#requestAssetModal form');
+            const sessionUsername = document.getElementById('sessionUsername').value;
+
+            function loadTableData() {
+                fetch('./queries/assetrequest/queries-get_asset_requests.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `requestedBy=${encodeURIComponent(sessionUsername)}`
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        const tableBody = document.querySelector('#assetRequestsTable tbody');
+                        tableBody.innerHTML = data;
+                    })
+                    .catch(error => console.error('Error fetching table data:', error));
+            }
+
+            requestForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const assetName = document.getElementById('requestAssetName').value.trim();
+                const category = document.getElementById('requestCategory').value;
+                const reason = document.getElementById('requestReason').value.trim();
+
+                if (!assetName || !category || !reason) {
+                    Swal.fire('Error!', 'All fields are required.', 'error');
+                    return;
+                }
+
+                fetch('./queries/assetrequest/queries-add_asset_request.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `assetName=${encodeURIComponent(assetName)}&category=${encodeURIComponent(category)}&reason=${encodeURIComponent(reason)}&requestedBy=${encodeURIComponent(sessionUsername)}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('Success!', data.message, 'success');
+                            requestForm.reset();
+                            $('#requestAssetModal').modal('hide');
+                            loadTableData();
+                        } else {
+                            Swal.fire('Error!', data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+                    });
+            });
+
+            loadTableData();
+        });
+        </script>
+
+        <script>
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('assetRequestsTable');
+            const rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let match = false;
+
+                for (let j = 0; j < cells.length - 1; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(filter)) {
+                        match = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = match ? '' : 'none';
+            }
+        }
+        </script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewAssetModal = document.getElementById('viewAssetModal');
+
+            viewAssetModal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+
+                const assetName = button.getAttribute('data-assetname');
+                const category = button.getAttribute('data-category');
+                const reason = button.getAttribute('data-reason');
+                const status = button.getAttribute('data-status');
+                const createdDate = button.getAttribute('data-createddate');
+
+                document.getElementById('assetName').textContent = assetName;
+                document.getElementById('assetCategory').textContent = category;
+                document.getElementById('assetReason').textContent = reason;
+                document.getElementById('assetStatus').textContent = status;
+                document.getElementById('assetCreatedDate').textContent = createdDate;
+            });
+        });
+        </script>
+        <script>
+        function fetchRequestData() {
+            $.ajax({
+                url: './queries/assetrequest/queries-get-requests-data.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    $('#totalRequests').text(response.totalRequests);
+                    $('#approvedRequests').text(response.approvedRequests);
+                    $('#pendingRequests').text(response.pendingRequests);
+                    $('#declinedRequests').text(response.declinedRequests);
+                },
+                error: function() {
+                    console.error("Error fetching request data.");
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            fetchRequestData();
+
+            setInterval(fetchRequestData, 100);
+        });
+        </script>
+
 </body>
 
 </html>

@@ -81,14 +81,13 @@ if (!isset($_SESSION['username'])) {
 
         <div class="container-fluid py-4">
             <div class="row g-3">
-
                 <div class="col-lg-4 col-md-6">
                     <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-ui-checks-grid card-icon text-primary"></i>
                             <div>
                                 <h5 class="card-title">My Assets</h5>
-                                <p class="card-value">10</p>
+                                <p class="card-value" id="myAssetsCount">Loading...</p>
                             </div>
                         </div>
                     </div>
@@ -100,7 +99,7 @@ if (!isset($_SESSION['username'])) {
                             <i class="bi bi-ticket-perforated card-icon text-success"></i>
                             <div>
                                 <h5 class="card-title">My Tickets</h5>
-                                <p class="card-value">5</p>
+                                <p class="card-value" id="myTicketsCount">Loading...</p>
                             </div>
                         </div>
                     </div>
@@ -111,80 +110,118 @@ if (!isset($_SESSION['username'])) {
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-receipt-cutoff card-icon text-danger"></i>
                             <div>
-                                <h5 class="card-title">Schedule</h5>
-                                <p class="card-value">2</p>
+                                <h5 class="card-title">Pending Assets</h5>
+                                <p class="card-value" id="pendingAssetsCount">Loading...</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="row g-3">
-                <div class="col-lg-6">
-                    <div class="card shadow border-0 mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-bell text-primary"></i> Notifications</h5>
-                            <ul class="list-group">
-                                <li class="list-group-item">Laptop (#12345) is scheduled for maintenance on Dec 5.</li>
-                                <li class="list-group-item">New ticket assigned: "Monitor Replacement".</li>
-                                <li class="list-group-item">Asset #78901 has been marked overdue.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <?php
 
-                <div class="col-lg-6">
-                    <div class="card shadow border-0 c">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-list-task text-success"></i> My Tickets</h5>
-                            <ul class="list-group">
-                                <li class="list-group-item">Resolve ticket "PC not booting".</li>
-                                <li class="list-group-item">Submit report for Asset #45678.</li>
-                                <li class="list-group-item">Inspect printer #12234 by Dec 6.</li>
-                            </ul>
-                        </div>
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_NAME', 'civicitam');
+
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+
+if ($conn->connect_error) {
+    die("ERROR: Could not connect. " . $conn->connect_error);
+}
+
+$username = $_SESSION['username'];
+
+
+$query_tickets = "SELECT ticketid, subject, status FROM tickets WHERE createdby = '$username' ORDER BY lastupdated DESC LIMIT 3";
+$tickets_result = $conn->query($query_tickets);
+
+
+
+$query_asset_requests = "SELECT requestid, assetname, status FROM assetrequests WHERE requestedby = '$username' ORDER BY createddate DESC LIMIT 3";
+$asset_requests_result = $conn->query($query_asset_requests);
+?>
+
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="card shadow border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-bell text-primary"></i> Notifications</h5>
+                        <ul class="list-group">
+                            <?php while ($asset = $asset_requests_result->fetch_assoc()) { ?>
+                            <?php if ($asset['status'] == 'Pending') { ?>
+                            <li class="list-group-item">Asset #<?php echo $asset['requestid']; ?>
+                                (<?php echo $asset['assetname']; ?>) is Pending.</li>
+                            <?php } ?>
+                            <?php } ?>
+
+                        </ul>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="card shadow border-0">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-list-task text-success"></i> My Tickets</h5>
+                        <ul class="list-group">
+                            <?php while ($ticket = $tickets_result->fetch_assoc()) { ?>
+                            <?php 
+                                    ?>
+                            <?php if (trim($ticket['status']) == 'Open') { ?>
+                            <li class="list-group-item">New ticket is open: "<?php echo $ticket['subject']; ?>".
+                            </li>
+                            <?php } ?>
+                            <?php } ?>
 
-
-            <!-- Activity Logs Section -->
-            <div class="row g-3">
-                <div class="col-lg-12">
-                    <div class="card shadow border-0 mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title"><i class="bi bi-clock-history text-info"></i> Activity Logs</h5>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Activity</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Dec 1</td>
-                                        <td>Resolved ticket "Monitor Flickering".</td>
-                                        <td><span class="badge bg-success">Completed</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nov 30</td>
-                                        <td>Checked-in Laptop #54321.</td>
-                                        <td><span class="badge bg-info">In Progress</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nov 29</td>
-                                        <td>Assigned ticket "Printer Paper Jam".</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+
+        <?php
+$conn->close();
+?>
+
+
+        <div class="row g-3">
+            <div class="col-lg-12">
+                <div class="card shadow border-0 mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-clock-history text-info"></i> Activity Logs</h5>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dec 5</td>
+                                    <td>Test3</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Dec 5</td>
+                                    <td>Test2</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Dec 5</td>
+                                    <td>Test1</td>
+                                    <td><span class="badge bg-warning">Pending</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
@@ -200,6 +237,21 @@ if (!isset($_SESSION['username'])) {
         document.getElementById('content').classList.toggle('collapsed');
     });
     </script>
+    <sctipt>
+        <script>
+        fetch('./queries/dashboard/getdata.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('myAssetsCount').textContent = data.myAssetsCount;
+                document.getElementById('myTicketsCount').textContent = data.myTicketsCount;
+                document.getElementById('pendingAssetsCount').textContent = data.pendingAssetsCount;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        </script>
+
+    </sctipt>
 </body>
 
 </html>
