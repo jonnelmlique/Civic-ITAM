@@ -108,14 +108,13 @@
 
         <div class="container-fluid py-4">
             <div class="row g-3">
-
                 <div class="col-lg-3 col-md-6">
                     <div class="card shadow border-0 mb-3">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-box-seam card-icon text-primary"></i>
                             <div>
                                 <h5 class="card-title">Total Assets</h5>
-                                <p class="card-value">150</p>
+                                <p id="total_assets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
@@ -127,7 +126,7 @@
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
                                 <h5 class="card-title">Resolved Tickets</h5>
-                                <p class="card-value">120</p>
+                                <p id="resolved_tickets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
@@ -139,7 +138,7 @@
                             <i class="bi bi-hourglass-split card-icon text-warning"></i>
                             <div>
                                 <h5 class="card-title">Pending Tickets</h5>
-                                <p class="card-value">30</p>
+                                <p id="pending_tickets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
@@ -151,13 +150,12 @@
                             <i class="bi bi-exclamation-triangle card-icon text-danger"></i>
                             <div>
                                 <h5 class="card-title">Overdue Tickets</h5>
-                                <p class="card-value">10</p>
+                                <p id="overdue_tickets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="row g-3">
                 <div class="col-lg-6 col-md-12">
@@ -169,8 +167,6 @@
                     </div>
                 </div>
 
-
-
                 <div class="col-lg-6 col-md-12">
                     <div class="card shadow border-0">
                         <div class="card-body">
@@ -181,50 +177,80 @@
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-    <script>
-    document.getElementById('sidebarToggle').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('collapsed');
-        document.getElementById('content').classList.toggle('collapsed');
-    });
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('content').classList.toggle('collapsed');
+        });
+        </script>
 
-    var ctx = document.getElementById('assetGrowthChart').getContext('2d');
-    var assetGrowthChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'Assets Growth',
-                data: [50, 60, 70, 90, 100, 120, 150],
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                tension: 0.1
-            }]
+
+        <script>
+        function updateCountsAndCharts() {
+            $.ajax({
+                url: './queries/dashboard/asset_dashboard_data.php',
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $('#total_assets').text(data.total_assets);
+                    $('#resolved_tickets').text(data.resolved_tickets);
+                    $('#pending_tickets').text(data.pending_tickets);
+                    $('#overdue_tickets').text(data.overdue_tickets);
+
+                    var assetGrowthCtx = document.getElementById('assetGrowthChart').getContext('2d');
+                    var assetGrowthChart = new Chart(assetGrowthCtx, {
+                        type: 'line',
+                        data: {
+                            labels: data.asset_growth.labels,
+                            datasets: [{
+                                label: 'Assets Growth',
+                                data: data.asset_growth.data,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                tension: 0.1
+                            }]
+                        }
+                    });
+
+                    var assetDistributionCtx = document.getElementById('assetPieChart').getContext('2d');
+                    var assetDistributionChart = new Chart(assetDistributionCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: data.asset_distribution.labels,
+                            datasets: [{
+                                label: 'Asset Distribution',
+                                data: data.asset_distribution.data,
+                                backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56',
+                                    '#4bc0c0'
+                                ],
+                                hoverOffset: 4
+                            }]
+                        }
+                    });
+                },
+                error: function() {
+                    console.error("An error occurred while fetching data.");
+                }
+            });
         }
-    });
 
-    var ctx2 = document.getElementById('assetPieChart').getContext('2d');
-    var assetPieChart = new Chart(ctx2, {
-        type: 'pie',
-        data: {
-            labels: ['Laptops', 'Monitors', 'Printers', 'Accessories'],
-            datasets: [{
-                label: 'Asset Distribution',
-                data: [50, 30, 40, 30],
-                backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0'],
-                hoverOffset: 4
-            }]
-        }
-    });
-    </script>
+        $(document).ready(function() {
+            updateCountsAndCharts();
+
+            setInterval(updateCountsAndCharts, 10000);
+        });
+        </script>
 </body>
 
 </html>

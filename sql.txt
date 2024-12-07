@@ -53,6 +53,25 @@ CREATE TABLE assetrequests (
     requestedby VARCHAR(255) NOT NULL             
 );
 
+CREATE TABLE maintenance_requests (
+    request_id INT AUTO_INCREMENT PRIMARY KEY,
+    maintenance_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'Pending',
+    assigned_to VARCHAR(255) DEFAULT NULL,
+    remarks TEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE overdue_assets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    asset_name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    assigned_to VARCHAR(255) NOT NULL,
+    due_date DATE NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'overdue',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 
 

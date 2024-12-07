@@ -113,55 +113,62 @@
                 </div>
             </div>
 
-            <div class="row g-3">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-calendar-check card-icon text-primary"></i>
-                            <div>
-                                <h6 class="card-title">Total Diagnoses</h6>
-                                <p class="card-value">60</p>
+            <div class="container mt-4">
+                <div class="row g-3">
+                    <!-- Total Diagnoses Card -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-calendar-check card-icon text-primary"></i>
+                                <div>
+                                    <h6 class="card-title">Total Diagnoses</h6>
+                                    <p class="card-value" id="totalDiagnoses">Loading...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-check-circle card-icon text-success"></i>
-                            <div>
-                                <h6 class="card-title">Completed Diagnoses</h6>
-                                <p class="card-value">45</p>
+                    <!-- Completed Diagnoses Card -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-check-circle card-icon text-success"></i>
+                                <div>
+                                    <h6 class="card-title">Completed Diagnoses</h6>
+                                    <p class="card-value" id="completedDiagnoses">Loading...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-exclamation-triangle card-icon text-warning"></i>
-                            <div>
-                                <h6 class="card-title">Diagnoses In Progress</h6>
-                                <p class="card-value">10</p>
+                    <!-- Diagnoses In Progress Card -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle card-icon text-warning"></i>
+                                <div>
+                                    <h6 class="card-title">Diagnoses In Progress</h6>
+                                    <p class="card-value" id="inProgressDiagnoses">Loading...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-x-circle card-icon text-danger"></i>
-                            <div>
-                                <h6 class="card-title">Failed Diagnoses</h6>
-                                <p class="card-value">5</p>
+                    <!-- Failed Diagnoses Card -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body d-flex align-items-center">
+                                <i class="bi bi-x-circle card-icon text-danger"></i>
+                                <div>
+                                    <h6 class="card-title">Failed Diagnoses</h6>
+                                    <p class="card-value" id="failedDiagnoses">Loading...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
             <div class="row mt-4">
                 <div class="col-12">
@@ -184,7 +191,7 @@
                             </tr>
                         </thead>
                         <tbody id="diagnosticTable">
-                          
+
                         </tbody>
                     </table>
                 </div>
@@ -219,7 +226,7 @@
                                 <select class="form-select" id="add_assetID" required>
                                     <!--Options from AJAX -->
                                 </select>
-                            </div>  
+                            </div>
                             <div class="mb-3">
                                 <label for="technician" class="form-label">Technician</label>
                                 <input type="text" class="form-control" id="add_conductedby" required>
@@ -247,7 +254,7 @@
         </div>
     </div>
 
-     <!-- Edit Diagnostic Modal -->
+    <!-- Edit Diagnostic Modal -->
     <div class="modal fade" id="editDiagnosticModal" tabindex="-1" aria-labelledby="editDiagnosticModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -270,7 +277,7 @@
                             <select class="form-select" id="editAsset" required>
                                 <!--Options from AJAX -->
                             </select>
-                        </div>  
+                        </div>
                         <div class="mb-3">
                             <label for="editTechnician" class="form-label">Technician</label>
                             <input type="text" class="form-control" id="editTechnician" required>
@@ -298,7 +305,7 @@
     </div>
 
 
-     <!-- View Diagnostic Modal -->
+    <!-- View Diagnostic Modal -->
     <div class="modal fade" id="viewDiagnosticModal" tabindex="-1" aria-labelledby="viewDiagnosticModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
@@ -386,10 +393,10 @@
 
         $('#editDiagnosticModal').on('shown.bs.modal', function() {
             var assetID = $('#editDiagnosticModal').data('assetid');
-            populateAssetDropdown(assetID); 
+            populateAssetDropdown(assetID);
         });
     });
-    
+
     function searchTable() {
         const input = document.getElementById('searchInput');
         const filter = input.value.toLowerCase();
@@ -449,10 +456,10 @@
                     var diagnosticRemarks = $(this).data('diagnostic-remarks');
                     var status = $(this).data('status');
 
-                    
+
                     $('#editID').val(editID);
                     $('#editDiagnosticID').val(diagnosticID);
-                    $('#editAsset').val(assetID); 
+                    $('#editAsset').val(assetID);
                     $('#editTechnician').val(conductedby);
                     $('#editDetails').val(diagnosticRemarks);
                     $('#editStatus').val(status);
@@ -460,7 +467,7 @@
                     $('#editDiagnosticModal').data('assetid', assetID);
                 });
 
-                
+
                 $('#diagnosticTable').on('click', '.view-btn', function() {
                     var diagnosticID = $(this).data('diagnosticid');
                     var assetID = $(this).data('assetid');
@@ -469,11 +476,11 @@
                     var status = $(this).data('status');
 
                     $('#viewDiagnosticID').val(diagnosticID);
-                    $('#viewAsset').val(assetID); 
+                    $('#viewAsset').val(assetID);
                     $('#viewTechnician').val(conductedby);
                     $('#viewDetails').val(diagnosticRemarks);
                     $('#viewStatus').val(status);
-                    
+
                 });
 
                 $('.delete-btn').on('click', function() {
@@ -595,7 +602,7 @@
                                 timer: 2000
                             });
                             $('#editDiagnosticModal').modal('hide');
-                            getDiagnosticHistory();  // Refresh the diagnostic history
+                            getDiagnosticHistory(); // Refresh the diagnostic history
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -635,8 +642,10 @@
                 editDropdown.append('<option value="">Select Asset</option>');
 
                 response.forEach(function(item) {
-                    addDropdown.append('<option value="' + item.id + '">' + item.computername + '</option>');
-                    editDropdown.append('<option value="' + item.id + '">' + item.computername + '</option>');
+                    addDropdown.append('<option value="' + item.id + '">' + item.computername +
+                        '</option>');
+                    editDropdown.append('<option value="' + item.id + '">' + item.computername +
+                        '</option>');
                 });
 
                 if (selectedAssetID) {
@@ -650,6 +659,36 @@
     }
     </script>
 
+    <script>
+    // Function to fetch and update the data in real-time
+    function fetchData() {
+        $('#totalDiagnoses').text("Loading...");
+        $('#completedDiagnoses').text("Loading...");
+        $('#inProgressDiagnoses').text("Loading...");
+        $('#failedDiagnoses').text("Loading...");
+
+        $.ajax({
+            url: './queries/diagnostichistory/query_count.php', // The PHP file that returns the counts
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                $('#totalDiagnoses').text(data.totalDiagnoses || "0");
+                $('#completedDiagnoses').text(data.completedDiagnoses || "0");
+                $('#inProgressDiagnoses').text(data.inProgressDiagnoses || "0");
+                $('#failedDiagnoses').text(data.failedDiagnoses || "0");
+            },
+            error: function() {
+                alert('Error fetching data.');
+            }
+        });
+    }
+
+    // Fetch data initially and then every 5 seconds for real-time updates
+    $(document).ready(function() {
+        fetchData(); // Fetch data once when the page loads
+        setInterval(fetchData, 5000); // Fetch data every 5 seconds for real-time updates
+    });
+    </script>
 </body>
 
 </html>

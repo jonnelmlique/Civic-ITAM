@@ -234,7 +234,6 @@
                                         data-department='{$row['department']}'
                                         data-role='{$row['role']}'
                                         data-status='{$row['status']}'>Edit</button>
-                                     <button class='btn btn-sm btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>
                             </td>
                         </tr>";
                     }
