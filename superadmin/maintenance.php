@@ -123,7 +123,7 @@
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-check-circle card-icon text-primary me-3"></i>
                             <div>
-                                <h6 class="card-title mb-1">Total Maintenance Requests</h6>
+                                <h6 class="card-title mb-1">Maintenance Requests</h6>
                                 <p class="card-value mb-0" id="totalRequestsCount">0</p>
                             </div>
                         </div>
