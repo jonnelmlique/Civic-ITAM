@@ -55,21 +55,21 @@
                     <i class="bi bi-exclamation-triangle"></i> Overdue
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="./reports.php" class="nav-link text-white active">
                     <i class="bi bi-file-earmark-text"></i> Reports
                 </a>
-            </li>
+            </li> -->
             <li>
                 <a href="./diagnostichistory.php" class="nav-link text-white">
                     <i class="fas fa-history"></i> Diagnostic History
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="./users.php" class="nav-link text-white">
                     <i class="bi bi-person"></i> Manage Users
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
 
