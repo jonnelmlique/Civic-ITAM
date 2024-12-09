@@ -239,7 +239,7 @@ if (!isset($_SESSION['username'])) {
                 $createdby = htmlspecialchars($row['createdby']);
                 $lifespan = htmlspecialchars($row['lifespan']);
 
-        $formattedDate = date('Y-m-d', strtotime($createdDate));
+                $formattedDate = date('Y-m-d', strtotime($createdDate));
 
         echo "<tr>
             <td>$assetName</td>
@@ -797,12 +797,18 @@ $conn->close();
                         let tableBody = document.querySelector('table tbody');
                         tableBody.innerHTML = '';
                         data.assets.forEach(asset => {
+                            // Format the createDate (example of format 'Y-m-d')
+                            const formattedDate = new Date(asset.createDate);
+                            const year = formattedDate.getFullYear();
+                            const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
+                            const day = formattedDate.getDate().toString().padStart(2, '0');
+                            const formattedCreateDate = `${year}-${month}-${day}`;
                             let row = document.createElement('tr');
                             row.innerHTML = `
                         <td>${asset.assetname}</td>
                         <td>${asset.category}</td>
                         <td>${asset.stock}</td>
-                        <td>${asset.createDate}</td>
+                    <td>${formattedCreateDate}</td>
                         <td>
                             <div class='dropdown'>
                                 <button class='btn btn-sm btn-outline-dark dropdown-toggle' type='button'
