@@ -117,18 +117,15 @@ if (!isset($_SESSION['username'])) {
 
         <div class="container-fluid py-4">
 
-            <div class="row mb-4">
-                <div class="col-12">
-                </div>
-            </div>
             <div class="row g-3">
+
                 <div class="col-lg-3 col-md-6">
                     <div class="card shadow-sm border-0">
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-box-seam card-icon text-primary"></i>
                             <div>
                                 <h6 class="card-title">Total Assets</h6>
-                                <p class="card-value">100</p>
+                                <p id="total_assets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
@@ -139,24 +136,26 @@ if (!isset($_SESSION['username'])) {
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
-                                <h6 class="card-title">Available Assets</h6>
-                                <p class="card-value">80</p>
+                                <h6 class="card-title">Total Stock</h6>
+                                <p id="available_assets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
                 <div class="col-lg-3 col-md-6">
                     <div class="card shadow-sm border-0">
                         <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-people-fill card-icon text-warning"></i>
+                            <i class="bi bi-gear card-icon text-warning"></i>
                             <div>
-                                <h6 class="card-title">Assigned Assets</h6>
-                                <p class="card-value">15</p>
+                                <h6 class="card-title">Under Maintenance</h6>
+                                <p id="under_maintenance_assets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <div class="col-lg-3 col-md-6">
                     <div class="card shadow-sm border-0">
@@ -164,7 +163,7 @@ if (!isset($_SESSION['username'])) {
                             <i class="bi bi-trash card-icon text-danger"></i>
                             <div>
                                 <h6 class="card-title">Asset to Dispose</h6>
-                                <p class="card-value">5</p>
+                                <p id="dispose_assets" class="card-value">0</p>
                             </div>
                         </div>
                     </div>
@@ -196,128 +195,136 @@ if (!isset($_SESSION['username'])) {
                         </thead>
                         <tbody>
                             <?php
-                include '../src/config/config.php';
-                $records_per_page = 5;
-                $sql = "SELECT COUNT(*) as total FROM assetdetails";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
-                $total_records = $row['total'];
+        include '../src/config/config.php';
 
-                $total_pages = ceil($total_records / $records_per_page);
-                $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-                $start_from = ($current_page - 1) * $records_per_page;
-                $sql = "SELECT * FROM assetdetails ORDER BY id DESC LIMIT $start_from, $records_per_page";
-                $result = $conn->query($sql);
+        $records_per_page = 5;
+        $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';  
+        $sql = "SELECT COUNT(*) as total FROM assetdetails WHERE assetname LIKE ? OR category LIKE ? OR stock LIKE ?";
+        $stmt = $conn->prepare($sql);
+        $searchParam = '%' . $searchTerm . '%';  
+        $stmt->bind_param('sss', $searchParam, $searchParam, $searchParam);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $total_records = $row['total'];
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $id = htmlspecialchars($row['id']);
-                        $assetcode = htmlspecialchars($row['assetcode']);
-                        $itemid = htmlspecialchars($row['itemid']);
-                        $assetName = htmlspecialchars($row['assetname']);
-                        $category = htmlspecialchars($row['category']);
-                        $stock = htmlspecialchars($row['stock']);
-                        $createdDate = htmlspecialchars($row['createDate']);
-                        $description = htmlspecialchars($row['description']);
-                        $serialnumber = htmlspecialchars($row['serialnumber']);
-                        $supplier = htmlspecialchars($row['supplier']);
-                        $purchasedate = htmlspecialchars($row['purchasedate']);
-                        $invoicenumber = htmlspecialchars($row['invoicenumber']);
-                        $amount = htmlspecialchars($row['amount']);
-                        $warranty = htmlspecialchars($row['warranty']);
-                        $status = htmlspecialchars($row['status']);
-                        $location = htmlspecialchars($row['location']);
-                        $createdby = htmlspecialchars($row['createdby']);
-                        $lifespan = htmlspecialchars($row['lifespan']);
-                
-                        // Format the created date as required
-                        $formattedDate = date('Y-m-d', strtotime($createdDate));
+        $total_pages = ceil($total_records / $records_per_page);
+        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $start_from = ($current_page - 1) * $records_per_page;
 
-                        echo "<tr>
-                            <td>$assetName</td>
-                            <td>$category</td>
-                            <td>$stock</td>
-                            <td>$formattedDate</td>
-                            <td>
-                                <div class='dropdown'>
-                                    <button class='btn btn-sm btn-outline-dark dropdown-toggle' type='button'
-                                        id='actionDropdown1' data-bs-toggle='dropdown' aria-expanded='false'>
-                                        <i class='bi bi-three-dots-vertical'></i>
-                                    </button>
-                                    <ul class='dropdown-menu shadow-lg' aria-labelledby='actionDropdown1'>
-                                           <li>
-                         <a class='dropdown-item text-primary' href='#' data-bs-toggle='modal'
-                   data-bs-target='#viewAssetModal' 
-                                      data-asset-id='$id'
-                   data-asset-code='$assetcode'
-                   data-item-id='$itemid'
-                   data-asset-name='$assetName'
-                   data-serial-number='$serialnumber'
-                   data-supplier='$supplier'
-                   data-purchase-date='$purchasedate'
-                   data-invoice-number='$invoicenumber'
-                   data-amount='$amount'
-                   data-warranty='$warranty'
-                   data-category='$category'
-                   data-status='$status'
-                   data-location='$location'
-                   data-stock='$stock'
-                   data-created-by='$createdby'
-                   data-lifespan='$lifespan'
-                   data-description='$description'
-                   title='View details'>
-                   <i class='bi bi-eye'></i> View
-                </a>
+        $sql = "SELECT * FROM assetdetails WHERE assetname LIKE ? OR category LIKE ? OR stock LIKE ? ORDER BY id DESC LIMIT $start_from, $records_per_page";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sss', $searchParam, $searchParam, $searchParam);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $id = htmlspecialchars($row['id']);
+                $assetcode = htmlspecialchars($row['assetcode']);
+                $itemid = htmlspecialchars($row['itemid']);
+                $assetName = htmlspecialchars($row['assetname']);
+                $category = htmlspecialchars($row['category']);
+                $stock = htmlspecialchars($row['stock']);
+                $createdDate = htmlspecialchars($row['createDate']);
+                $description = htmlspecialchars($row['description']);
+                $serialnumber = htmlspecialchars($row['serialnumber']);
+                $supplier = htmlspecialchars($row['supplier']);
+                $purchasedate = htmlspecialchars($row['purchasedate']);
+                $invoicenumber = htmlspecialchars($row['invoicenumber']);
+                $amount = htmlspecialchars($row['amount']);
+                $warranty = htmlspecialchars($row['warranty']);
+                $status = htmlspecialchars($row['status']);
+                $location = htmlspecialchars($row['location']);
+                $createdby = htmlspecialchars($row['createdby']);
+                $lifespan = htmlspecialchars($row['lifespan']);
+
+        $formattedDate = date('Y-m-d', strtotime($createdDate));
+
+        echo "<tr>
+            <td>$assetName</td>
+            <td>$category</td>
+            <td>$stock</td>
+            <td>$formattedDate</td>
+            <td>
+                <div class='dropdown'>
+                    <button class='btn btn-sm btn-outline-dark dropdown-toggle' type='button'
+                        id='actionDropdown1' data-bs-toggle='dropdown' aria-expanded='false'>
+                        <i class='bi bi-three-dots-vertical'></i>
+                    </button>
+                    <ul class='dropdown-menu shadow-lg' aria-labelledby='actionDropdown1'>
+                        <li>
+                            <a class='dropdown-item text-primary' href='#' data-bs-toggle='modal'
+                               data-bs-target='#viewAssetModal' 
+                               data-asset-id='$id'
+                               data-asset-code='$assetcode'
+                               data-item-id='$itemid'
+                               data-asset-name='$assetName'
+                               data-serial-number='$serialnumber'
+                               data-supplier='$supplier'
+                               data-purchase-date='$purchasedate'
+                               data-invoice-number='$invoicenumber'
+                               data-amount='$amount'
+                               data-warranty='$warranty'
+                               data-category='$category'
+                               data-status='$status'
+                               data-location='$location'
+                               data-stock='$stock'
+                               data-created-by='$createdby'
+                               data-lifespan='$lifespan'
+                               data-description='$description'
+                               title='View details'>
+                               <i class='bi bi-eye'></i> View
+                            </a>
                         </li>
-                                        <li>
-                                         <a class='dropdown-item text-warning' href='#' data-bs-toggle='modal'
-                                        data-bs-target='#editAssetModal1' 
-                                                           data-asset-code='$assetcode'
+                        <li>
+                            <a class='dropdown-item text-warning' href='#' data-bs-toggle='modal'
+                               data-bs-target='#editAssetModal1' 
+                               data-asset-code='$assetcode'
+                               data-asset-id='$id'
+                               data-item-id='$itemid'
+                               data-asset-name='$assetName'
+                               data-serial-number='$serialnumber'
+                               data-supplier='$supplier'
+                               data-purchase-date='$purchasedate'
+                               data-invoice-number='$invoicenumber'
+                               data-amount='$amount'
+                               data-warranty='$warranty'
+                               data-category='$category'
+                               data-status='$status'
+                               data-location='$location'
+                               data-stock='$stock'
+                               data-created-by='$createdby'
+                               data-lifespan='$lifespan'
+                               data-description='$description'
+                               title='Edit asset'>
+                               <i class='bi bi-pencil'></i> Edit
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal'
+                               data-bs-target='#deleteAssetModal1' title='Delete asset'>
+                               <i class='bi bi-trash'></i> Delete
+                            </a>
+                        </li>
+                        <li>
+                            <a class='dropdown-item text-secondary' href='#' data-bs-toggle='modal'
+                               data-bs-target='#qrModal1' title='Generate QR code'>
+                               <i class='bi bi-qr-code-scan'></i> Generate QR
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>";
+    }
+} else {
+    echo "<tr><td colspan='7' class='text-center'>No assets found</td></tr>";
+}
 
-                                      data-asset-id='$id'
-                                        data-item-id='$itemid'
-                                        data-asset-name='$assetName'
-                                        data-serial-number='$serialnumber'
-                                        data-supplier='$supplier'
-                                        data-purchase-date='$purchasedate'
-                                        data-invoice-number='$invoicenumber'
-                                        data-amount='$amount'
-                                        data-warranty='$warranty'
-                                        data-category='$category'
-                                        data-status='$status'
-                                        data-location='$location'
-                                        data-stock='$stock'
-                                        data-created-by='$createdby'
-                                        data-lifespan='$lifespan'
-                                        data-description='$description'
-                                        title='Edit asset'>
-                                        <i class='bi bi-pencil'></i> Edit
-                                        </a>
+$conn->close();
+?>
 
-                                        </li>
-                                        <li>
-                                            <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal'
-                                                data-bs-target='#deleteAssetModal1' title='Delete asset'>
-                                                <i class='bi bi-trash'></i> Delete
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class='dropdown-item text-secondary' href='#' data-bs-toggle='modal'
-                                                data-bs-target='#qrModal1' title='Generate QR code'>
-                                                <i class='bi bi-qr-code-scan'></i> Generate QR
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='7' class='text-center'>No assets found</td></tr>";
-                }
-
-                $conn->close();
-                ?>
                         </tbody>
                     </table>
 
@@ -757,6 +764,7 @@ if (!isset($_SESSION['username'])) {
                                     $('#addAssetModal').modal('hide');
                                     document.querySelector('form').reset();
 
+                                    console.log("Asset added successfully, refreshing asset list.");
                                     loadAssets();
                                 }
                             });
@@ -791,71 +799,81 @@ if (!isset($_SESSION['username'])) {
                         data.assets.forEach(asset => {
                             let row = document.createElement('tr');
                             row.innerHTML = `
-                    <td>${asset.assetname}</td>
-                    <td>${asset.category}</td>
-                    <td>${asset.stock}</td>
-                    <td>${asset.createDate}</td>
-                    <td>
-                        <div class='dropdown'>
-                            <button class='btn btn-sm btn-outline-dark dropdown-toggle' type='button'
-                                id='actionDropdown1' data-bs-toggle='dropdown' aria-expanded='false'>
-                                <i class='bi bi-three-dots-vertical'></i>
-                            </button>
-                            <ul class='dropdown-menu shadow-lg' aria-labelledby='actionDropdown1'>
-                              <li>
-                         <a class='dropdown-item text-primary' href='#' data-bs-toggle='modal'
-                   data-bs-target='#viewAssetModal' 
-                                      data-asset-id='$id'
-                   data-asset-code='$assetcode'
-                   data-item-id='$itemid'
-                   data-asset-name='$assetName'
-                   data-serial-number='$serialnumber'
-                   data-supplier='$supplier'
-                   data-purchase-date='$purchasedate'
-                   data-invoice-number='$invoicenumber'
-                   data-amount='$amount'
-                   data-warranty='$warranty'
-                   data-category='$category'
-                   data-status='$status'
-                   data-location='$location'
-                   data-stock='$stock'
-                   data-created-by='$createdby'
-                   data-lifespan='$lifespan'
-                   data-description='$description'
-                   title='View details'>
-                   <i class='bi bi-eye'></i> View
-                </a>
-                        </li>
-                                        <li>
-                                         <a class='dropdown-item text-warning' href='#' data-bs-toggle='modal'
-                                        data-bs-target='#editAssetModal1' 
-                                                           data-asset-code='$assetcode'
-
-                                      data-asset-id='$id'
-                                        data-item-id='$itemid'
-                                        data-asset-name='$assetName'
-                                        data-serial-number='$serialnumber'
-                                        data-supplier='$supplier'
-                                        data-purchase-date='$purchasedate'
-                                        data-invoice-number='$invoicenumber'
-                                        data-amount='$amount'
-                                        data-warranty='$warranty'
-                                        data-category='$category'
-                                        data-status='$status'
-                                        data-location='$location'
-                                        data-stock='$stock'
-                                        data-created-by='$createdby'
-                                        data-lifespan='$lifespan'
-                                        data-description='$description'
-                                        title='Edit asset'>
-                                        <i class='bi bi-pencil'></i> Edit
+                        <td>${asset.assetname}</td>
+                        <td>${asset.category}</td>
+                        <td>${asset.stock}</td>
+                        <td>${asset.createDate}</td>
+                        <td>
+                            <div class='dropdown'>
+                                <button class='btn btn-sm btn-outline-dark dropdown-toggle' type='button'
+                                    id='actionDropdown1' data-bs-toggle='dropdown' aria-expanded='false'>
+                                    <i class='bi bi-three-dots-vertical'></i>
+                                </button>
+                                <ul class='dropdown-menu shadow-lg' aria-labelledby='actionDropdown1'>
+                                    <li>
+                                        <a class='dropdown-item text-primary' href='#' data-bs-toggle='modal'
+                                           data-bs-target='#viewAssetModal'
+                                           data-asset-id='${asset.id}'
+                                           data-asset-code='${asset.assetcode}'
+                                           data-item-id='${asset.itemid}'
+                                           data-asset-name='${asset.assetname}'
+                                           data-serial-number='${asset.serialnumber}'
+                                           data-supplier='${asset.supplier}'
+                                           data-purchase-date='${asset.purchasedate}'
+                                           data-invoice-number='${asset.invoicenumber}'
+                                           data-amount='${asset.amount}'
+                                           data-warranty='${asset.warranty}'
+                                           data-category='${asset.category}'
+                                           data-status='${asset.status}'
+                                           data-location='${asset.location}'
+                                           data-stock='${asset.stock}'
+                                           data-created-by='${asset.createdby}'
+                                           data-lifespan='${asset.lifespan}'
+                                           data-description='${asset.description}'
+                                           title='View details'>
+                                           <i class='bi bi-eye'></i> View
                                         </a>
-
-                                        </li>
-                            </ul>
-                        </div>
-                    </td>
-                `;
+                                    </li>
+                                    <li>
+                                        <a class='dropdown-item text-warning' href='#' data-bs-toggle='modal'
+                                           data-bs-target='#editAssetModal1' 
+                                           data-asset-code='${asset.assetcode}'
+                                           data-asset-id='${asset.id}'
+                                           data-item-id='${asset.itemid}'
+                                           data-asset-name='${asset.assetname}'
+                                           data-serial-number='${asset.serialnumber}'
+                                           data-supplier='${asset.supplier}'
+                                           data-purchase-date='${asset.purchasedate}'
+                                           data-invoice-number='${asset.invoicenumber}'
+                                           data-amount='${asset.amount}'
+                                           data-warranty='${asset.warranty}'
+                                           data-category='${asset.category}'
+                                           data-status='${asset.status}'
+                                           data-location='${asset.location}'
+                                           data-stock='${asset.stock}'
+                                           data-created-by='${asset.createdby}'
+                                           data-lifespan='${asset.lifespan}'
+                                           data-description='${asset.description}'
+                                           title='Edit asset'>
+                                           <i class='bi bi-pencil'></i> Edit
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal'
+                                           data-bs-target='#deleteAssetModal1' title='Delete asset'>
+                                           <i class='bi bi-trash'></i> Delete
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class='dropdown-item text-secondary' href='#' data-bs-toggle='modal'
+                                           data-bs-target='#qrModal1' title='Generate QR code'>
+                                           <i class='bi bi-qr-code-scan'></i> Generate QR
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    `;
                             tableBody.appendChild(row);
                         });
 
@@ -884,6 +902,44 @@ if (!isset($_SESSION['username'])) {
                         console.error('Error fetching assets:', error);
                     });
             }
+
+            document.querySelector('#editAssetModal1').addEventListener('show.bs.modal', function(event) {
+                var button = event.relatedTarget;
+                var assetId = button.getAttribute('data-asset-id');
+                var assetName = button.getAttribute('data-asset-name');
+                var assetCode = button.getAttribute('data-asset-code');
+                var itemId = button.getAttribute('data-item-id');
+                var serialNumber = button.getAttribute('data-serial-number');
+                var supplier = button.getAttribute('data-supplier');
+                var purchaseDate = button.getAttribute('data-purchase-date');
+                var invoiceNumber = button.getAttribute('data-invoice-number');
+                var amount = button.getAttribute('data-amount');
+                var warranty = button.getAttribute('data-warranty');
+                var category = button.getAttribute('data-category');
+                var status = button.getAttribute('data-status');
+                var location = button.getAttribute('data-location');
+                var stock = button.getAttribute('data-stock');
+                var createdBy = button.getAttribute('data-created-by');
+                var lifespan = button.getAttribute('data-lifespan');
+                var description = button.getAttribute('data-description');
+
+                document.querySelector('#editAssetName').value = assetName;
+                document.querySelector('#editAssetCode').value = assetCode;
+                document.querySelector('#editItemId').value = itemId;
+                document.querySelector('#editSerialNumber').value = serialNumber;
+                document.querySelector('#editSupplier').value = supplier;
+                document.querySelector('#editPurchaseDate').value = purchaseDate;
+                document.querySelector('#editInvoiceNumber').value = invoiceNumber;
+                document.querySelector('#editAmount').value = amount;
+                document.querySelector('#editWarranty').value = warranty;
+                document.querySelector('#editCategory').value = category;
+                document.querySelector('#editStatus').value = status;
+                document.querySelector('#editLocation').value = location;
+                document.querySelector('#editStock').value = stock;
+                document.querySelector('#editCreatedBy').value = createdBy;
+                document.querySelector('#editLifespan').value = lifespan;
+                document.querySelector('#editDescription').value = description;
+            });
             </script>
 
             <script>
@@ -1056,7 +1112,51 @@ if (!isset($_SESSION['username'])) {
             });
             </script>
 
+            <script>
+            document.getElementById('searchInput').addEventListener('input', function() {
+                let searchTerm = this.value.toLowerCase();
+                filterAssets(searchTerm);
+            });
 
+            function filterAssets(searchTerm) {
+                let rows = document.querySelectorAll('table tbody tr');
+                rows.forEach(row => {
+                    let assetName = row.cells[0].textContent
+                        .toLowerCase();
+                    let category = row.cells[1].textContent
+                        .toLowerCase();
+                    let stock = row.cells[2].textContent
+                        .toLowerCase();
+
+                    if (assetName.includes(searchTerm) || category.includes(searchTerm) || stock.includes(
+                            searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            }
+            </script>
+
+            <script>
+            function updateCountsAndCharts() {
+                $.ajax({
+                    url: './queries/query_assets/asset_dashboard_data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#total_assets').text(data.totalAssetsCount);
+                        $('#available_assets').text(data.availableAssetsCount);
+                        $('#under_maintenance_assets').text(data.underMaintenanceStockCount);
+                        $('#dispose_assets').text(data.disposeAssetsCount);
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                updateCountsAndCharts();
+            });
+            </script>
 
 
 
