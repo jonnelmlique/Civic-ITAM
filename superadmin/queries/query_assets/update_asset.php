@@ -40,17 +40,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             WHERE id = '$assetId'";
 
     if ($conn->query($sql) === TRUE) {
-        $response['success'] = true;
-        $response['message'] = 'Asset updated successfully!';
+        echo json_encode([
+            'success' => true,
+            'message' => 'Asset updated successfully!'
+        ]);
     } else {
-        $response['message'] = 'Error: ' . $conn->error;
+        echo json_encode([
+            'success' => false,
+            'message' => 'Error: ' . $conn->error
+        ]);
     }
 
     $conn->close();
 } else {
-    $response['message'] = 'Invalid request method.';
+    echo json_encode([
+        'success' => false,
+        'message' => 'Invalid request method.'
+    ]);
 }
 
-echo json_encode($response);
-exit; 
+exit;
 ?>

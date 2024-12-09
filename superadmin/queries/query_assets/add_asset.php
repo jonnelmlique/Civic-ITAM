@@ -5,7 +5,6 @@ include '../../../src/config/config.php';
 header('Content-Type: application/json'); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Sanitize and retrieve form data
     $assetCode = htmlspecialchars($_POST['assetCode']);
     $itemId = $_POST['itemId'];
     $assetname = htmlspecialchars($_POST['assetname']);
@@ -25,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $lifespan = $_POST['lifespan'];
 
     try {
-        // Check if asset code already exists
         $checkStmt = $conn->prepare("SELECT assetcode FROM assetdetails WHERE assetcode = ?");
         $checkStmt->bind_param('s', $assetCode);
         $checkStmt->execute();
@@ -36,11 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $assetExists = true;
         }
 
-        // Return error message if asset code already exists
         if ($assetExists) {
             echo json_encode(['success' => false, 'message' => 'The asset code already exists.']);
         } else {
-            // Insert asset data
             $stmt = $conn->prepare("INSERT INTO assetdetails 
                 (assetcode, itemid, assetname, description, itemtype, serialnumber, supplier, purchasedate, invoicenumber, amount, 
                 warranty, category, status, location, stock, lifespan, createdby) 
@@ -50,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $supplier, $purchaseDate, $invoiceNumber, $amount, $warranty, $category, $status, $location, $stock, $lifespan, $createdBy);
 
             if ($stmt->execute()) {
-                // Fetch inserted asset details
                 $newAssetId = $conn->insert_id;
                 $newAssetQuery = "SELECT id, assetcode, itemid, assetname, description, itemtype, serialnumber, supplier, purchasedate, invoicenumber, amount, 
                                   warranty, category, status, location, stock, lifespan, createdby FROM assetdetails WHERE id = ?";
@@ -72,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     } finally {
-        // Close connections
         if (isset($checkStmt)) $checkStmt->close();
         if (isset($stmt)) $stmt->close();
         if (isset($newAssetStmt)) $newAssetStmt->close();

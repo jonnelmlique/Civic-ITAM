@@ -600,7 +600,7 @@ if (!isset($_SESSION['username'])) {
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" style="background-color: #f9f9f9; border-radius: 5px; padding: 20px;">
-                        <form method="POST" action="./queries/query_assets/update_asset.php">
+                        <form id="editAssetForm" method="POST" action="./queries/query_assets/update_asset.php">
                             <input type="hidden" id="editAssetId" name="editAssetId">
                             <div class="row gy-3">
                                 <!-- Column 1 -->
@@ -1011,6 +1011,48 @@ if (!isset($_SESSION['username'])) {
                 }
 
                 document.getElementById('editLifespan').value = lifespan;
+            });
+            </script>
+            <script>
+            function handleUpdateResponse(response) {
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Asset Updated',
+                        text: response.message,
+                        confirmButtonText: 'Okay'
+                    }).then(() => {
+                        location.reload();
+
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: response.message,
+                        confirmButtonText: 'Okay'
+                    });
+                }
+            }
+
+            document.querySelector('#editAssetForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                let formData = new FormData(this);
+                fetch('./queries/query_assets/update_asset.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => handleUpdateResponse(data))
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Request Failed',
+                            text: 'An error occurred while updating the asset. Please try again later.',
+                            confirmButtonText: 'Okay'
+                        });
+                    });
             });
             </script>
 
