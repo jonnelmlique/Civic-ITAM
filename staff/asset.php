@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIVIC | Asset Management</title>
+    <title>CIVIC | Asset Request</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
@@ -47,7 +47,7 @@ if (!isset($_SESSION['username'])) {
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#">Asset Request</a>
+                <a class="navbar-brand ms-3" href="#"> My Asset Request</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -322,28 +322,20 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
             </script>
 
 
-            <script>
-            function searchTable() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toLowerCase();
-                const table = document.getElementById('assetRequestsTable');
-                const rows = table.getElementsByTagName('tr');
+<script>
+    function searchTable() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        
+        // Get the current page number from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentPage = urlParams.get('page') || 1;
 
-                for (let i = 1; i < rows.length; i++) {
-                    const cells = rows[i].getElementsByTagName('td');
-                    let match = false;
+        // Redirect to the same page with the search query
+        window.location.href = `?page=${currentPage}&search=${filter}`;
+    }
+</script>
 
-                    for (let j = 0; j < cells.length - 1; j++) {
-                        if (cells[j].textContent.toLowerCase().includes(filter)) {
-                            match = true;
-                            break;
-                        }
-                    }
-
-                    rows[i].style.display = match ? '' : 'none';
-                }
-            }
-            </script>
             <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const viewAssetModal = document.getElementById('viewAssetModal');

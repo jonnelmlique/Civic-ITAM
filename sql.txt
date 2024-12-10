@@ -63,6 +63,24 @@ CREATE TABLE overdue_assets (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+
+CREATE TABLE assetrequests (
+    requestid INT AUTO_INCREMENT PRIMARY KEY,    
+    assetname VARCHAR(255) NOT NULL,            
+    category VARCHAR(255) NOT NULL,               
+    reason TEXT NOT NULL,                         
+    status VARCHAR(255) DEFAULT 'Pending',
+    createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    requestedby VARCHAR(255) NOT NULL             
+);
+
+
+//Not final and subject to change based on what is needed
+//pwede nyo palitan
+//this table is based on this 
+https://docs.google.com/spreadsheets/d/1PK7PUsHtfrw7iIUXcB5UD7wWL64bLVc652pDSfj4iNM/edit?gid=354465904#gid=354465904
+
 CREATE TABLE assetdetails (
     id INT PRIMARY KEY AUTO_INCREMENT,
     assetcode VARCHAR(255) NOT NULL, 
@@ -84,44 +102,6 @@ CREATE TABLE assetdetails (
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdby VARCHAR(255) NOT NULL,
     lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
-CREATE TABLE assetrequests (
-    requestid INT AUTO_INCREMENT PRIMARY KEY,    
-    assetname VARCHAR(255) NOT NULL,            
-    category VARCHAR(255) NOT NULL,               
-    reason TEXT NOT NULL,                         
-    status VARCHAR(255) DEFAULT 'Pending',
-    createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    requestedby VARCHAR(255) NOT NULL             
-);
-
-
-//Not final and subject to change based on what is needed
-//pwede nyo palitan
-//this table is based on this 
-https://docs.google.com/spreadsheets/d/1PK7PUsHtfrw7iIUXcB5UD7wWL64bLVc652pDSfj4iNM/edit?gid=354465904#gid=354465904
-
-CREATE TABLE assetdetails (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    assetcode VARCHAR(50) NOT NULL,
-    itemid INT NOT NULL,
-    computername VARCHAR(100),
-    description TEXT,
-    itemtype VARCHAR(50),
-    serialnumber VARCHAR(50),
-    supplier VARCHAR(100),
-    purchasedate DATE,
-    invoicenumber VARCHAR(50),
-    amount DECIMAL(10, 2),
-    warranty VARCHAR(50),
-    category VARCHAR(50),
-    status VARCHAR(50),
-    location VARCHAR(100),
-    createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdby VARCHAR(100),
-    lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    lastmodifiedby VARCHAR(100)
 );
 
 CREATE TABLE assetconsignment (

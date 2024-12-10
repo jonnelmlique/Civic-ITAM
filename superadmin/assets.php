@@ -301,12 +301,7 @@ if (!isset($_SESSION['username'])) {
                                <i class='bi bi-pencil'></i> Edit
                             </a>
                         </li>
-                        <li>
-                            <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal'
-                               data-bs-target='#deleteAssetModal1' title='Delete asset'>
-                               <i class='bi bi-trash'></i> Delete
-                            </a>
-                        </li>
+            
                         <li>
                             <a class='dropdown-item text-secondary' href='#' data-bs-toggle='modal'
                                data-bs-target='#qrModal1' title='Generate QR code'>
