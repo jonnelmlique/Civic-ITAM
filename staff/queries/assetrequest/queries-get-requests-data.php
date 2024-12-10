@@ -35,24 +35,19 @@ try {
     $stmt->bind_result($totalRequests, $approvedRequests, $pendingRequests, $declinedRequests);
     $stmt->fetch();
 
-    // Update the response with the fetched counts
     $response['totalRequests'] = $totalRequests;
     $response['approvedRequests'] = $approvedRequests;
     $response['pendingRequests'] = $pendingRequests;
     $response['declinedRequests'] = $declinedRequests;
 
-    // Close the statement
     $stmt->close();
     
 } catch (Exception $e) {
-    // Handle any errors
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     exit;
 }
 
-// Close the database connection
 $conn->close();
 
-// Return the response data as JSON
 echo json_encode($response);
 ?>

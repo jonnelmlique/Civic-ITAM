@@ -35,18 +35,10 @@ if (!isset($_SESSION['username'])) {
             <li><a href="./asset.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
-            <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
-            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li> -->
+
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
                     Tickets</a></li>
-            <!-- <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
-                    Schedule</a></li>
-            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
-            </li>
-            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i>
-                    Diagnostic History</a></li>
-            <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage
-                    requests</a></li> -->
+
         </ul>
     </div>
     <div id="content">
@@ -79,27 +71,6 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
         </nav>
-        <!-- <div id="content">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-            <div class="container-fluid">
-                <button class="btn btn-orange" id="sidebarToggle">
-                    <i class="bi bi-list"></i>
-                </button>
-                <a class="navbar-brand ms-3" href="#">Asset Management</a>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i> TWICE
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            <li><a class="dropdown-item" href="./profile.php">Profile</a></li>
-                            <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </nav> -->
 
         <div class="container-fluid py-4">
 
@@ -161,126 +132,159 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <div class="container-fluid py-4">
-                <div class="row mb-4">
-                    <div class="col-12">
-                        <!-- <h3 class="text-dark">My Assets</h3>
-                        <p class="text-muted">View your assigned assets, update asset details if required, or report any
-                            issues.</p> -->
-                    </div>
+            <div class="row mt-3">
+                <div class="col-12 text-end">
+                    <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                        class="btn btn-orange">
+                        <i class="bi bi-plus-lg"></i> Submit New Request
+                    </a>
+
                 </div>
-                <!-- //tobechange -->
-                <?php
+            </div>
+
+            <?php
 include '../src/config/config.php';
 
-$username = $_SESSION['username'];
+$loggedInUser = $_SESSION['username'];
 
+$itemsPerPage = 5; 
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+$offset = ($currentPage - 1) * $itemsPerPage; 
+
+$totalRequests = 0;
+$sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests WHERE requestedby = ?";
+$stmtTotal = $conn->prepare($sqlTotal);
+if ($stmtTotal) {
+    $stmtTotal->bind_param("s", $loggedInUser);
+    $stmtTotal->execute();
+    $resultTotal = $stmtTotal->get_result();
+    if ($resultTotal) {
+        $totalRequests = $resultTotal->fetch_assoc()['total'];
+    }
+    $stmtTotal->close();
+}
+
+$assetRequests = [];
 $sql = "SELECT requestid, assetname, category, reason, status, createddate 
         FROM assetrequests 
         WHERE requestedby = ? 
-        ORDER BY createddate DESC";
-
+        ORDER BY createddate DESC 
+        LIMIT ? OFFSET ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('s', $username);
-$stmt->execute();
-$result = $stmt->get_result();
 
-?>
-
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
-                            onkeyup="searchTable()">
-                        <table class="table table-hover table-striped shadow-sm" id="assetRequestsTable">
-                            <thead class="bg-orange text-white">
-                                <tr>
-                                    <th scope="col">Asset Name</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Reason</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Created Date</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['assetname']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['category']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['reason']); ?></td>
-                                    <td>
-                                        <span class="badge <?php echo getStatusClass($row['status']); ?>">
-                                            <?php echo htmlspecialchars($row['status']); ?>
-                                        </span>
-                                    </td>
-                                    <td><?php echo date("Y-m-d", strtotime($row['createddate'])); ?></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewAssetModal"
-                                            data-requestid="<?php echo $row['requestid']; ?>">
-                                            View
-                                        </button>
-                                        <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#viewAssetModal"
-                                            data-assetname="<?php echo htmlspecialchars($row['assetname']); ?>"
-                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
-                                            data-reason="<?php echo htmlspecialchars($row['reason']); ?>"
-                                            data-status="<?php echo htmlspecialchars($row['status']); ?>"
-                                            data-createddate="<?php echo htmlspecialchars($row['createddate']); ?>">
-                                            View
-                                        </button>
-                                        <!-- <button class="btn btn-sm btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#editAssetModal"
-                                            data-requestid="<?php echo $row['requestid']; ?>"
-                                            data-assetname="<?php echo htmlspecialchars($row['assetname']); ?>"
-                                            data-category="<?php echo htmlspecialchars($row['category']); ?>"
-                                            data-remarks="<?php echo htmlspecialchars($row['reason']); ?>">
-                                            Edit
-                                        </button> -->
-
-
-
-
-                                    </td>
-                                </tr>
-                                <?php
-                    }
-                } else {
-                    ?>
-                                <tr>
-                                    <td colspan="6" class="text-center">No asset requests found.</td>
-                                </tr>
-                                <?php
-                }
-                $stmt->close();
-                $conn->close();
-                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <?php
-function getStatusClass($status)
-{
-    switch ($status) {
-        case 'Pending':
-            return 'bg-warning';
-        case 'In Use':
-            return 'bg-success';
-        case 'Under Maintenance':
-            return 'bg-danger';
-        default:
-            return 'bg-secondary';
+if ($stmt) {
+    $stmt->bind_param("sii", $loggedInUser, $itemsPerPage, $offset); 
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $assetRequests[] = $row;
+        }
+    } else {
+        $errorMessage = "No requests found for the user.";
     }
+    $stmt->close();
+} else {
+    $errorMessage = "Error preparing the SQL statement: " . $conn->error;
 }
+
+$totalPages = ceil($totalRequests / $itemsPerPage);
 ?>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
+                        onkeyup="searchTable()">
+                    <table class="table table-hover table-striped shadow-sm" id="assetRequestsTable">
+                        <thead class="bg-orange text-white">
+                            <tr>
+                                <th scope="col">Asset Name</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Reason</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Created Date</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($assetRequests)): ?>
+                            <?php foreach ($assetRequests as $request): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($request['assetname']); ?></td>
+                                <td><?php echo htmlspecialchars($request['category']); ?></td>
+                                <td><?php echo htmlspecialchars($request['reason']); ?></td>
+                                <td>
+                                    <span class="badge 
+                                    <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
+                                            ($request['status'] === 'In Use' ? 'bg-success' : 'bg-danger'); ?>">
+                                        <?php echo htmlspecialchars($request['status']); ?>
+                                    </span>
+                                </td>
+                                <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button"
+                                            id="actionDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+
+                                                <a href="viewAsset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                                                    class="dropdown-item text-primary"> <i class="bi bi-eye"></i> View
 
 
+                                            </li>
+                                            <li>
+                                                <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                                                    class="dropdown-item text-warning"><i class="bi bi-pencil"></i>
+                                                    Edit
+
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                            <?php endforeach; ?>
+                            <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No asset requests found for you.</td>
+                            </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <?php if ($currentPage > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>" aria-label="Previous">
+                                    <span aria-hidden="true">Previous</span>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                            <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
+                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                            <?php endfor; ?>
+
+                            <?php if ($currentPage < $totalPages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>" aria-label="Next">
+                                    <span aria-hidden="true">Next</span>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                </div>
             </div>
+
             <div class="modal fade" id="viewAssetModal" tabindex="-1" aria-labelledby="viewAssetModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -300,262 +304,91 @@ function getStatusClass($status)
                 </div>
             </div>
 
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+            <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+            <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+            <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            <div class="modal fade" id="editAssetModal" tabindex="-1" aria-labelledby="editAssetModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="editAssetModalLabel">Edit Asset</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="editAssetName" class="form-label">Asset Name</label>
-                                    <input type="text" class="form-control" id="editAssetName">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editAssetCategory" class="form-label">Category</label>
-                                    <select class="form-select" id="editAssetCategory">
-                                        <option value="Computers">Computers</option>
-                                        <option value="Printers">Printers</option>
-                                        <option value="Monitors">Monitors</option>
-                                        <option value="Accessories">Accessories</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="editAssetRemarks" class="form-label">Remarks</label>
-                                    <textarea class="form-control" id="editAssetRemarks" rows="3"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-orange">Save Changes</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <script>
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                document.getElementById('sidebar').classList.toggle('collapsed');
+                document.getElementById('content').classList.toggle('collapsed');
+            });
+            </script>
 
 
-            <!-- <div class="modal fade" id="reportIssueModal" tabindex="-1" aria-labelledby="reportIssueModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-orange text-white">
-                            <h5 class="modal-title" id="reportIssueModalLabel">Report Issue</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="issueAssetName" class="form-label">Asset Name</label>
-                                    <input type="text" class="form-control" id="issueAssetName" value="Dell Laptop"
-                                        disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="issueDescription" class="form-label">Issue Description</label>
-                                    <textarea class="form-control" id="issueDescription" rows="3"
-                                        placeholder="Describe the issue"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-orange">Submit Issue</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            <script>
+            function searchTable() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toLowerCase();
+                const table = document.getElementById('assetRequestsTable');
+                const rows = table.getElementsByTagName('tr');
 
-            <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#requestAssetModal">
-                        <i class="bi bi-plus-lg"></i> Submit New Request
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="requestAssetModal" tabindex="-1" aria-labelledby="requestAssetModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="requestAssetModalLabel">Submit New Asset Request</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <input type="hidden" id="sessionUsername"
-                                    value="<?php echo htmlspecialchars($_SESSION['username']); ?>">
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let match = false;
 
-                                <label for="requestAssetName" class="form-label">Asset Name</label>
-                                <input type="text" class="form-control" id="requestAssetName"
-                                    placeholder="Enter asset name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="requestCategory" class="form-label">Category</label>
-                                <select class="form-select" id="requestCategory">
-                                    <option value="">Select Category</option>
-                                    <option value="Computers">Computers</option>
-                                    <option value="Printers">Printers</option>
-                                    <option value="Monitors">Monitors</option>
-                                    <option value="Accessories">Accessories</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="requestReason" class="form-label">Reason</label>
-                                <textarea class="form-control" id="requestReason" rows="3"
-                                    placeholder="Why do you need this asset?"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-orange">Submit Request</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-        <script>
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-            document.getElementById('content').classList.toggle('collapsed');
-        });
-        </script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const requestForm = document.querySelector('#requestAssetModal form');
-            const sessionUsername = document.getElementById('sessionUsername').value;
-
-            function loadTableData() {
-                fetch('./queries/assetrequest/queries-get_asset_requests.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `requestedBy=${encodeURIComponent(sessionUsername)}`
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        const tableBody = document.querySelector('#assetRequestsTable tbody');
-                        tableBody.innerHTML = data;
-                    })
-                    .catch(error => console.error('Error fetching table data:', error));
-            }
-
-            requestForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const assetName = document.getElementById('requestAssetName').value.trim();
-                const category = document.getElementById('requestCategory').value;
-                const reason = document.getElementById('requestReason').value.trim();
-
-                if (!assetName || !category || !reason) {
-                    Swal.fire('Error!', 'All fields are required.', 'error');
-                    return;
-                }
-
-                fetch('./queries/assetrequest/queries-add_asset_request.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `assetName=${encodeURIComponent(assetName)}&category=${encodeURIComponent(category)}&reason=${encodeURIComponent(reason)}&requestedBy=${encodeURIComponent(sessionUsername)}`,
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire('Success!', data.message, 'success');
-                            requestForm.reset();
-                            $('#requestAssetModal').modal('hide');
-                            loadTableData();
-                        } else {
-                            Swal.fire('Error!', data.message, 'error');
+                    for (let j = 0; j < cells.length - 1; j++) {
+                        if (cells[j].textContent.toLowerCase().includes(filter)) {
+                            match = true;
+                            break;
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire('Error!', 'An unexpected error occurred.', 'error');
-                    });
-            });
-
-            loadTableData();
-        });
-        </script>
-
-        <script>
-        function searchTable() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
-            const table = document.getElementById('assetRequestsTable');
-            const rows = table.getElementsByTagName('tr');
-
-            for (let i = 1; i < rows.length; i++) {
-                const cells = rows[i].getElementsByTagName('td');
-                let match = false;
-
-                for (let j = 0; j < cells.length - 1; j++) {
-                    if (cells[j].textContent.toLowerCase().includes(filter)) {
-                        match = true;
-                        break;
                     }
-                }
 
-                rows[i].style.display = match ? '' : 'none';
+                    rows[i].style.display = match ? '' : 'none';
+                }
             }
-        }
-        </script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const viewAssetModal = document.getElementById('viewAssetModal');
+            </script>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const viewAssetModal = document.getElementById('viewAssetModal');
 
-            viewAssetModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget;
+                viewAssetModal.addEventListener('show.bs.modal', function(event) {
+                    const button = event.relatedTarget;
 
-                const assetName = button.getAttribute('data-assetname');
-                const category = button.getAttribute('data-category');
-                const reason = button.getAttribute('data-reason');
-                const status = button.getAttribute('data-status');
-                const createdDate = button.getAttribute('data-createddate');
+                    const assetName = button.getAttribute('data-assetname');
+                    const category = button.getAttribute('data-category');
+                    const reason = button.getAttribute('data-reason');
+                    const status = button.getAttribute('data-status');
+                    const createdDate = button.getAttribute('data-createddate');
 
-                document.getElementById('assetName').textContent = assetName;
-                document.getElementById('assetCategory').textContent = category;
-                document.getElementById('assetReason').textContent = reason;
-                document.getElementById('assetStatus').textContent = status;
-                document.getElementById('assetCreatedDate').textContent = createdDate;
+                    document.getElementById('assetName').textContent = assetName;
+                    document.getElementById('assetCategory').textContent = category;
+                    document.getElementById('assetReason').textContent = reason;
+                    document.getElementById('assetStatus').textContent = status;
+                    document.getElementById('assetCreatedDate').textContent = createdDate;
+                });
             });
-        });
-        </script>
-        <script>
-        function fetchRequestData() {
-            $.ajax({
-                url: './queries/assetrequest/queries-get-requests-data.php',
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    $('#totalRequests').text(response.totalRequests);
-                    $('#approvedRequests').text(response.approvedRequests);
-                    $('#pendingRequests').text(response.pendingRequests);
-                    $('#declinedRequests').text(response.declinedRequests);
-                },
-                error: function() {
-                    console.error("Error fetching request data.");
-                }
+            </script>
+            <script>
+            function fetchRequestData() {
+                $.ajax({
+                    url: './queries/assetrequest/queries-get-requests-data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        $('#totalRequests').text(response.totalRequests);
+                        $('#approvedRequests').text(response.approvedRequests);
+                        $('#pendingRequests').text(response.pendingRequests);
+                        $('#declinedRequests').text(response.declinedRequests);
+                    },
+                    error: function() {
+                        console.error("Error fetching request data.");
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                fetchRequestData();
+
+                setInterval(fetchRequestData, 100);
             });
-        }
-
-        $(document).ready(function() {
-            fetchRequestData();
-
-            setInterval(fetchRequestData, 100);
-        });
-        </script>
+            </script>
 
 </body>
 

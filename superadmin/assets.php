@@ -426,10 +426,10 @@ $conn->close();
                                         <label for="category" class="form-label">Category</label>
                                         <select class="form-select shadow-sm" id="category" name="category" required>
                                             <option value="">Select Category</option>
-                                            <option value="Desktops">Desktop</option>
-                                            <option value="Laptops">Laptop</option>
-                                            <option value="Printers">Printers</option>
-                                            <option value="Peripherals">Peripherals</option>
+                                            <option value="Desktop">Desktop</option>
+                                            <option value="Laptop">Laptop</option>
+                                            <option value="Printer">Printer</option>
+                                            <option value="Peripheral">Peripheral</option>
                                         </select>
                                     </div>
                                 </div>

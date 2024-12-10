@@ -43,15 +43,6 @@ CREATE TABLE tickets (
     assignedto VARCHAR(255) NULL,            
     lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
 );
-CREATE TABLE assetrequests (
-    requestid INT AUTO_INCREMENT PRIMARY KEY,    
-    assetname VARCHAR(255) NOT NULL,            
-    category VARCHAR(255) NOT NULL,               
-    reason TEXT NOT NULL,                         
-    status VARCHAR(255) DEFAULT 'Pending',
-    createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    requestedby VARCHAR(255) NOT NULL             
-);
 
 CREATE TABLE maintenance_requests (
     request_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -94,6 +85,17 @@ CREATE TABLE assetdetails (
     createdby VARCHAR(255) NOT NULL,
     lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE assetrequests (
+    requestid INT AUTO_INCREMENT PRIMARY KEY,    
+    assetname VARCHAR(255) NOT NULL,            
+    category VARCHAR(255) NOT NULL,               
+    reason TEXT NOT NULL,                         
+    status VARCHAR(255) DEFAULT 'Pending',
+    createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    requestedby VARCHAR(255) NOT NULL             
+);
+
 
 //Not final and subject to change based on what is needed
 //pwede nyo palitan

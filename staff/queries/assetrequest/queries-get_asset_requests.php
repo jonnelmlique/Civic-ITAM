@@ -37,13 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             View
         </button>
 
-        <!-- <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editAssetModal"
+        <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editAssetModal"
             data-requestid="<?php echo $row['requestid']; ?>"
             data-assetname="<?php echo htmlspecialchars($row['assetname']); ?>"
             data-category="<?php echo htmlspecialchars($row['category']); ?>"
             data-remarks="<?php echo htmlspecialchars($row['reason']); ?>">
             Edit
-        </button> -->
+        </button>
 
 
 
