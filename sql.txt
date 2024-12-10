@@ -74,6 +74,7 @@ CREATE TABLE assetrequests (
     createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     requestedby VARCHAR(255) NOT NULL             
 );
+    lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 
 //Not final and subject to change based on what is needed
@@ -101,7 +102,6 @@ CREATE TABLE assetdetails (
     lifespan INT NOT NULL,
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdby VARCHAR(255) NOT NULL,
-    lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE assetconsignment (
