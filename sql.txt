@@ -67,12 +67,14 @@ CREATE TABLE overdue_assets (
 
 CREATE TABLE assetrequests (
     requestid INT AUTO_INCREMENT PRIMARY KEY,    
+    assetid INT NOT NULL,                         
     assetname VARCHAR(255) NOT NULL,            
     category VARCHAR(255) NOT NULL,               
     reason TEXT NOT NULL,                         
     status VARCHAR(255) DEFAULT 'Pending',
     createddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-    requestedby VARCHAR(255) NOT NULL             
+    requestedby VARCHAR(255) NOT NULL,     
+    FOREIGN KEY (assetid) REFERENCES assetdetails(id)         
 );
     lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 

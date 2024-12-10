@@ -29,7 +29,7 @@ if (!isset($_SESSION['username'])) {
         <ul class="nav flex-column">
             <li><a href="./dashboard.php" class="nav-link text-white"><i class="bi bi-layout-text-window-reverse"></i>
                     Dashboard</a></li>
-            <li><a href="./asset.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
+            <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
             <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>

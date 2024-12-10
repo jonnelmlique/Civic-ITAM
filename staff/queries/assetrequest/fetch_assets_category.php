@@ -6,7 +6,9 @@ $category = '';
 if (isset($_POST['category']) && !empty($_POST['category'])) {
     $category = $_POST['category'];
 
-    $sql = "SELECT assetname FROM assetdetails WHERE category = ? AND stock > 0 AND status = 'Available'";
+    $sql = "SELECT id, assetname 
+            FROM assetdetails 
+            WHERE category = ? AND stock > 0 AND status = 'Available'";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
@@ -20,11 +22,14 @@ if (isset($_POST['category']) && !empty($_POST['category'])) {
 
     $assets = [];
     while ($row = $result->fetch_assoc()) {
-        $assets[] = $row['assetname'];
+        $assets[] = [
+            'id' => $row['id'],
+            'name' => $row['assetname']
+        ];
     }
 
     if (!empty($assets)) {
-        echo json_encode($assets);
+        echo json_encode($assets); 
     } else {
         echo json_encode(['error' => 'No available assets found for this category']);
     }

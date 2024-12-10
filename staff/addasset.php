@@ -46,27 +46,27 @@ $errorMessage = '';
 $category = 'Uncategorized';  
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['assetName']) && !empty($_POST['assetName']) &&
-        isset($_POST['requestReason']) && !empty($_POST['requestReason']) &&
-        isset($_POST['requestCategory']) && !empty($_POST['requestCategory'])) {
-
-        $assetName = $_POST['assetName'];
+    if (!empty($_POST['assetName']) && !empty($_POST['requestReason']) && !empty($_POST['requestCategory'])) {
+        $assetId = $_POST['assetName']; // This is the asset ID now
         $reason = $_POST['requestReason'];
-        $category = $_POST['requestCategory']; 
+        $category = $_POST['requestCategory'];
         $requestedBy = $_SESSION['username'];
 
-        $sql = "INSERT INTO assetrequests (assetname, category, reason, requestedby) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO assetrequests (assetid, assetname, category, reason, requestedby) 
+                VALUES (?, 
+                        (SELECT assetname FROM assetdetails WHERE id = ?), 
+                        ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
-        if ($stmt === false) {
-            $errorMessage = 'Error preparing statement: ' . $conn->error;
-        } else {
-            $stmt->bind_param("ssss", $assetName, $category, $reason, $requestedBy);
+        if ($stmt) {
+            $stmt->bind_param("issss", $assetId, $assetId, $category, $reason, $requestedBy);
             if ($stmt->execute()) {
                 $successMessage = 'Asset request submitted successfully!';
             } else {
                 $errorMessage = 'Error executing query: ' . $stmt->error;
             }
+        } else {
+            $errorMessage = 'Error preparing statement: ' . $conn->error;
         }
     } else {
         $errorMessage = 'Please fill out all required fields.';
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <ul class="nav flex-column">
             <li><a href="./dashboard.php" class="nav-link text-white"><i class="bi bi-layout-text-window-reverse"></i>
                     Dashboard</a></li>
-            <li><a href="./asset.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
+            <li><a href="./assets.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="text-center mt-4">
                             <button type="submit" class="btn btn-orange px-4 py-2">Submit Request</button>
-                            <a href="asset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                            <a href="assets.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
                                 class="btn btn-danger">Back</a>
                         </div>
                     </form>
@@ -213,43 +213,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </script>
 
         <script>
-        $('#requestCategory').on('change', function() {
-            var category = $(this).val();
+     $('#requestCategory').on('change', function() {
+    var category = $(this).val();
 
-            if (category) {
-                $.ajax({
-                    url: './queries/assetrequest/fetch_assets_category.php',
-                    type: 'POST',
-                    data: {
-                        category: category
-                    },
-                    success: function(response) {
-                        var assets = JSON.parse(response);
-                        var assetSelect = $('#assetName');
+    if (category) {
+        $.ajax({
+            url: './queries/assetrequest/fetch_assets_category.php',
+            type: 'POST',
+            data: { category: category },
+            success: function(response) {
+                var assets = JSON.parse(response);
+                var assetSelect = $('#assetName');
 
-                        assetSelect.empty();
-                        assetSelect.append('<option value="">Select Asset</option>');
+                assetSelect.empty();
+                assetSelect.append('<option value="">Select Asset</option>');
 
-                        if (assets.length > 0) {
-                            $.each(assets, function(index, asset) {
-                                assetSelect.append('<option value="' + asset + '">' +
-                                    asset +
-                                    '</option>');
-                            });
-                        } else {
-                            assetSelect.append(
-                                '<option value="">No assets available for this category</option>'
-                            );
-                        }
-                    },
-                    error: function() {
-                        alert('Error fetching assets.');
-                    }
-                });
-            } else {
-                $('#assetName').empty().append('<option value="">Select Asset</option>');
+                if (Array.isArray(assets)) {
+                    $.each(assets, function(index, asset) {
+                        assetSelect.append('<option value="' + asset.id + '">' + asset.name + '</option>');
+                    });
+                } else {
+                    assetSelect.append('<option value="">No assets available for this category</option>');
+                }
+            },
+            error: function() {
+                alert('Error fetching assets.');
             }
         });
+    } else {
+        $('#assetName').empty().append('<option value="">Select Asset</option>');
+    }
+});
+
         </script>
         <script>
         <?php if ($successMessage): ?>
@@ -261,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href =
-                    './asset.php';
+                    './assets.php';
             }
         });
         <?php endif; ?>

@@ -31,7 +31,7 @@ if (!isset($_SESSION['username'])) {
         <ul class="nav flex-column">
             <li><a href="./dashboard.php" class="nav-link text-white"><i class="bi bi-layout-text-window-reverse"></i>
                     Dashboard</a></li>
-            <li><a href="./asset.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
+            <li><a href="./assets.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     rows="3"><?php echo htmlspecialchars($asset['reason']); ?></textarea>
                             </div>
                             <button type="submit" class="btn btn-orange">Save Changes</button>
-                            <a href="asset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                            <a href="assets.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
                                 class="btn btn-danger">Back</a>
 
 
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             if (result.isConfirmed) {
                                 const currentPage = new URLSearchParams(window.location.search).get('page') ||
                                     1;
-                                window.location.href = 'asset.php?page=' + currentPage;
+                                window.location.href = 'assets.php?page=' + currentPage;
                             }
                         });
                         <?php endif; ?>
