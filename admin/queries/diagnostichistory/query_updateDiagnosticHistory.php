@@ -17,14 +17,15 @@ $assetID = $_POST['assetID'];
 $conductedby = $_POST['conductedby'];
 $diagnosticDetails = $_POST['diagnosticDetails'];
 $status = $_POST['status'];
-
+$job = $_POST['job'];
+$jobtype = $_POST['jobtype'];
 
 $query = "UPDATE diagnostichistory
-          SET diagnosticID = ?, assetdetailsid = ?, conductedby = ?, remarks = ?, status = ?
+          SET diagnosticID = ?, assetdetailsid = ?, conductedby = ?, remarks = ?, status = ?, job = ?, jobtype = ?
           WHERE id = ?";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("sisssi", $diagnosticID, $assetID, $conductedby, $diagnosticDetails, $status, $id);
+$stmt->bind_param("sisssssi", $diagnosticID, $assetID, $conductedby, $diagnosticDetails, $status, $job, $jobtype, $id);
 
 if ($stmt->execute()) {
     $response = ['response_type' => 'success', 'response' => 'Diagnostic history updated successfully.'];
