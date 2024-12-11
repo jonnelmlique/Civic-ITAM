@@ -306,8 +306,11 @@
                                     <div class="mb-3">
                                         <label for="department" class="form-label">Department</label>
                                         <select class="form-select" name="department" required>
-                                            <option value="ADMIN">ADMIN</option>
+                            <option value="Admin">Admin</option>
                                             <option value="CSD">CSD</option>
+                                            <option value="IT Support">IT Support</option>
+                                            <option value="Infrastructure">Infrastructure</option>
+
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -443,8 +446,10 @@
                                     <div class="mb-3">
                                         <label for="editDepartment" class="form-label">Department</label>
                                         <select class="form-select" id="editDepartment" name="department" required>
-                                            <option value="ADMIN">ADMIN</option>
+                                        <option value="Admin">Admin</option>
                                             <option value="CSD">CSD</option>
+                                            <option value="IT Support">IT Support</option>
+                                            <option value="Infrastructure">Infrastructure</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -519,8 +524,14 @@
                             '0');
                         const fullName = result.data.first_name + ' ' + result.data.last_name;
                         const email = result.data.email;
-                        const role = result.data.role;
-                        const status = result.data.status;
+                        let role = result.data.role;
+                        if (role === 'admin') {
+                            role = 'Admin';
+                        } else if (role === 'itstaff') {
+                            role = 'IT Staff';
+                        } else if (role === 'employee') {
+                            role = 'Employee';
+                        }                        const status = result.data.status;
                         const badgeClass = status === 'Activated' ? 'bg-success' : 'bg-danger';
 
                         newRow.innerHTML = `
@@ -625,7 +636,7 @@
             var email = $(this).data('email');
             var contactNumber = $(this).data('contactnumber');
             var department = $(this).data('department');
-            var role = $(this).data('role'); // Directly fetch formatted role
+            var role = $(this).data('role');
             var status = $(this).data('status');
 
             $('#editUserId').val(userId);
@@ -635,7 +646,7 @@
             $('#editEmail').val(email);
             $('#editContactNumber').val(contactNumber);
             $('#editDepartment').val(department);
-            $('#editRole').val(role); // Use the fetched role value
+            $('#editRole').val(role); 
             $('#editStatus').val(status);
         });
         </script>

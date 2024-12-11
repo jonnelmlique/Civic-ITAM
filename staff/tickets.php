@@ -32,18 +32,10 @@ if (!isset($_SESSION['username'])) {
             <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
-            <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
-            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li> -->
+           
             <li><a href="./tickets.php" class="nav-link text-white active"><i class="bi bi-ticket-perforated"></i>
                     Tickets</a></li>
-            <!-- <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
-                    Schedule</a></li>
-            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
-            </li>
-            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i>
-                    History</a></li>
-            <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage
-                    requests</a></li> -->
+          
         </ul>
     </div>
     <div id="content">
@@ -81,9 +73,7 @@ if (!isset($_SESSION['username'])) {
 
             <div class="row mb-4">
                 <div class="col-12">
-                    <!-- <h3 class="text-dark">My Tickets</h3>
-                    <p class="text-muted">Submit requests for assets you need to perform your tasks effectively. You can
-                        also track the status of your submitted requests below.</p> -->
+               
                 </div>
             </div>
             <div class="row g-3">
@@ -138,8 +128,7 @@ if (!isset($_SESSION['username'])) {
             <div class="container-fluid py-4">
                 <div class="row mb-4">
                     <div class="col-12">
-                        <!-- <h3 class="text-dark">My Tickets</h3>
-            <p class="text-muted">Track and manage your support tickets, or create a new ticket for any issue or request.</p> -->
+              
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -179,7 +168,6 @@ if (!isset($_SESSION['username'])) {
                             $lastUpdated = htmlspecialchars($row['lastupdated']);
                             $badgeClass = ($status === 'Open') ? 'bg-primary' : (($status === 'In Progress') ? 'bg-warning' : 'bg-secondary');
 
-                            // Use <?= to output PHP variables in the HTML
                             echo "<tr>
                                 <td>$ticketId</td>
                                 <td>$subject</td>

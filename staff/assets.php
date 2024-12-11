@@ -76,9 +76,7 @@ if (!isset($_SESSION['username'])) {
 
             <div class="row mb-4">
                 <div class="col-12">
-                    <!-- <h3 class="text-dark">My Asset</h3>
-                    <p class="text-muted">Submit requests for assets you need to perform your tasks effectively. You can
-                        also track the status of your submitted requests below.</p> -->
+                
                 </div>
             </div>
 
@@ -142,55 +140,55 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
 
-            <?php
-include '../src/config/config.php';
+                        <?php
+            include '../src/config/config.php';
 
-$loggedInUser = $_SESSION['username'];
+            $loggedInUser = $_SESSION['username'];
 
-$itemsPerPage = 5; 
-$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
-$offset = ($currentPage - 1) * $itemsPerPage; 
+            $itemsPerPage = 5; 
+            $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+            $offset = ($currentPage - 1) * $itemsPerPage; 
 
-$totalRequests = 0;
-$sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests WHERE requestedby = ?";
-$stmtTotal = $conn->prepare($sqlTotal);
-if ($stmtTotal) {
-    $stmtTotal->bind_param("s", $loggedInUser);
-    $stmtTotal->execute();
-    $resultTotal = $stmtTotal->get_result();
-    if ($resultTotal) {
-        $totalRequests = $resultTotal->fetch_assoc()['total'];
-    }
-    $stmtTotal->close();
-}
+            $totalRequests = 0;
+            $sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests WHERE requestedby = ?";
+            $stmtTotal = $conn->prepare($sqlTotal);
+            if ($stmtTotal) {
+                $stmtTotal->bind_param("s", $loggedInUser);
+                $stmtTotal->execute();
+                $resultTotal = $stmtTotal->get_result();
+                if ($resultTotal) {
+                    $totalRequests = $resultTotal->fetch_assoc()['total'];
+                }
+                $stmtTotal->close();
+            }
 
-$assetRequests = [];
-$sql = "SELECT requestid, assetname, category, reason, status, createddate 
-        FROM assetrequests 
-        WHERE requestedby = ? 
-        ORDER BY createddate DESC 
-        LIMIT ? OFFSET ?";
-$stmt = $conn->prepare($sql);
+            $assetRequests = [];
+            $sql = "SELECT requestid, assetname, category, reason, status, createddate 
+                    FROM assetrequests 
+                    WHERE requestedby = ? 
+                    ORDER BY createddate DESC 
+                    LIMIT ? OFFSET ?";
+            $stmt = $conn->prepare($sql);
 
-if ($stmt) {
-    $stmt->bind_param("sii", $loggedInUser, $itemsPerPage, $offset); 
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result && $result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $assetRequests[] = $row;
-        }
-    } else {
-        $errorMessage = "No requests found for the user.";
-    }
-    $stmt->close();
-} else {
-    $errorMessage = "Error preparing the SQL statement: " . $conn->error;
-}
+            if ($stmt) {
+                $stmt->bind_param("sii", $loggedInUser, $itemsPerPage, $offset); 
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $assetRequests[] = $row;
+                    }
+                } else {
+                    $errorMessage = "No requests found for the user.";
+                }
+                $stmt->close();
+            } else {
+                $errorMessage = "Error preparing the SQL statement: " . $conn->error;
+            }
 
-$totalPages = ceil($totalRequests / $itemsPerPage);
-?>
+            $totalPages = ceil($totalRequests / $itemsPerPage);
+            ?>
             <div class="row mt-4">
                 <div class="col-12">
                     <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
@@ -233,8 +231,6 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
 
                                                 <a href="viewAsset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
                                                     class="dropdown-item text-primary"> <i class="bi bi-eye"></i> View
-
-
                                             </li>
                                             <li>
                                                 <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
@@ -322,19 +318,17 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
             </script>
 
 
-<script>
-    function searchTable() {
-        const input = document.getElementById('searchInput');
-        const filter = input.value.toLowerCase();
-        
-        // Get the current page number from the URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentPage = urlParams.get('page') || 1;
+        <script>
+            function searchTable() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toLowerCase();
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentPage = urlParams.get('page') || 1;
 
-        // Redirect to the same page with the search query
-        window.location.href = `?page=${currentPage}&search=${filter}`;
-    }
-</script>
+                window.location.href = `?page=${currentPage}&search=${filter}`;
+            }
+        </script>
 
             <script>
             document.addEventListener('DOMContentLoaded', function() {
