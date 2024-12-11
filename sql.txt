@@ -144,3 +144,12 @@ ALTER TABLE `diagnostichistory`
 	ADD COLUMN `remarks` VARCHAR(255) NULL DEFAULT NULL AFTER `assetdetailsid`,
 	ADD COLUMN `status` VARCHAR(100) NULL DEFAULT NULL AFTER `createdby`;
 
+
+
+
+
+
+// FOR EMPLOYEES LOCK ACCOUNT
+ALTER TABLE employees
+ADD failed_attempts INT DEFAULT 0,
+ADD lock_time INT DEFAULT NULL;
