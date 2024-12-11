@@ -144,3 +144,6 @@ ALTER TABLE `diagnostichistory`
 	ADD COLUMN `remarks` VARCHAR(255) NULL DEFAULT NULL AFTER `assetdetailsid`,
 	ADD COLUMN `status` VARCHAR(100) NULL DEFAULT NULL AFTER `createdby`;
 
+
+ALTER TABLE `maintenance_requests`
+	ADD COLUMN `assetdetails_id` INT(11) NULL DEFAULT NULL AFTER `request_id`;
