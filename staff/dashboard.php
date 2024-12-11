@@ -34,18 +34,8 @@ if (!isset($_SESSION['username'])) {
             <li><a href="./assets.php" class="nav-link text-white"><i class="bi bi-ui-checks-grid"></i> Asset
                     Request</a>
             </li>
-            <!-- <li><a href="./consignment.php" class="nav-link text-white"><i class="bi bi-truck"></i> Consignment</a></li>
-            <li><a href="./pcs.php" class="nav-link text-white"><i class="bi bi-laptop"></i> PC's</a></li> -->
             <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
                     Tickets</a></li>
-            <!-- <li><a href="./schedule.php" class="nav-link text-white"><i class="bi bi-receipt-cutoff"></i>
-                    Schedule</a></li>
-            <li><a href="./reports.php" class="nav-link text-white"><i class="bi bi-file-earmark-text"></i> Reports</a>
-            </li>
-            <li><a href="./diagnostichistory.php" class="nav-link text-white"><i class="fas fa-history"></i>
-                    Diagnostic History</a></li>
-            <li><a href="./managerequest.php" class="nav-link text-white"><i class="bi bi-person"></i> Manage
-                    requests</a></li> -->
         </ul>
     </div>
     <div id="content">
@@ -109,7 +99,7 @@ if (!isset($_SESSION['username'])) {
                 <div class="card-body d-flex align-items-center">
                     <i class="bi bi-receipt-cutoff card-icon text-danger"></i>
                     <div>
-                        <h5 class="card-title">Pending Assets</h5>
+                        <h5 class="card-title">My Request</h5>
                         <p class="card-value" id="pendingAssetsCount">Loading...</p>
                     </div>
                 </div>
@@ -118,16 +108,8 @@ if (!isset($_SESSION['username'])) {
     </div>
 
     <?php
-    define('DB_SERVER', 'localhost');
-    define('DB_USERNAME', 'root');
-    define('DB_PASSWORD', '');
-    define('DB_NAME', 'civicitam');
+    include '../src/config/config.php';
 
-    $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
-    if ($conn->connect_error) {
-        die("ERROR: Could not connect. " . $conn->connect_error);
-    }
 
     $username = $_SESSION['username'];
 
@@ -146,7 +128,7 @@ if (!isset($_SESSION['username'])) {
                     <ul class="list-group">
                         <?php while ($asset = $asset_requests_result->fetch_assoc()) { ?>
                             <?php if ($asset['status'] == 'Pending') { ?>
-                                <li class="list-group-item">Asset #<?php echo $asset['requestid']; ?>
+                                <li class="list-group-item">Asset Request
                                     (<?php echo $asset['assetname']; ?>) is Pending.</li>
                             <?php } ?>
                         <?php } ?>

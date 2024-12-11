@@ -43,7 +43,8 @@ CREATE TABLE tickets (
     status VARCHAR(255) DEFAULT 'Open',      
     createdby VARCHAR(255) NOT NULL,                
     assignedto VARCHAR(255) NULL,            
-    lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
+    lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    seen TINYINT(1) DEFAULT 0 
 );
 
 CREATE TABLE maintenance_requests (
@@ -105,7 +106,7 @@ CREATE TABLE assetdetails (
     stock INT NOT NULL,
     lifespan INT NOT NULL,
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    createdby VARCHAR(255) NOT NULL,
+    createdby VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE assetconsignment (

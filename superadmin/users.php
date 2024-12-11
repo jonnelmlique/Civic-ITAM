@@ -122,7 +122,7 @@
                             <i class="bi bi-person-badge card-icon text-primary me-3"></i>
                             <div>
                                 <h6 class="card-title mb-1">Total Users</h6>
-                                <p class="card-value mb-0">120</p>
+                                <p class="card-value mb-0">0</p>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                             <i class="bi bi-person-plus card-icon text-success me-3"></i>
                             <div>
                                 <h6 class="card-title mb-1">Activated Users</h6>
-                                <p class="card-value mb-0">100</p>
+                                <p class="card-value mb-0">0</p>
                             </div>
                         </div>
                     </div>
@@ -146,7 +146,7 @@
                             <i class="bi bi-person-x card-icon text-warning me-3"></i>
                             <div>
                                 <h6 class="card-title mb-1">Deactivated Users</h6>
-                                <p class="card-value mb-0">20</p>
+                                <p class="card-value mb-0">0</p>
                             </div>
                         </div>
                     </div>
@@ -531,7 +531,7 @@
                             role = 'IT Staff';
                         } else if (role === 'employee') {
                             role = 'Employee';
-                        }                        const status = result.data.status;
+                        }  const status = result.data.status;
                         const badgeClass = status === 'Activated' ? 'bg-success' : 'bg-danger';
 
                         newRow.innerHTML = `

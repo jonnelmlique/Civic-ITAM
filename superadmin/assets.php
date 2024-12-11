@@ -43,6 +43,7 @@ if (!isset($_SESSION['username'])) {
                     <ul class="nav flex-column ps-3">
                         <li><a href="./assets.php" class="nav-link text-white active">Assets</a></li>
                         <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                        <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Requests</a></li>
                     </ul>
                 </div>
             </li>
@@ -185,7 +186,7 @@ if (!isset($_SESSION['username'])) {
                     <table class="table table-hover table-striped shadow-sm mt-3">
                         <thead class="bg-orange text-white">
                             <tr>
-                                <!-- <th scope="col">Asset ID</th> -->
+                                 <th scope="col">Asset ID</th>
                                 <th scope="col">Asset Name</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Stock</th>
@@ -242,6 +243,7 @@ if (!isset($_SESSION['username'])) {
                 $formattedDate = date('Y-m-d', strtotime($createdDate));
 
         echo "<tr>
+            <td>$id</td>
             <td>$assetName</td>
             <td>$category</td>
             <td>$stock</td>
@@ -421,10 +423,22 @@ $conn->close();
                                         <label for="category" class="form-label">Category</label>
                                         <select class="form-select shadow-sm" id="category" name="category" required>
                                             <option value="">Select Category</option>
-                                            <option value="Desktop">Desktop</option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Printer">Printer</option>
-                                            <option value="Peripheral">Peripheral</option>
+\                                        <option value="">Select Category</option>
+                                            <option value="Laptops">Laptop</option>
+                                            <option value="Printers">Printer</option>
+                                            <option value="CPU">CPU</option>
+                                            <option value="Motherboard">Motherboard</option>
+                                            <option value="RAM">RAM</option>
+                                            <option value="GPU">GPU</option>
+                                            <option value="Storage">Storage</option>
+                                            <option value="Power Supply">Power Supply</option>
+                                            <option value="CPU Cooler">CPU Cooler</option>
+                                            <option value="Case">Case</option>
+                                            <option value="Monitor">Monitor</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Headphones">Headphones</option>
+                                            <option value="Webcam">Webcam </option>
                                         </select>
                                     </div>
                                 </div>
@@ -661,10 +675,21 @@ $conn->close();
                                         <select class="form-select shadow-sm" id="editCategory" name="editCategory"
                                             required>
                                             <option value="">Select Category</option>
-                                            <option value="Desktops">Desktop</option>
                                             <option value="Laptops">Laptop</option>
                                             <option value="Printers">Printer</option>
-                                            <option value="Peripherals">Peripherals</option>
+                                            <option value="CPU">CPU</option>
+                                            <option value="Motherboard">Motherboard</option>
+                                            <option value="RAM">RAM</option>
+                                            <option value="GPU">GPU</option>
+                                            <option value="Storage">Storage</option>
+                                            <option value="Power Supply">Power Supply</option>
+                                            <option value="CPU Cooler">CPU Cooler</option>
+                                            <option value="Case">Case</option>
+                                            <option value="Monitor">Monitor</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Headphones">Headphones</option>
+                                            <option value="Webcams">Webcam </option>
                                         </select>
                                     </div>
                                 </div>
@@ -792,7 +817,6 @@ $conn->close();
                         let tableBody = document.querySelector('table tbody');
                         tableBody.innerHTML = '';
                         data.assets.forEach(asset => {
-                            // Format the createDate (example of format 'Y-m-d')
                             const formattedDate = new Date(asset.createDate);
                             const year = formattedDate.getFullYear();
                             const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
@@ -800,6 +824,7 @@ $conn->close();
                             const formattedCreateDate = `${year}-${month}-${day}`;
                             let row = document.createElement('tr');
                             row.innerHTML = `
+                        <td>${asset.id}</td>
                         <td>${asset.assetname}</td>
                         <td>${asset.category}</td>
                         <td>${asset.stock}</td>
@@ -949,17 +974,53 @@ $conn->close();
                 let lifespan = '';
 
                 switch (category) {
-                    case 'Desktops':
-                        lifespan = 5;
+                    case 'Laptops':
+                        lifespan = '5'; 
                         break;
                     case 'Printers':
-                        lifespan = 4;
-                        break;
-                    case 'Laptops':
-                        lifespan = 5;
+                        lifespan = '3'; 
                         break;
                     case 'Peripherals':
-                        lifespan = 2;
+                        lifespan = '2'; 
+                        break;
+                    case 'CPU':
+                        lifespan = '7'; 
+                        break;
+                    case 'Motherboard':
+                        lifespan = '5'; 
+                        break;
+                    case 'RAM':
+                        lifespan = '5'; 
+                        break;
+                    case 'GPU':
+                        lifespan = '5'; 
+                        break;
+                    case 'Storage':
+                        lifespan = '3'; 
+                        break;
+                    case 'Power Supply':
+                        lifespan = '5'; 
+                        break;
+                    case 'CPU Cooler':
+                        lifespan = '5'; 
+                        break;
+                    case 'Case':
+                        lifespan = '10'; 
+                        break;
+                    case 'Monitor':
+                        lifespan = '5'; 
+                        break;
+                    case 'Keyboard':
+                        lifespan = '3'; 
+                        break;
+                    case 'Mouse':
+                        lifespan = '3'; 
+                        break;
+                    case 'Headphones':
+                        lifespan = '3'; 
+                        break;
+                    case 'Webcam':
+                        lifespan = '3'; 
                         break;
                     default:
                         lifespan = '';
@@ -1045,23 +1106,59 @@ $conn->close();
                 });
             });
             </script>
-            <script>
+                <script>
             document.getElementById('editCategory').addEventListener('change', function() {
                 const category = this.value;
                 let lifespan = '';
 
                 switch (category) {
-                    case 'Desktops':
-                        lifespan = 5;
+                    case 'Laptops':
+                        lifespan = '5'; 
                         break;
                     case 'Printers':
-                        lifespan = 4;
-                        break;
-                    case 'Laptops':
-                        lifespan = 5;
+                        lifespan = '3'; 
                         break;
                     case 'Peripherals':
-                        lifespan = 2;
+                        lifespan = '2'; 
+                        break;
+                    case 'CPU':
+                        lifespan = '7'; 
+                        break;
+                    case 'Motherboard':
+                        lifespan = '5'; 
+                        break;
+                    case 'RAM':
+                        lifespan = '5'; 
+                        break;
+                    case 'GPU':
+                        lifespan = '5'; 
+                        break;
+                    case 'Storage':
+                        lifespan = '3'; 
+                        break;
+                    case 'Power Supply':
+                        lifespan = '5'; 
+                        break;
+                    case 'CPU Cooler':
+                        lifespan = '5'; 
+                        break;
+                    case 'Case':
+                        lifespan = '10'; 
+                        break;
+                        case 'Monitor':
+                        lifespan = '5'; 
+                        break;
+                    case 'Keyboard':
+                        lifespan = '3'; 
+                        break;
+                    case 'Mouse':
+                        lifespan = '3'; 
+                        break;
+                    case 'Headphones':
+                        lifespan = '3'; 
+                        break;
+                    case 'Webcam':
+                        lifespan = '3'; 
                         break;
                     default:
                         lifespan = '';
@@ -1069,7 +1166,7 @@ $conn->close();
 
                 document.getElementById('editLifespan').value = lifespan;
             });
-            </script>
+        </script>
             <script>
             function handleUpdateResponse(response) {
                 if (response.success) {

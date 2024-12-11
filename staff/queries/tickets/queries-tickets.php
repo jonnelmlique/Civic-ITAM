@@ -10,12 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = htmlspecialchars($_POST['description']);
     $category = htmlspecialchars($_POST['category']);
     $status = 'Open'; 
-    $createdBy = $_SESSION['username']; 
+    $createdBy = $_SESSION['username'];
+
+    if ($category == 'Hardware Issues') {
+        $department = 'IT Support';
+    } elseif ($category == 'Network Infrastructure') {
+        $department = 'Infrastructure';
+    } else {
+        $department = '';
+    }
 
     try {
-        $insertStmt = $conn->prepare("INSERT INTO tickets (subject, description, category, status, createdby) 
-                                      VALUES (?, ?, ?, ?, ?)");
-        $insertStmt->bind_param('sssss', $subject, $description, $category, $status, $createdBy);
+        $employeeStmt = $conn->prepare("SELECT username FROM employees WHERE department = ? AND status = 'Activated' ORDER BY RAND() LIMIT 1");
+        $employeeStmt->bind_param('s', $department);
+        $employeeStmt->execute();
+        $employeeStmt->bind_result($assignedTo);
+        $employeeStmt->fetch();
+        $employeeStmt->close();
+
+        if (!$assignedTo) {
+            throw new Exception('No active employee found for the selected department.');
+        }
+
+        $insertStmt = $conn->prepare("INSERT INTO tickets (subject, description, category, status, createdby, assignedto) 
+                                      VALUES (?, ?, ?, ?, ?, ?)");
+        $insertStmt->bind_param('ssssss', $subject, $description, $category, $status, $createdBy, $assignedTo);
 
         if ($insertStmt->execute()) {
             $ticketId = $conn->insert_id;
@@ -29,6 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'Subject' => $subject,
                     'Category' => $category,
                     'Status' => $status,
+                    'AssignedTo' => $assignedTo,
                     'LastUpdated' => $lastUpdated,
                 ]
             ]);

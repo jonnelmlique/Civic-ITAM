@@ -127,9 +127,13 @@ if (!isset($_SESSION['username'])) {
             </div>
             <div class="container-fluid py-4">
                 <div class="row mb-4">
-                    <div class="col-12">
-              
-                    </div>
+                <div class="row mt-3">
+                <div class="col-12 text-end">
+                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+                        <i class="bi bi-plus-lg"></i> Create New Ticket
+                    </button>
+                </div>
+            </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-12">
@@ -219,115 +223,132 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
 
+       
+        </div>
 
-            <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#createTicketModal">
-                        <i class="bi bi-plus-lg"></i> Create New Ticket
+                <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="viewTicketModalLabel" style="font-size: 1.5rem;">View Ticket Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Ticket Title:</strong> 
+                            <span id="viewTicketSubject" style="font-size: 1.2rem;"></span>
+                        </p>
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Category:</strong> 
+                            <span id="viewTicketCategory" style="font-size: 1.2rem;"></span>
+                        </p>
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Description:</strong> 
+                            <span id="viewTicketDescription" style="font-size: 1.2rem;"></span>
+                        </p>
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Status:</strong> 
+                            <span id="viewTicketStatus" style="font-size: 1.2rem;"></span>
+                        </p>
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Last Updated:</strong> 
+                            <span id="viewTicketLastUpdated" style="font-size: 1.2rem;"></span>
+                        </p>
+                        <p class="border p-4 mb-3 rounded-3 bg-light">
+                            <strong style="font-size: 1.3rem;">Assigned To:</strong> 
+                            <span id="viewTicketAssignedTo" style="font-size: 1.2rem;"></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-orange text-white">
+                <h5 class="modal-title" id="editTicketModalLabel" style="font-size: 1.5rem;">Edit Ticket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="editTicketForm">
+                    <input type="hidden" id="editTicketId" name="ticketId">
+                    
+                    <!-- Ticket Title -->
+                    <div class="mb-4">
+                        <label for="editTicketTitle" class="form-label" style="font-size: 1.2rem;">Ticket Title</label>
+                        <input type="text" class="form-control" id="editTicketTitle" name="subject" required
+                            style="font-size: 1.1rem; padding: 0.75rem;">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="editTicketCategory" class="form-label" style="font-size: 1.2rem;">Category</label>
+                        <select class="form-select" id="editTicketCategory" name="category" required
+                            style="font-size: 1.1rem; padding: 0.75rem;">
+                            <option value="Hardware Issues">Hardware Issues</option>
+                            <option value="Network Infrastructure">Network Infrastructure</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="editTicketDescription" class="form-label" style="font-size: 1.2rem;">Description</label>
+                        <textarea class="form-control" id="editTicketDescription" name="description" rows="4" required
+                            style="font-size: 1.1rem; padding: 0.75rem;"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange btn-lg w-100" style="font-size: 1.2rem; padding: 0.75rem;">
+                        Save Changes
                     </button>
-                </div>
+                </form>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="viewTicketModalLabel">View Ticket Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Title:</strong> <span id="viewTicketSubject"></span></p>
-                        <p><strong>Category:</strong> <span id="viewTicketCategory"></span></p>
-                        <p><strong>Description:</strong> <span id="viewTicketDescription"></span></p>
-                        <p><strong>Status:</strong> <span id="viewTicketStatus"></span></p>
-                        <p><strong>Last Updated:</strong> <span id="viewTicketLastUpdated"></span></p>
-                        <p><strong>Assigned To:</strong> <span id="viewTicketAssignedTo"></span></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="editTicketForm">
-                            <input type="hidden" id="editTicketId" name="ticketId">
-                            <div class="mb-3">
-                                <label for="editTicketTitle" class="form-label">Ticket Title</label>
-                                <input type="text" class="form-control" id="editTicketTitle" name="subject" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editTicketCategory" class="form-label">Category</label>
-                                <select class="form-select" id="editTicketCategory" name="category" required>
-                                    <option value="Technical Issue">Technical Issue</option>
-                                    <option value="Request">Request</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="editTicketDescription" class="form-label">Description</label>
-                                <textarea class="form-control" id="editTicketDescription" name="description" rows="3"
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-orange">Save Changes</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="modal fade" id="createTicketModal" tabindex="-1" aria-labelledby="createTicketModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="createTicketModalLabel">Create New Ticket</h5>
+                        <h5 class="modal-title" id="createTicketModalLabel" style="font-size: 1.5rem;">Create New Ticket</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="./queries/tickets/queries-tickets.php" method="POST" id="createTicketForm">
+                        <div class="mb-3">
+                                <label for="newTicketCategory" class="form-label" style="font-size: 1.2rem;">Category</label>
+                                <select class="form-select" id="newTicketCategory" name="category" required  style="font-size: 1.1rem; padding: 0.75rem;">
+                                    <option value="">Select Category</option>
+                                    <option value="Hardware Issues">Hardware Issues</option>
+                                    <option value="Network Infrastructure">Network Infrastructure</option>
+                                </select>
+                            </div>
                             <div class="mb-3">
-                                <label for="newTicketTitle" class="form-label">Ticket Title</label>
+                                <label for="newTicketTitle" class="form-label" style="font-size: 1.2rem;">Ticket Title</label>
                                 <input type="text" class="form-control" id="newTicketTitle" name="subject"
-                                    placeholder="Enter the title of your issue" required>
+                                    placeholder="Enter the title of your issue" required  style="font-size: 1.1rem; padding: 0.75rem;">
                             </div>
 
                             <div class="mb-3">
-                                <label for="newTicketDescription" class="form-label">Description</label>
+                                <label for="newTicketDescription" class="form-label" style="font-size: 1.2rem;">Description</label>
                                 <textarea class="form-control" id="newTicketDescription" name="description" rows="4"
-                                    placeholder="Provide details about the issue or request" required></textarea>
+                                    placeholder="Provide details about the issue or request" required  style="font-size: 1.1rem; padding: 0.75rem;"></textarea>
                             </div>
+                          
+                            <div class="mb-3" style="display: none;">
+                            <label for="newTicketStatus" class="form-label">Status</label>
+                            <select class="form-select" id="newTicketStatus" name="status" required disabled>
+                                <option value="Open" selected>Open</option>
+                            </select>
+                        </div>
+
                             <div class="mb-3">
-                                <label for="newTicketCategory" class="form-label">Category</label>
-                                <select class="form-select" id="newTicketCategory" name="category" required>
-                                    <option value="">Select Category</option>
-                                    <option value="Technical Issue">Technical Issue</option>
-                                    <option value="Request">Request</option>
-                                    <option value="Maintenance">Maintenance</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="newTicketStatus" class="form-label">Status</label>
-                                <select class="form-select" id="newTicketStatus" name="status" required disabled>
-                                    <option value="Open" selected>Open</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="newTicketCreatedBy" class="form-label">Created By</label>
-                                <input type="text" class="form-control" id="newTicketCreatedBy" name="createdBy"
+                                <input type="hidden" class="form-control" id="newTicketCreatedBy" name="createdBy"
                                     value="<?php echo htmlspecialchars($_SESSION['username']); ?>" required readonly>
                             </div>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-orange">Submit Ticket</button>
-                            </div>
+                                <button type="submit"  class="btn btn-orange btn-lg w-100"  style="font-size: 1.2rem; padding: 0.75rem;">Submit Ticket</button>
                         </form>
                     </div>
                 </div>
@@ -359,86 +380,146 @@ if (!isset($_SESSION['username'])) {
         }
         </script>
         <script>
-        document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const url = this.action;
+     document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const url = this.action;
 
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                const result = await response.json();
-
-                console.log(result);
-
-                if (response.ok && result.success) {
-                    Swal.fire({
-                        title: 'Success!',
-                        text: result.message,
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(() => {
-
-                        document.querySelector('#createTicketModal form').reset();
-                        const modalElement = document.getElementById('createTicketModal');
-                        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                        modalInstance.hide();
-
-                        const newRow = document.createElement('tr');
-                        const ticketId = 'TCK' + String(result.data.TicketID).padStart(4, '0');
-                        const subject = result.data.Subject || 'N/A';
-                        const category = result.data.Category || 'N/A';
-                        const status = result.data.Status || 'N/A';
-                        const lastUpdated = result.data.LastUpdated ||
-                            'N/A';
-
-                        const badgeClass = status === 'Open' ? 'bg-primary' : status ===
-                            'In Progress' ? 'bg-warning' : 'bg-secondary';
-
-                        newRow.innerHTML = `
-                        <td>${ticketId}</td>
-                        <td>${subject}</td>
-                        <td>${category}</td>
-                        <td><span class='badge ${badgeClass}'>${status}</span></td>
-                        <td>${lastUpdated}</td>
-                        <td>
-                            <button class='btn btn-sm btn-info' 
-                                data-bs-toggle='modal' data-bs-target='#viewTicketModal'
-                                data-id='${result.data.TicketID}'>View</button>
-                            <button class='btn btn-sm btn-warning' 
-                                data-bs-toggle='modal' data-bs-target='#editTicketModal'
-                                data-id='${result.data.TicketID}'>Edit</button>
-                            <button class='btn btn-sm btn-danger' data-id='${result.data.TicketID}'>Solve</button>
-                        </td>
-                    `;
-
-
-                        const tableBody = document.getElementById('ticketTableBody');
-                        tableBody.appendChild(newRow);
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: result.message || 'Something went wrong!',
-                        icon: 'error',
-                        confirmButtonText: 'Try Again'
-                    });
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error!',
-                    text: 'An unexpected error occurred. Please try again.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
         });
+
+        const result = await response.json();
+
+        console.log(result);
+
+        if (response.ok && result.success) {
+            Swal.fire({
+                title: 'Success!',
+                text: result.message,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+
+                document.querySelector('#createTicketModal form').reset();
+                const modalElement = document.getElementById('createTicketModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                modalInstance.hide();
+
+                const newRow = document.createElement('tr');
+                const ticketId = 'TCK' + String(result.data.TicketID).padStart(3, '0');
+                const subject = result.data.Subject || 'N/A';
+                const category = result.data.Category || 'N/A';
+                const status = result.data.Status || 'N/A';
+                const lastUpdated = result.data.LastUpdated || 'N/A';
+                const description = result.data.Description || 'N/A';  // Assuming description is part of result.data
+                const assignedTo = result.data.AssignedTo || 'N/A'; // Assuming assignedTo is part of result.data
+
+                const badgeClass = status === 'Open' ? 'bg-primary' : status === 'In Progress' ? 'bg-warning' : 'bg-secondary';
+
+                newRow.innerHTML = `
+                    <td>${ticketId}</td>
+                    <td>${subject}</td>
+                    <td>${category}</td>
+                    <td><span class='badge ${badgeClass}'>${status}</span></td>
+                    <td>${lastUpdated}</td>
+                    <td>
+                        <button class='btn btn-sm btn-info' 
+                            data-bs-toggle='modal' 
+                            data-bs-target='#viewTicketModal' 
+                            data-id='${ticketId}'
+                            data-subject='${subject}'
+                            data-category='${category}'
+                             data-description='${description}'
+                               data-status='${status}'
+                            data-assignedto='${assignedTo}'
+                            data-lastupdated='${lastUpdated}'>
+                            View
+                        </button>
+
+                        <button class='btn btn-sm btn-warning edit-btn' 
+                            data-bs-toggle='modal' 
+                            data-bs-target='#editTicketModal'
+                            data-id='${ticketId}'
+                            data-subject='${subject}'
+                            data-category='${category}'
+                            data-description='${description}' 
+                            data-status='${status}'
+                            data-lastupdated='${lastUpdated}'>
+                            Edit
+                        </button>
+
+                        <button class='btn btn-sm btn-danger close-btn' data-id='${ticketId}'>Close</button>
+                    </td>
+                `;
+
+                const tableBody = document.getElementById('ticketTableBody');
+                // Insert new row at the beginning
+                tableBody.insertBefore(newRow, tableBody.firstChild);
+
+                // Add event delegation for dynamically added view and edit buttons
+                tableBody.addEventListener('click', function(event) {
+                    if (event.target.classList.contains('btn-info')) {
+                        // Handle view button click
+                        const ticketId = event.target.getAttribute('data-id');
+                        const subject = event.target.getAttribute('data-subject');
+                        const category = event.target.getAttribute('data-category');
+                        const description = event.target.getAttribute('data-description');
+                        const status = event.target.getAttribute('data-status');
+                        const assignedTo = event.target.getAttribute('data-assignedto');
+                        const lastUpdated = event.target.getAttribute('data-lastupdated');
+                        
+                        // Populate view modal with the data
+                        document.getElementById('viewTicketId').textContent = ticketId;
+                        document.getElementById('viewTicketSubject').textContent = subject;
+                        document.getElementById('viewTicketCategory').textContent = category;
+                        document.getElementById('viewTicketDescription').textContent = description;
+                        document.getElementById('viewTicketStatus').textContent = status;
+                        document.getElementById('viewTicketAssignedTo').textContent = assignedTo;
+                        document.getElementById('viewTicketLastUpdated').textContent = lastUpdated;
+                    }
+
+                    if (event.target.classList.contains('btn-warning')) {
+                        // Handle edit button click
+                        const ticketId = event.target.getAttribute('data-id');
+                        const subject = event.target.getAttribute('data-subject');
+                        const category = event.target.getAttribute('data-category');
+                        const description = event.target.getAttribute('data-description');
+                        const status = event.target.getAttribute('data-status');
+                        const lastUpdated = event.target.getAttribute('data-lastupdated');
+
+                        // Populate edit modal with the data
+                        document.getElementById('editTicketId').value = ticketId;
+                        document.getElementById('editTicketTitle').value = subject;
+                        document.getElementById('editTicketCategory').value = category;
+                        document.getElementById('editTicketDescription').value = description;  // Corrected
+                        document.getElementById('editTicketStatus').value = status;
+                    }
+                });
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: result.message || 'Something went wrong!',
+                icon: 'error',
+                confirmButtonText: 'Try Again'
+            });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An unexpected error occurred. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+});
+
         </script>
-        <script>
+          <script>
         document.querySelector('table tbody').addEventListener('click', function(event) {
             if (event.target.matches('button[data-bs-target="#viewTicketModal"]')) {
                 const button = event.target;
