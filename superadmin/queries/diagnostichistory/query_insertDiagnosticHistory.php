@@ -16,12 +16,14 @@ $assetID = $_POST['assetID'];
 $conductedby = $_POST['conductedby'];
 $diagnosticDetails = $_POST['diagnosticDetails'];
 $status = $_POST['status'];
+$job = $_POST['job'];
+$jobtype = $_POST['jobtype'];
 
-$sql = "INSERT INTO diagnostichistory (diagnosticid, assetdetailsid, conductedby, remarks, status) 
-        VALUES (?, ?, ?, ?, ?)";
+$sql = "INSERT INTO diagnostichistory (diagnosticid, assetdetailsid, conductedby, remarks, status, job, jobtype) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssss", $diagnosticID, $assetID, $conductedby, $diagnosticDetails, $status);
+$stmt->bind_param("sssssss", $diagnosticID, $assetID, $conductedby, $diagnosticDetails, $status, $job, $jobtype);
 
 if ($stmt->execute()) {
     echo json_encode(['response' => 'Diagnostic added successfully', 'status' => 200, 'response_type' => 'success']);

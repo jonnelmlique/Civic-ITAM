@@ -221,15 +221,39 @@
                                 <label for="diagnosticID" class="form-label">Diagnostic ID</label>
                                 <input type="text" class="form-control" id="add_diagnosticID" required>
                             </div>
-                            <div class="mb-3">
-                                <label for="asset" class="form-label">Asset</label>
-                                <select class="form-select" id="add_assetID" required>
-                                    <!--Options from AJAX -->
-                                </select>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="asset" class="form-label">Asset</label>
+                                    <select class="form-select" id="add_assetID" required>
+                                        <!-- Options from AJAX -->
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="technician" class="form-label">Technician</label>
+                                    <select class="form-select" id="add_technician" required>
+                                        <!-- Options from AJAX -->
+                                    </select>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="technician" class="form-label">Technician</label>
-                                <input type="text" class="form-control" id="add_conductedby" required>
+                            <div class="mb-3 row">
+                                <div class="col-md-6">
+                                    <label for="job" class="form-label">Job</label>
+                                    <select class="form-select" id="add_job" required>
+                                        <option value="">Select Job</option>
+                                        <option value="SAMPLE1">Job 1</option>
+                                        <option value="SAMPLE2">Job 2</option>
+                                        <option value="SAMPLE3">Job 3</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="jobtype" class="form-label">Job Type</label>
+                                    <select class="form-select" id="add_jobtype" required>
+                                        <option value="">Select Job Type</option>
+                                        <option value="PMS">PMS</option>
+                                        <option value="Repair">Repair</option>
+                                        <option value="Upgrade">Upgrade</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="details" class="form-label">Diagnostic Details</label>
@@ -272,15 +296,39 @@
                             <label for="diagnosticID" class="form-label">Diagnostic ID</label>
                             <input type="text" class="form-control" id="editDiagnosticID" required>
                         </div>
-                        <div class="mb-3">
-                            <label for="asset" class="form-label">Asset</label>
-                            <select class="form-select" id="editAsset" required>
-                                <!--Options from AJAX -->
-                            </select>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="asset" class="form-label">Asset</label>
+                                <select class="form-select" id="editAsset" required>
+                                    <!-- Options from AJAX -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="technician" class="form-label">Technician</label>
+                                <select class="form-select" id="editTechnician" required>
+                                    <!-- Options from AJAX -->
+                                </select>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="editTechnician" class="form-label">Technician</label>
-                            <input type="text" class="form-control" id="editTechnician" required>
+                        <div class="mb-3 row">
+                            <div class="col-md-6">
+                                <label for="job" class="form-label">Job</label>
+                                <select class="form-select" id="editJob" required>
+                                    <option value="">Select Job</option>
+                                    <option value="SAMPLE1">Job 1</option>
+                                    <option value="SAMPLE2">Job 2</option>
+                                    <option value="SAMPLE3">Job 3</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jobtype" class="form-label">Job Type</label>
+                                <select class="form-select" id="editJobType" required>
+                                    <option value="">Select Job Type</option>
+                                    <option value="PMS">PMS</option>
+                                    <option value="Repair">Repair</option>
+                                    <option value="Upgrade">Upgrade</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="editDetails" class="form-label">Diagnostic Details</label>
@@ -319,13 +367,25 @@
                         <label for="diagnosticID" class="form-label">Diagnostic ID</label>
                         <input type="text" class="form-control" id="viewDiagnosticID" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="viewAsset" class="form-label">Asset</label>
-                        <input type="text" class="form-control" id="viewAsset" readonly>
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="viewAsset" class="form-label">Asset</label>
+                            <input type="text" class="form-control" id="viewAsset" readonly>    
+                        </div>
+                        <div class="col-md-6">
+                            <label for="viewTechnician" class="form-label">Technician</label>
+                            <input type="text" class="form-control" id="viewTechnician" readonly>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="viewTechnician" class="form-label">Technician</label>
-                        <input type="text" class="form-control" id="viewTechnician" readonly>
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="viewAsset" class="form-label">Job</label>
+                            <input type="text" class="form-control" id="viewJob" readonly>    
+                        </div>
+                        <div class="col-md-6">
+                            <label for="viewAsset" class="form-label">Job Type</label>
+                            <input type="text" class="form-control" id="viewJobType" readonly>    
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="viewDetails" class="form-label">Diagnostic Details</label>
@@ -364,15 +424,19 @@
 
     $(document).ready(function() {
         getDiagnosticHistory();
+        fetchData(); 
+        setInterval(fetchData, 5000); 
 
         $('#add_diagnostic').on('submit', function(event) {
             event.preventDefault();
             var diagnosticID = $('#add_diagnosticID').val();
             var assetID = $('#add_assetID').val();
-            var conductedby = $('#add_conductedby').val();
+            var conductedby = $('#add_technician').val();
             var diagnosticDetails = $('#add_diagnosticDetails').val();
             var status = $('#add_status').val();
-            addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status);
+            var job = $('#add_job').val();
+            var jobtype = $('#add_jobtype').val();
+            addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status, job, jobtype);
         });
 
         $('#edit_diagnostic').on('submit', function(event) {
@@ -383,17 +447,22 @@
             var conductedby = $('#editTechnician').val();
             var diagnosticDetails = $('#editDetails').val();
             var status = $('#editStatus').val();
-            editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status);
+            var job = $('#editJob').val();
+            var jobtype = $('#editJobType').val();
+            editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status, job, jobtype);
         });
 
 
         $('#addDiagnosticModal').on('shown.bs.modal', function() {
             populateAssetDropdown();
+            populateAssignToDropdown();
         });
 
         $('#editDiagnosticModal').on('shown.bs.modal', function() {
             var assetID = $('#editDiagnosticModal').data('assetid');
+            var staffID = $('#editDiagnosticModal').data('conductedby');
             populateAssetDropdown(assetID);
+            populateAssignToDropdown(staffID);
         });
     });
 
@@ -430,16 +499,16 @@
 
                     var row = `<tr>
                         <td>${diagnosticData.diagnosticid}</td>
-                        <td>${diagnosticData.computername}</td>
+                        <td>${diagnosticData.assetname}</td>
                         <td>${diagnosticData.conductedby}</td>
                         <td>${diagnosticData.remarks}</td>
                         <td>${diagnosticData.createdate}</td>
                         <td><span class="badge ${statusClass}">${statusText}</span></td>
                         <td>
                             <div class="action-icons">
-                                <button class="view-btn btn-sm btn-info" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.computername}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-bs-target="#viewDiagnosticModal">View</button>
+                                <button class="view-btn btn-sm btn-info" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.assetname}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-job="${diagnosticData.job}" data-jobtype="${diagnosticData.jobtype}" data-bs-target="#viewDiagnosticModal">View</button>
 
-                                <button class="edit-btn btn-sm btn-warning" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.assetdetailsid}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-bs-target="#editDiagnosticModal">Edit</button>
+                                <button class="edit-btn btn-sm btn-warning" data-bs-toggle="modal" data-id="${diagnosticData.id}" data-diagnosticID="${diagnosticData.diagnosticid}" data-assetID="${diagnosticData.assetdetailsid}" data-conductedby="${diagnosticData.conductedby}" data-diagnostic-remarks="${diagnosticData.remarks}" data-status="${diagnosticData.status}" data-job="${diagnosticData.job}" data-jobtype="${diagnosticData.jobtype}" data-bs-target="#editDiagnosticModal">Edit</button>
 
                                 <button class="delete-btn btn-sm btn-danger" data-id="${diagnosticData.id}">Delete</button>
                             </div>
@@ -455,6 +524,8 @@
                     var conductedby = $(this).data('conductedby');
                     var diagnosticRemarks = $(this).data('diagnostic-remarks');
                     var status = $(this).data('status');
+                    var job = $(this).data('job');
+                    var jobtype = $(this).data('jobtype');
 
 
                     $('#editID').val(editID);
@@ -463,8 +534,11 @@
                     $('#editTechnician').val(conductedby);
                     $('#editDetails').val(diagnosticRemarks);
                     $('#editStatus').val(status);
+                    $('#editJob').val(job);
+                    $('#editJobType').val(jobtype);
 
                     $('#editDiagnosticModal').data('assetid', assetID);
+                    $('#editDiagnosticModal').data('conductedby', conductedby);
                 });
 
 
@@ -474,12 +548,16 @@
                     var conductedby = $(this).data('conductedby');
                     var diagnosticRemarks = $(this).data('diagnostic-remarks');
                     var status = $(this).data('status');
+                    var job = $(this).data('job');
+                    var jobtype = $(this).data('jobtype');
 
                     $('#viewDiagnosticID').val(diagnosticID);
                     $('#viewAsset').val(assetID);
                     $('#viewTechnician').val(conductedby);
                     $('#viewDetails').val(diagnosticRemarks);
                     $('#viewStatus').val(status);
+                    $('#viewJob').val(job);
+                    $('#viewJobType').val(jobtype);
 
                 });
 
@@ -495,7 +573,7 @@
         });
     }
 
-    function addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status) {
+    function addDiagnosticHistory(diagnosticID, assetID, conductedby, diagnosticDetails, status, job, jobtype) {
         $.ajax({
             url: 'queries/diagnostichistory/query_insertDiagnosticHistory.php',
             method: 'POST',
@@ -504,7 +582,9 @@
                 assetID: assetID,
                 conductedby: conductedby,
                 diagnosticDetails: diagnosticDetails,
-                status: status
+                status: status,
+                job: job,
+                jobtype: jobtype
             },
             success: function(response) {
                 var res = JSON.parse(response);
@@ -534,7 +614,7 @@
         });
     }
 
-    function editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status) {
+    function editDiagnosticHistory(id, diagnosticID, assetID, conductedby, diagnosticDetails, status, job, jobtype) {
         $.ajax({
             url: 'queries/diagnostichistory/query_updateDiagnosticHistory.php',
             method: 'POST',
@@ -544,7 +624,9 @@
                 assetID: assetID,
                 conductedby: conductedby,
                 diagnosticDetails: diagnosticDetails,
-                status: status
+                status: status,
+                job: job,
+                jobtype:jobtype
             },
             success: function(response) {
                 var res = JSON.parse(response);
@@ -584,7 +666,6 @@
             cancelButtonText: 'Cancel'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Proceed with deletion if confirmed
                 $.ajax({
                     url: 'queries/diagnostichistory/query_deleteDiagnosticHistory.php',
                     method: 'POST',
@@ -602,7 +683,7 @@
                                 timer: 2000
                             });
                             $('#editDiagnosticModal').modal('hide');
-                            getDiagnosticHistory(); // Refresh the diagnostic history
+                            getDiagnosticHistory();
                         } else {
                             Swal.fire({
                                 icon: 'error',
@@ -626,7 +707,7 @@
         });
     }
 
-    function populateAssetDropdown(selectedAssetID) {
+    function populateAssetDropdown(assetID) {
         $.ajax({
             url: 'queries/diagnostichistory/query_getAssetComputerName.php',
             method: 'GET',
@@ -642,14 +723,14 @@
                 editDropdown.append('<option value="">Select Asset</option>');
 
                 response.forEach(function(item) {
-                    addDropdown.append('<option value="' + item.id + '">' + item.computername +
+                    addDropdown.append('<option value="' + item.id + '">' + item.assetname +
                         '</option>');
-                    editDropdown.append('<option value="' + item.id + '">' + item.computername +
+                    editDropdown.append('<option value="' + item.id + '">' + item.assetname +
                         '</option>');
                 });
 
-                if (selectedAssetID) {
-                    editDropdown.val(selectedAssetID).trigger('change');
+                if (assetID) {
+                    editDropdown.val(assetID).trigger('change');
                 }
             },
             error: function(xhr, status, error) {
@@ -657,6 +738,44 @@
             }
         });
     }
+    
+    function populateAssignToDropdown(staffID) {
+        $.ajax({
+            url: 'queries/diagnostichistory/query_getITStaff.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+
+                var addDropdown = $('#add_technician');
+                var editDropdown = $('#editTechnician');
+
+
+                addDropdown.empty();
+                editDropdown.empty();
+                
+                addDropdown.append('<option value="">Select Technician</option>');
+                editDropdown.append('<option value="">Select Technician</option>');
+
+                response.forEach(function(staff) {
+                    var optionValue = staff.last_name + ', ' + staff.first_name;
+                    var option = '<option value="' + optionValue + '">' + optionValue + '</option>';
+
+                    addDropdown.append(option);
+                    editDropdown.append(option);
+                });
+
+             
+                if (staffID) {
+                    editDropdown.val(staffID).trigger('change');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching IT staff: ", error, xhr.responseText);
+            }
+        });
+    }
+
+
     </script>
 
     <script>
@@ -681,11 +800,6 @@
             }
         });
     }
-
-    // $(document).ready(function() {
-    //     fetchData(); 
-    //     setInterval(fetchData, 5000); 
-    // });
     </script>
 </body>
 

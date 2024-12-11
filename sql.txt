@@ -154,3 +154,6 @@ ALTER TABLE `diagnostichistory`
 ALTER TABLE employees
 ADD failed_attempts INT DEFAULT 0,
 ADD lock_time INT DEFAULT NULL;
+
+ALTER TABLE `maintenance_requests`
+	ADD COLUMN `assetdetails_id` INT(11) NULL DEFAULT NULL AFTER `request_id`;

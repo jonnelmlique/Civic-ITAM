@@ -11,7 +11,7 @@ if (!$conn) {
     exit;
 }
 
-$sql = "SELECT id, computername FROM assetdetails";
+$sql = "SELECT id, assetname FROM assetdetails";
 $result = $conn->query($sql);
 
 $assets = [];
