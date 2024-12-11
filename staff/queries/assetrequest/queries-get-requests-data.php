@@ -19,7 +19,7 @@ $response = [
 try {
     $sql = "SELECT 
                 COUNT(*) AS totalRequests,
-                SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) AS approvedRequests,
+                SUM(CASE WHEN status = 'Received' THEN 1 ELSE 0 END) AS approvedRequests,
                 SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pendingRequests,
                 SUM(CASE WHEN status = 'Declined' THEN 1 ELSE 0 END) AS declinedRequests
             FROM assetrequests 

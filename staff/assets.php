@@ -98,7 +98,7 @@ if (!isset($_SESSION['username'])) {
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
-                                <h6 class="card-title">Approved Requests</h6>
+                                <h6 class="card-title">Received Requests</h6>
                                 <p class="card-value" id="approvedRequests">0</p>
                             </div>
                         </div>
@@ -131,15 +131,19 @@ if (!isset($_SESSION['username'])) {
             </div>
 
             <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                        class="btn btn-orange">
-                        <i class="bi bi-plus-lg"></i> Submit New Request
-                    </a>
+    <div class="col-12 text-end">
+        <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
+           class="btn btn-orange me-2"> 
+            <i class="bi bi-plus-lg"></i> Submit New Request
+        </a>
+        <a href="../staff/myasset.php" class="btn btn-orange">
+    <i class="bi bi-plus-lg"></i> My Asset
+</a>
 
-                </div>
-            </div>
+    </div>
+</div>
 
+            
                         <?php
             include '../src/config/config.php';
 
@@ -212,11 +216,12 @@ if (!isset($_SESSION['username'])) {
                                 <td><?php echo htmlspecialchars($request['category']); ?></td>
                                 <td><?php echo htmlspecialchars($request['reason']); ?></td>
                                 <td>
-                                    <span class="badge 
-                                    <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
-                                            ($request['status'] === 'In Use' ? 'bg-success' : 'bg-danger'); ?>">
-                                        <?php echo htmlspecialchars($request['status']); ?>
-                                    </span>
+                                <span class="badge 
+                                <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
+                                            ($request['status'] === 'Declined' ? 'bg-danger' : 
+                                            ($request['status'] === 'Received' ? 'bg-primary' : 'bg-secondary')); ?>">
+                                <?php echo htmlspecialchars($request['status']); ?>
+                            </span>
                                 </td>
                                 <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?>
                                 </td>
@@ -235,7 +240,7 @@ if (!isset($_SESSION['username'])) {
                                             <li>
                                                 <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
                                                     class="dropdown-item text-warning"><i class="bi bi-pencil"></i>
-                                                    Edit
+                                                    Received
 
                                                 </a>
                                             </li>
@@ -318,16 +323,18 @@ if (!isset($_SESSION['username'])) {
             </script>
 
 
-        <script>
-            function searchTable() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toLowerCase();
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentPage = urlParams.get('page') || 1;
+<script>
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
 
-                window.location.href = `?page=${currentPage}&search=${filter}`;
-            }
+            rows.forEach(row => {
+                const cells = Array.from(row.cells);
+                const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+                row.style.display = match ? '' : 'none';
+            });
+        }
         </script>
 
             <script>

@@ -73,60 +73,60 @@ if (!isset($_SESSION['username'])) {
             <div class="container my-5">
                 <div class="card shadow-lg p-4">
                     <form method="POST">
-                        <?php
-include '../src/config/config.php';
+                                            <?php
+                    include '../src/config/config.php';
 
-if (isset($_GET['requestid'])) {
-    $assetId = $_GET['requestid'];
+                    if (isset($_GET['requestid'])) {
+                        $assetId = $_GET['requestid'];
 
-    $sql = "SELECT * FROM assetrequests WHERE requestid = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("i", $assetId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result && $result->num_rows > 0) {
-            $asset = $result->fetch_assoc();
-        } else {
-            $errorMessage = "Asset not found.";
-        }
-        $stmt->close();
-    } else {
-        $errorMessage = "Error preparing the SQL statement: " . $conn->error;
-    }
-} else {
-    $errorMessage = "No asset ID provided.";
-}
-?>
-                        <?php
-$successMessage = "";
-$errorMessage = "";
+                        $sql = "SELECT * FROM assetrequests WHERE requestid = ?";
+                        $stmt = $conn->prepare($sql);
+                        if ($stmt) {
+                            $stmt->bind_param("i", $assetId);
+                            $stmt->execute();
+                            $result = $stmt->get_result();
+                            
+                            if ($result && $result->num_rows > 0) {
+                                $asset = $result->fetch_assoc();
+                            } else {
+                                $errorMessage = "Asset not found.";
+                            }
+                            $stmt->close();
+                        } else {
+                            $errorMessage = "Error preparing the SQL statement: " . $conn->error;
+                        }
+                    } else {
+                        $errorMessage = "No asset ID provided.";
+                    }
+                    ?>
+                                            <?php
+                    $successMessage = "";
+                    $errorMessage = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $requestid = isset($_POST['requestid']) ? $_POST['requestid'] : '';
-    $assetname = isset($_POST['assetname']) ? $_POST['assetname'] : '';
-    $category = isset($_POST['category']) ? $_POST['category'] : '';
-    $status = isset($_POST['status']) ? $_POST['status'] : '';
-    $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $requestid = isset($_POST['requestid']) ? $_POST['requestid'] : '';
+                        $assetname = isset($_POST['assetname']) ? $_POST['assetname'] : '';
+                        $category = isset($_POST['category']) ? $_POST['category'] : '';
+                        $status = isset($_POST['status']) ? $_POST['status'] : '';
+                        $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
 
-    $sql = "UPDATE assetrequests SET status = ?, reason = ? WHERE requestid = ?";
-    $stmt = $conn->prepare($sql);
+                        $sql = "UPDATE assetrequests SET status = ? WHERE requestid = ?";
+                        $stmt = $conn->prepare($sql);
 
-    if ($stmt) {
-        $stmt->bind_param("ssi", $status, $reason, $requestid);
-        
-        if ($stmt->execute()) {
-            $successMessage = "Asset updated successfully!";
-        } else {
-            $errorMessage = "Error updating asset.";
-        }
-        $stmt->close();
-    } else {
-        $errorMessage = "Error preparing SQL statement: " . $conn->error;
-    }
-}
-?>
+                        if ($stmt) {
+                            $stmt->bind_param("si", $status, $requestid);
+                            
+                            if ($stmt->execute()) {
+                                $successMessage = "Asset updated successfully!";
+                            } else {
+                                $errorMessage = "Error updating asset.";
+                            }
+                            $stmt->close();
+                        } else {
+                            $errorMessage = "Error preparing SQL statement: " . $conn->error;
+                        }
+                    }
+                    ?>
 
                         <form method="POST" action="editasset.php?requestid=<?php echo $asset['requestid']; ?>">
                             <input type="hidden" name="requestid" value="<?php echo $asset['requestid']; ?>">
@@ -144,19 +144,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3">
                                 <label for="status" class="form-label">Status</label>
                                 <select class="form-select" id="status" name="status">
-                                    <option value="Pending"
-                                        <?php echo $asset['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                                    <!-- <option value="Pending"
+                                        <?php echo $asset['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option> -->
                                     <option value="Received"
                                         <?php echo $asset['status'] === 'Received' ? 'selected' : ''; ?>>Received
                                     </option>
-                                    <option value="Cancel"
-                                        <?php echo $asset['status'] === 'Cancel' ? 'selected' : ''; ?>>Cancel</option>
+                                    <!-- <option value="Cancel"
+                                        <?php echo $asset['status'] === 'Cancel' ? 'selected' : ''; ?>>Cancel</option> -->
                                 </select>
                             </div>
 
                             <div class="mb-3">
                                 <label for="reason" class="form-label">Reason</label>
-                                <textarea class="form-control" id="reason" name="reason"
+                                <textarea class="form-control" id="reason" name="reason" disabled
                                     rows="3"><?php echo htmlspecialchars($asset['reason']); ?></textarea>
                             </div>
                             <button type="submit" class="btn btn-orange">Save Changes</button>

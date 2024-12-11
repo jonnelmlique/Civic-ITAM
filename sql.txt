@@ -146,10 +146,6 @@ ALTER TABLE `diagnostichistory`
 	ADD COLUMN `status` VARCHAR(100) NULL DEFAULT NULL AFTER `createdby`;
 
 
-
-
-
-
 // FOR EMPLOYEES LOCK ACCOUNT
 ALTER TABLE employees
 ADD failed_attempts INT DEFAULT 0,

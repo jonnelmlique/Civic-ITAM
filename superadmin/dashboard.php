@@ -168,7 +168,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
 
-
+<!-- 
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="card shadow border-0 mb-3">
@@ -196,7 +196,7 @@ if (!isset($_SESSION['username'])) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row g-3">
                     <div class="col-lg-6 col-md-12">

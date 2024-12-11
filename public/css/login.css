@@ -1,53 +1,71 @@
 body {
-    background: linear-gradient(135deg, #ff8c00, #d2a647);
-    font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ff8c00, #d2a647);
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  overflow: hidden;
+  color: #fff;
+}
+
+#background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  filter: blur(5px);
 }
 
 .btn-orange {
-    background-color: orange;
-    color: white;
+  background-color: orange;
+  color: white;
 }
 
 .btn-orange:hover {
-    background-color: #ff8c00;
+  background-color: #ff8c00;
 }
 
 .form-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
 }
 
 .form-wrapper .logo {
-    max-width: 200px;
-    height: auto;
+  max-width: 200px;
+  height: auto;
 }
 
 .form-wrapper .form-container {
-    flex: 1;
+  flex: 1;
 }
 
 input.form-control:focus {
-    background-color: #f0f8ff !important;
-    border-color: #ff8c00 !important;
-    outline: none;
+  background-color: #f0f8ff !important;
+  border-color: #ff8c00 !important;
+  outline: none;
 }
 
 .card {
-    max-width: 800px;
-    width: 100%;
+  max-width: 800px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border: none;
 }
 
 .logowrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    background-color: #ff8c00;
-    padding: 10px;
-    border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color: #ff8c00;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .logowrap img {
-    max-width: 150px;
-    height: auto;
+  max-width: 150px;
+  height: auto;
 }
