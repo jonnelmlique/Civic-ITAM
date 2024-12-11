@@ -74,11 +74,11 @@
                             showConfirmButton: false,
                             timer: 1500
                         }).then(() => {
-                            if (response.role === 'superadmin') {
+                            if (response.role === 'admin') {
                                 window.location.href = './superadmin/dashboard.php';
-                            } else if (response.role === 'admin') {
+                            } else if (response.role === 'itstaff') {
                                 window.location.href = './admin/dashboard.php';
-                            } else if (response.role === 'staff') {
+                            } else if (response.role === 'employee') {
                                 window.location.href = './staff/dashboard.php';
                             } else {
                                 Swal.fire({

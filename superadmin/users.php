@@ -196,12 +196,12 @@
                         $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
                         $email = htmlspecialchars($row['email']);
                         $role = htmlspecialchars($row['role']);  
-                        if ($role == 'superadmin') {
-                            $formattedRole = 'Super Admin';
-                        } elseif ($role == 'admin') {
+                        if ($role == 'admin') {
                             $formattedRole = 'Admin';
-                        } elseif ($role == 'staff') {
-                            $formattedRole = 'Staff';
+                        } elseif ($role == 'itstaff') {
+                            $formattedRole = 'IT Staff';
+                        } elseif ($role == 'employee') {
+                            $formattedRole = 'Employee';
                         } else {
                             $formattedRole = $role; 
                         }
@@ -236,7 +236,7 @@
                                         data-contactnumber='{$row['contactnumber']}'
                                         data-department='{$row['department']}'
                                         data-role='{$row['role']}'
-                                        data-status='{$row['status']}'>Edit</button>
+                                          data-status='{$row['status']}'>Edit</button>
                                      <button class='btn btn-sm btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>
                             </td>
                         </tr>";
@@ -313,9 +313,9 @@
                                     <div class="mb-3">
                                         <label for="role" class="form-label">Role</label>
                                         <select class="form-select" name="role" required>
-                                            <option value="superadmin">Super Admin</option>
                                             <option value="admin">Admin</option>
-                                            <option value="staff">Staff</option>
+                                            <option value="itstaff">IT Staff</option>
+                                            <option value="employee">Employee</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -450,9 +450,9 @@
                                     <div class="mb-3">
                                         <label for="editRole" class="form-label">Role</label>
                                         <select class="form-select" id="editRole" name="role" required>
-                                            <option value="superadmin">Super Admin</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Staff">Staff</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="itstaff">IT Staff</option>
+                                            <option value="employee">Employee</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -625,7 +625,7 @@
             var email = $(this).data('email');
             var contactNumber = $(this).data('contactnumber');
             var department = $(this).data('department');
-            var role = $(this).data('role');
+            var role = $(this).data('role'); // Directly fetch formatted role
             var status = $(this).data('status');
 
             $('#editUserId').val(userId);
@@ -635,7 +635,7 @@
             $('#editEmail').val(email);
             $('#editContactNumber').val(contactNumber);
             $('#editDepartment').val(department);
-            $('#editRole').val(formattedRole);
+            $('#editRole').val(role); // Use the fetched role value
             $('#editStatus').val(status);
         });
         </script>

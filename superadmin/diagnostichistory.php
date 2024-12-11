@@ -660,7 +660,6 @@
     </script>
 
     <script>
-    // Function to fetch and update the data in real-time
     function fetchData() {
         $('#totalDiagnoses').text("Loading...");
         $('#completedDiagnoses').text("Loading...");
@@ -668,7 +667,7 @@
         $('#failedDiagnoses').text("Loading...");
 
         $.ajax({
-            url: './queries/diagnostichistory/query_count.php', // The PHP file that returns the counts
+            url: './queries/diagnostichistory/query_count.php', 
             type: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -683,11 +682,10 @@
         });
     }
 
-    // Fetch data initially and then every 5 seconds for real-time updates
-    $(document).ready(function() {
-        fetchData(); // Fetch data once when the page loads
-        setInterval(fetchData, 5000); // Fetch data every 5 seconds for real-time updates
-    });
+    // $(document).ready(function() {
+    //     fetchData(); 
+    //     setInterval(fetchData, 5000); 
+    // });
     </script>
 </body>
 
