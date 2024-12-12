@@ -8,8 +8,10 @@
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
     <link rel="stylesheet" href="../public/css/superadmin/management.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </head>
@@ -180,10 +182,10 @@
                     <p class="text-muted mb-3">Use the filters below to generate custom reports based on asset
                         categories, status, or other criteria. Choose your report format and export it as needed.</p>
 
-                    <form class="row g-3">
+                        <form class="row g-3" action="generate_excel.php" method="POST">
                         <div class="col-md-4">
                             <label for="categoryFilter" class="form-label">Category</label>
-                            <select class="form-select" id="categoryFilter">
+                            <select class="form-select" id="categoryFilter" name="category">
                                 <option selected>Choose category</option>
                                 <option value="computers">Computers</option>
                                 <option value="printers">Printers</option>
@@ -193,7 +195,7 @@
                         </div>
                         <div class="col-md-4">
                             <label for="statusFilter" class="form-label">Status</label>
-                            <select class="form-select" id="statusFilter">
+                            <select class="form-select" id="statusFilter" name="status">
                                 <option selected>Choose status</option>
                                 <option value="available">Available</option>
                                 <option value="assigned">Assigned</option>
@@ -203,12 +205,13 @@
                         </div>
                         <div class="col-md-4">
                             <label for="dateFilter" class="form-label">Date Range</label>
-                            <input type="date" class="form-control" id="dateFilter">
+                            <input type="date" class="form-control" id="dateFilter" name="date">
                         </div>
                         <div class="col-12 text-end mt-3">
                             <button type="submit" class="btn btn-orange">Generate Report</button>
                         </div>
                     </form>
+
                 </div>
             </div>
 
@@ -275,7 +278,22 @@
             document.getElementById('sidebar').classList.toggle('collapsed');
             document.getElementById('content').classList.toggle('collapsed');
         });
+
+
+          // Check if there is a 'no_data' parameter in the URL, and show SweetAlert if true
+          const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('no_data')) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No data found',
+                    text: 'No records match your search criteria!',
+                    confirmButtonText: 'OK'
+                });
+            }
+            
         </script>
+
+
 </body>
 
 </html>
