@@ -201,8 +201,8 @@ if ($result->num_rows > 0) {
 
 <div class="row mt-4">
     <div class="col-12">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="searchTable()">
-        <table class="table table-hover table-striped shadow-sm">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="searchTable()">
+    <table class="table table-hover table-striped shadow-sm">
             <thead class="bg-orange text-white">
                 <tr>
                     <th scope="col">Consignment ID</th>
@@ -384,6 +384,29 @@ document.getElementById('sidebarToggle').addEventListener('click', function() {
 document.getElementById('sidebar').classList.toggle('collapsed');
 document.getElementById('content').classList.toggle('collapsed');
 });
+</script>
+<script>
+    function searchTable() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toLowerCase();
+        var table = document.querySelector("table");
+        var rows = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            var rowText = "";
+            
+            for (var j = 0; j < cells.length; j++) {
+                rowText += cells[j].textContent || cells[j].innerText;
+            }
+
+            if (rowText.toLowerCase().includes(filter)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
 </script>
 </body>
 

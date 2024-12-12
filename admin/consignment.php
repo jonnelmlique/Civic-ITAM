@@ -400,6 +400,29 @@ document.getElementById('sidebar').classList.toggle('collapsed');
 document.getElementById('content').classList.toggle('collapsed');
 });
 </script>
+<script>
+    function searchTable() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toLowerCase();
+        var table = document.querySelector("table");
+        var rows = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            var rowText = "";
+            
+            for (var j = 0; j < cells.length; j++) {
+                rowText += cells[j].textContent || cells[j].innerText;
+            }
+
+            if (rowText.toLowerCase().includes(filter)) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+</script>
 </body>
 
 </html>
