@@ -504,7 +504,7 @@ $conn->close();
                                     </div>
                                     <div class="mb-3">
                                         <label for="viewItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="viewItemId"
+                                        <input type="text" class="form-control shadow-sm" id="viewItemId"
                                             name="viewItemId" disabled>
                                     </div>
                                     <div class="mb-3">
@@ -616,12 +616,12 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editAssetCode" class="form-label">Asset Code</label>
                                         <input type="text" class="form-control shadow-sm" id="editAssetCode"
-                                            name="editAssetCode" required readonly>
+                                            name="editAssetCode" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="editItemId"
-                                            name="editItemId" required readonly>
+                                        <input type="text" class="form-control shadow-sm" id="editItemId"
+                                            name="editItemId" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editAssetName" class="form-label">Asset Name</label>
@@ -631,7 +631,7 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editSerialNumber" class="form-label">Serial Number</label>
                                         <input type="text" class="form-control shadow-sm" id="editSerialNumber"
-                                            name="editSerialNumber" required readonly>
+                                            name="editSerialNumber" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editSupplier" class="form-label">Supplier</label>
