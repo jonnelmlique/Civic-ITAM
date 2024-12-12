@@ -128,10 +128,18 @@ if (!isset($_SESSION['username'])) {
             </div>
             <div class="container-fluid py-4">
             <div class="row mt-4">
+            <div class="row mb-4">
+        <div class="col-12 text-end">
+            <button class="btn btn-warning shadow-sm px-4 py-2" data-bs-toggle="modal" data-bs-target="#createTicketModal">
+                <i class="bi bi-plus-lg"></i> Create New Ticket
+            </button>
+        </div>
+    </div>
     <div class="col-12">
         <div class="mb-3">
             <input type="text" id="searchInput" class="form-control search-input" placeholder="Search Tickets..." onkeyup="searchTable()">
         </div>
+        
 
         <table class="table table-hover table-striped rounded-lg shadow-lg">
             <thead class="bg-orange text-white">
