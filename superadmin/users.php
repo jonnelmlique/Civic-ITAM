@@ -239,7 +239,10 @@
                                         data-department='{$row['department']}'
                                         data-role='{$row['role']}'
                                           data-status='{$row['status']}'>Edit</button>
-                                     <button class='btn btn-sm btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>
+                               <button class='btn btn-sm btn-info changepassword-btn' data-bs-toggle='modal' data-bs-target='#ChangePasswordModal'  data-id='  {$row['id']}'>Change Password</button>
+                                <button class='btn btn-sm btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>
+                                     
+                                     
                             </td>
                         </tr>";
                     }
@@ -482,6 +485,35 @@
             </div>
         </div>
 
+        <!-- Change Password Modal -->
+        <div class="modal fade" id="ChangePasswordModal" tabindex="-1" aria-labelledby="ChangePasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ChangePasswordModalLabel">Change Password</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="changePasswordForm" method="post">
+                            <input type="hidden" name="id" id="changePasswordID">
+                            <div class="mb-3">
+                                <label for="newPassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
 
@@ -565,6 +597,10 @@
                             data-department='${result.data.department}'
                             data-role='${result.data.role}'
                             data-status='${result.data.status}'>Edit</button>
+
+                        <button class='btn btn-sm btn-primary changepassword-btn' 
+                            data-bs-toggle='modal' data-bs-target='#changePasswordModal' 
+                            data-id='${result.data.id}'>Change Password</button>
                         <button class='btn btn-sm btn-danger delete-btn' data-id='${result.data.id}'>Delete</button>
                     </td>
                 `;
@@ -590,6 +626,72 @@
                 });
             }
         });
+        </script>
+
+        <script>
+            
+            $(document).on('click', '.changepassword-btn', function() {
+                var userId = $(this).data('id');
+                $('#changePasswordID').val(userId);
+            });
+
+            document.querySelector('#changePasswordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const userID = document.getElementById('changePasswordID').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Passwords do not match.',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            $.ajax({
+                url: 'queries-user/query_newpassword.php',
+                method: 'POST',
+                data: {
+                    id: userID,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword
+                },
+                success: function(response) {
+                    var res = JSON.parse(response);
+                    if (res.response_type === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: res.response,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        $('#ChangePasswordModal').modal('hide');
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error!',
+                            text: res.response,
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: 'An unexpected error occurred. Please try again.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+
         </script>
         <script>
         function searchTable() {
