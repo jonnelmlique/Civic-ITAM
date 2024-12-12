@@ -18,8 +18,9 @@ if (!isset($_SESSION['username'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/superadmin/dashboard.css">
     <link rel="stylesheet" href="../public/css/superadmin/sidebar.css">
+    <link rel="stylesheet" href="../public/css/profile.css">
 
-</head>
+  </head>
 
 <body>
 
@@ -118,8 +119,21 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
             </nav>
-
+      
             <div class="container-fluid py-4">
+            <div class="profile-container mb-3">
+  <div>
+  <div class="name-container">
+    <h3><?php echo strtoupper($_SESSION['last_name']) . ', ' . strtoupper($_SESSION['first_name']); ?></h3>
+    <span class="role-badge"><?php echo strtoupper($_SESSION['role']); ?></span>
+</div>
+
+<p><?php echo strtoupper($_SESSION['username']); ?></p>
+<p><a href="mailto:<?php echo $_SESSION['email']; ?>"><?php echo $_SESSION['email']; ?></a></p>
+  </div>
+</div>
+
+
                 <div class="row g-3">
                     <div class="col-lg-3 col-md-6">
                         <div class="card shadow border-0 mb-3">

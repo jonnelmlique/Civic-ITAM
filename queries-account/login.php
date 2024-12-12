@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $conn->prepare("SELECT id, email, username, password, role, status, failed_attempts, lock_time FROM employees WHERE email = ?");
+        $stmt = $conn->prepare("SELECT id, first_name, last_name, email, username, password, role, status, failed_attempts, lock_time FROM employees WHERE email = ?");
         $stmt->bind_param('s', $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['status'] = $user['status'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
 
                 echo json_encode([
                     'success' => true,

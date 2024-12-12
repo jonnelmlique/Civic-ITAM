@@ -356,7 +356,21 @@ $conn->close();
 
 
         </div>
-        <!-- add asset -->
+        <div class="modal fade" id="qrModal1" tabindex="-1" aria-labelledby="qrModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel1">Generated QR Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="qrCodeImage" src="../images/qr.png" alt="Generated QR Code" class="img-fluid" style="max-height: 500px; max-width: 500px">
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-xl">

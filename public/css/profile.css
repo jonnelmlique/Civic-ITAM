@@ -1,0 +1,98 @@
+.profile-container {
+  background-color: #f9f9f9;
+  color: #333;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+.profile-container:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+h3 {
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #ffa500;
+  margin-top: 0;
+  margin-bottom: 0;
+  animation: fadeInText 1s ease-out;
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+p {
+  font-size: 1.1em;
+  color: #666;
+  margin: 5px 0;
+  animation: fadeInText 1s ease-out;
+}
+
+a {
+  font-size: 1em;
+  color: #ffa500;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+  animation: fadeInText 1.2s ease-out;
+}
+
+a:hover {
+  color: #ffb84d;
+}
+
+.role-badge {
+  background-color: #ffa500;
+  color: white;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 1em;
+  font-weight: 600;
+  animation: fadeInText 1.4s ease-out;
+}

@@ -80,6 +80,24 @@ CREATE TABLE assetrequests (
     FOREIGN KEY (assetid) REFERENCES assetdetails(id)         
 );
     lastmodifieddate TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    
+    CREATE VIEW consignment_view AS
+SELECT 
+    ar.requestid,
+    ar.assetid,  
+    ad.assetname,
+    ar.category,
+    ar.reason,
+    ar.status,
+    ar.createddate,
+    ar.requestedby
+FROM 
+    assetrequests ar
+JOIN 
+    assetdetails ad
+ON 
+    ar.assetid = ad.id;
+
 
 
 //Not final and subject to change based on what is needed
