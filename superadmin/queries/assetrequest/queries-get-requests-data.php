@@ -13,7 +13,8 @@ $response = [
     'totalRequests' => 0,
     'approvedRequests' => 0,
     'pendingRequests' => 0,
-    'declinedRequests' => 0
+    'declinedRequests' => 0,
+    'receivedRequests' => 0,
 ];
 
 try {
@@ -22,7 +23,9 @@ try {
                 COUNT(*) AS totalRequests,
                 SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) AS approvedRequests,
                 SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pendingRequests,
-                SUM(CASE WHEN status = 'Declined' THEN 1 ELSE 0 END) AS declinedRequests
+                SUM(CASE WHEN status = 'Declined' THEN 1 ELSE 0 END) AS declinedRequests,
+                SUM(CASE WHEN status = 'Received' THEN 1 ELSE 0 END) AS receivedRequests
+
             FROM assetrequests";
 
     $stmt = $conn->prepare($sql);
@@ -31,13 +34,14 @@ try {
     }
 
     $stmt->execute();
-    $stmt->bind_result($totalRequests, $approvedRequests, $pendingRequests, $declinedRequests);
+    $stmt->bind_result($totalRequests, $approvedRequests, $pendingRequests, $declinedRequests, $receivedRequests);
     $stmt->fetch();
 
     $response['totalRequests'] = $totalRequests;
     $response['approvedRequests'] = $approvedRequests;
     $response['pendingRequests'] = $pendingRequests;
     $response['declinedRequests'] = $declinedRequests;
+    $response['receivedRequests'] = $receivedRequests;
 
     $stmt->close();
     

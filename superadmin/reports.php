@@ -34,6 +34,8 @@
                     <ul class="nav flex-column ps-3">
                         <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
                         <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                        <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Requests</a></li>
+
                     </ul>
                 </div>
             </li>
@@ -113,10 +115,10 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <!-- <h3 class="text-dark">Asset Reports</h3> -->
-                    <p class="text-muted">Generate and view detailed reports on your assets. This section allows you to
+                    <!-- <p class="text-muted">Generate and view detailed reports on your assets. This section allows you to
                         analyze the status of your assets, their usage, and other important metrics.</p>
                     <p class="text-muted">Choose the report type below and filter the data to get the most relevant
-                        insights for asset management.</p>
+                        insights for asset management.</p> -->
                 </div>
             </div>
             <div class="row g-3">
@@ -177,9 +179,6 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <h5 class="mb-3">Generate Custom Report</h5>
-                    <p class="text-muted mb-3">Use the filters below to generate custom reports based on asset
-                        categories, status, or other criteria. Choose your report format and export it as needed.</p>
-
                     <form class="row g-3">
                         <div class="col-md-4">
                             <label for="categoryFilter" class="form-label">Category</label>

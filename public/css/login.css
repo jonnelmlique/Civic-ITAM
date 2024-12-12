@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(135deg, #ff8c00, #d2a647);
+  /* background: linear-gradient(135deg, #ff8c00, #d2a647); */
   font-family: "Arial", sans-serif;
   margin: 0;
   overflow: hidden;
@@ -50,7 +50,7 @@ input.form-control:focus {
 .card {
   max-width: 800px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.808);
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border: none;

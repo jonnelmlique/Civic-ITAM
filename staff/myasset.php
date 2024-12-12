@@ -110,11 +110,12 @@ if (!isset($_SESSION['username'])) {
             }
 
             $assetRequests = [];
-            $sql = "SELECT requestid, assetname, category, reason, status, createddate 
-                    FROM assetrequests 
-                     WHERE requestedby = ? AND status = 'Received' 
-                    ORDER BY createddate DESC 
-                    LIMIT ? OFFSET ?";
+            $sql = "SELECT ar.requestid, ar.assetname, ar.category, ad.description, ar.status, ar.createddate 
+        FROM assetrequests ar 
+        INNER JOIN assetdetails ad ON ar.assetid = ad.id 
+        WHERE ar.requestedby = ? AND ar.status = 'Received' 
+        ORDER BY ar.createddate DESC 
+        LIMIT ? OFFSET ?";
             $stmt = $conn->prepare($sql);
 
             if ($stmt) {
@@ -145,7 +146,7 @@ if (!isset($_SESSION['username'])) {
                             <tr>
                                 <th scope="col">Asset Name</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Reason</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Created Date</th>
                                 <th scope="col">Actions</th>
@@ -157,7 +158,7 @@ if (!isset($_SESSION['username'])) {
                             <tr>
                                 <td><?php echo htmlspecialchars($request['assetname']); ?></td>
                                 <td><?php echo htmlspecialchars($request['category']); ?></td>
-                                <td><?php echo htmlspecialchars($request['reason']); ?></td>
+                                <td><?php echo htmlspecialchars($request['description']); ?></td>
                                 <td>
                                 <span class="badge 
                                 <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 

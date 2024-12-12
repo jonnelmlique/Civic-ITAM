@@ -44,6 +44,8 @@ if (!isset($_SESSION['username'])) {
                         <ul class="nav flex-column ps-3">
                             <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
                             <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                            <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Requests</a></li>
+
                         </ul>
                     </div>
                 </li>

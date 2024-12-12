@@ -1,53 +1,89 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php"); 
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIVIC | Asset Request</title>
+    <title>CIVIC | Asset Management</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-    <link rel="stylesheet" href="../public/css/staff/management.css">
-    <link rel="stylesheet" href="../public/css/staff/sidebar.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-
+    <link rel="stylesheet" href="../public/css/admincss/management.css">
+    <link rel="stylesheet" href="../public/css/admincss/sidebar.css">
 </head>
 
 <body>
+
 
     <div id="sidebar" class="col-12 col-md-3 col-lg-2 px-0 bg-orange text-white">
         <div class="sidebar-header text-center py-3">
             <img src="../images/civicph_logo.png" alt="CIVIC" style="max-width: 60%; height: auto;">
         </div>
         <ul class="nav flex-column">
-            <li><a href="./dashboard.php" class="nav-link text-white"><i class="bi bi-layout-text-window-reverse"></i>
-                    Dashboard</a></li>
-            <li><a href="./assets.php" class="nav-link text-white active"><i class="bi bi-ui-checks-grid"></i> Asset
-                    Request</a>
+            <li>
+                <a href="./dashboard.php" class="nav-link text-white">
+                    <i class="bi bi-layout-text-window-reverse"></i> Dashboard
+                </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-white dropdown-toggle" href="#" id="assetDropdown" data-bs-toggle="collapse"
+                    data-bs-target="#assetMenu" aria-expanded="false" aria-controls="assetMenu">
+                    <i class="bi bi-ui-checks-grid"></i> Asset Management
+                </a>
+                <div class="collapse" id="assetMenu">
+                    <ul class="nav flex-column ps-3">
+                        <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
+                        <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                        <li><a href="./assetsrequest.php" class="nav-link text-white active">Asset Request</a></li>
 
-            <li><a href="./tickets.php" class="nav-link text-white"><i class="bi bi-ticket-perforated"></i>
-                    Tickets</a></li>
-
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a href="./maintenance.php" class="nav-link text-white">
+                    <i class="bi bi-tools"></i> Maintenance
+                </a>
+            </li>
+            <li>
+                <a href="./consignment.php" class="nav-link text-white">
+                    <i class="fas fa-truck"></i> Consignment
+                </a>
+            </li>
+            <li>
+                <a href="./tickets.php" class="nav-link text-white">
+                    <i class="bi bi-ticket-perforated"></i> Tickets
+                </a>
+            </li>
+            <li>
+                <a href="./overdue.php" class="nav-link text-white">
+                    <i class="bi bi-exclamation-triangle"></i> Overdue
+                </a>
+            </li>
+            <!-- <li>
+                <a href="./reports.php" class="nav-link text-white">
+                    <i class="bi bi-file-earmark-text"></i> Reports
+                </a>
+            </li> -->
+            <li>
+                <a href="./diagnostichistory.php" class="nav-link text-white">
+                    <i class="fas fa-history"></i> Diagnostic History
+                </a>
+            </li>
+            <!-- <li>
+                <a href="./users.php" class="nav-link text-white">
+                    <i class="bi bi-person"></i> Manage Users
+                </a>
+            </li> -->
         </ul>
     </div>
+
     <div id="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container-fluid">
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#"> My Asset Request</a>
+                <a class="navbar-brand ms-3" href="#">Asset Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -59,12 +95,12 @@ if (!isset($_SESSION['username'])) {
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                                <!-- <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
                                 <li><a class="dropdown-item" href="#">Settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
-                                </li> -->
-                                <li><a class="dropdown-item" href="../auth/logout.php">Logout</a></li>
+                                </li>
+                                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -79,120 +115,113 @@ if (!isset($_SESSION['username'])) {
                 
                 </div>
             </div>
-
             <div class="row g-3">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-send-check card-icon text-primary"></i>
-                            <div>
-                                <h6 class="card-title">Total Requests</h6>
-                                <p class="card-value" id="totalRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-check-circle card-icon text-success"></i>
-                            <div>
-                                <h6 class="card-title">Received Requests</h6>
-                                <p class="card-value" id="receivedRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-hourglass-split card-icon text-warning"></i>
-                            <div>
-                                <h6 class="card-title">Pending Requests</h6>
-                                <p class="card-value" id="pendingRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-x-circle card-icon text-danger"></i>
-                            <div>
-                                <h6 class="card-title">Declined Requests</h6>
-                                <p class="card-value" id="declinedRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-send-check card-icon text-primary"></i>
+                <div>
+                    <h6 class="card-title">Total Requests</h6>
+                    <p class="card-value" id="totalRequests">0</p>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="row mt-3">
-    <div class="col-12 text-end">
-        <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
-           class="btn btn-orange me-2"> 
-            <i class="bi bi-plus-lg"></i> Submit New Request
-        </a>
-        <a href="../staff/myasset.php" class="btn btn-orange">
-    <i class="bi bi-plus-lg"></i> My Asset
-</a>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-check-circle card-icon text-success"></i>
+                <div>
+                    <h6 class="card-title">Approved Requests</h6>
+                    <p class="card-value" id="approvedRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-hourglass-split card-icon text-warning"></i>
+                <div>
+                    <h6 class="card-title">Pending Requests</h6>
+                    <p class="card-value" id="pendingRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-x-circle card-icon text-danger"></i>
+                <div>
+                    <h6 class="card-title">Declined Requests</h6>
+                    <p class="card-value" id="declinedRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-card-checklist card-icon text-primary"></i>
+                <div>
+                    <h6 class="card-title">Received Requests</h6>
+                    <p class="card-value" id="receivedRequests">0</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-            
-                        <?php
-            include '../src/config/config.php';
+            <?php
+include '../src/config/config.php';
 
-            $loggedInUser = $_SESSION['username'];
+$itemsPerPage = 5;
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($currentPage - 1) * $itemsPerPage;
 
-            $itemsPerPage = 5; 
-            $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
-            $offset = ($currentPage - 1) * $itemsPerPage; 
+$totalRequests = 0;
+$sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests";
+$stmtTotal = $conn->prepare($sqlTotal);
+if ($stmtTotal) {
+    $stmtTotal->execute();
+    $resultTotal = $stmtTotal->get_result();
+    if ($resultTotal) {
+        $totalRequests = $resultTotal->fetch_assoc()['total'];
+    }
+    $stmtTotal->close();
+}
 
-            $totalRequests = 0;
-            $sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests WHERE requestedby = ?";
-            $stmtTotal = $conn->prepare($sqlTotal);
-            if ($stmtTotal) {
-                $stmtTotal->bind_param("s", $loggedInUser);
-                $stmtTotal->execute();
-                $resultTotal = $stmtTotal->get_result();
-                if ($resultTotal) {
-                    $totalRequests = $resultTotal->fetch_assoc()['total'];
-                }
-                $stmtTotal->close();
-            }
+$assetRequests = [];
+$sql = "SELECT requestid, assetname, category, reason, status, createddate 
+        FROM assetrequests 
+        ORDER BY createddate DESC 
+        LIMIT ? OFFSET ?";
+$stmt = $conn->prepare($sql);
 
-            $assetRequests = [];
-            $sql = "SELECT requestid, assetname, category, reason, status, createddate 
-                    FROM assetrequests 
-                    WHERE requestedby = ? 
-                    ORDER BY createddate DESC 
-                    LIMIT ? OFFSET ?";
-            $stmt = $conn->prepare($sql);
+if ($stmt) {
+    $stmt->bind_param("ii", $itemsPerPage, $offset);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $assetRequests[] = $row;
+        }
+    } else {
+        $errorMessage = "No requests found.";
+    }
+    $stmt->close();
+} else {
+    $errorMessage = "Error preparing the SQL statement: " . $conn->error;
+}
+$totalPages = ceil($totalRequests / $itemsPerPage);
+?>
 
-            if ($stmt) {
-                $stmt->bind_param("sii", $loggedInUser, $itemsPerPage, $offset); 
-                $stmt->execute();
-                $result = $stmt->get_result();
-                
-                if ($result && $result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $assetRequests[] = $row;
-                    }
-                } else {
-                    $errorMessage = "No requests found for the user.";
-                }
-                $stmt->close();
-            } else {
-                $errorMessage = "Error preparing the SQL statement: " . $conn->error;
-            }
-
-            $totalPages = ceil($totalRequests / $itemsPerPage);
-            ?>
             <div class="row mt-4">
                 <div class="col-12">
                     <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
@@ -217,11 +246,15 @@ if (!isset($_SESSION['username'])) {
                                 <td><?php echo htmlspecialchars($request['reason']); ?></td>
                                 <td>
                                 <span class="badge 
-                                <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
-                                            ($request['status'] === 'Declined' ? 'bg-danger' : 
-                                            ($request['status'] === 'Received' ? 'bg-primary' : 'bg-secondary')); ?>">
+                                <?php 
+                                    echo $request['status'] === 'Pending' ? 'bg-warning' : 
+                                        ($request['status'] === 'Received' ? 'bg-success' : 
+                                        ($request['status'] === 'Approved' ? 'bg-primary' : 
+                                        ($request['status'] === 'Declined' ? 'bg-secondary' : 'bg-danger'))); 
+                                ?>">
                                 <?php echo htmlspecialchars($request['status']); ?>
                             </span>
+
                                 </td>
                                 <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?>
                                 </td>
@@ -237,13 +270,7 @@ if (!isset($_SESSION['username'])) {
                                                 <a href="viewAsset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
                                                     class="dropdown-item text-primary"> <i class="bi bi-eye"></i> View
                                             </li>
-                                            <li>
-                                                <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                                    class="dropdown-item text-warning"><i class="bi bi-pencil"></i>
-                                                    Received
-
-                                                </a>
-                                            </li>
+                                  
                                         </ul>
                                     </div>
                                 </td>
@@ -323,18 +350,16 @@ if (!isset($_SESSION['username'])) {
             </script>
 
 
-<script>
-        function searchTable() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toLowerCase();
-            const rows = document.querySelectorAll('tbody tr');
+        <script>
+            function searchTable() {
+                const input = document.getElementById('searchInput');
+                const filter = input.value.toLowerCase();
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentPage = urlParams.get('page') || 1;
 
-            rows.forEach(row => {
-                const cells = Array.from(row.cells);
-                const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
-                row.style.display = match ? '' : 'none';
-            });
-        }
+                window.location.href = `?page=${currentPage}&search=${filter}`;
+            }
         </script>
 
             <script>
@@ -366,9 +391,11 @@ if (!isset($_SESSION['username'])) {
                     dataType: 'json',
                     success: function(response) {
                         $('#totalRequests').text(response.totalRequests);
-                        $('#receivedRequests').text(response.receivedRequests);
+                        $('#approvedRequests').text(response.approvedRequests);
                         $('#pendingRequests').text(response.pendingRequests);
                         $('#declinedRequests').text(response.declinedRequests);
+                        $('#receivedRequests').text(response.receivedRequests);
+
                     },
                     error: function() {
                         console.error("Error fetching request data.");
@@ -382,6 +409,7 @@ if (!isset($_SESSION['username'])) {
                 setInterval(fetchRequestData, 100);
             });
             </script>
+
 
 </body>
 

@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['requestid'], $_POST['
                         echo "<script>alert('The stock for this asset is already 0. Cannot approve the request.');</script>";
                         exit();
                     }
+
                     $sqlUpdateRequest = "UPDATE assetrequests SET status = ? WHERE requestid = ?";
                     $stmtUpdateRequest = $conn->prepare($sqlUpdateRequest);
                     if ($stmtUpdateRequest) {

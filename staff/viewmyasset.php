@@ -73,67 +73,77 @@ if (!isset($_SESSION['username'])) {
             <div class="container my-5">
                 <div class="card shadow-lg p-4">
                     <form method="POST">
-                        <?php
-include '../src/config/config.php';
+                                <?php
+            include '../src/config/config.php';
 
-if (isset($_GET['requestid'])) {
-    $assetId = $_GET['requestid'];
+            if (isset($_GET['requestid'])) {
+                $assetId = $_GET['requestid'];
 
-    $sql = "SELECT * FROM assetrequests WHERE requestid = ?";
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("i", $assetId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result && $result->num_rows > 0) {
-            $asset = $result->fetch_assoc();
-        } else {
-            $errorMessage = "Asset not found.";
-        }
-        $stmt->close();
-    } else {
-        $errorMessage = "Error preparing the SQL statement: " . $conn->error;
-    }
-} else {
-    $errorMessage = "No asset ID provided.";
-}
-?>
+                $sql = "SELECT ar.*, ad.description FROM assetrequests ar 
+                        INNER JOIN assetdetails ad ON ar.assetid = ad.id 
+                        WHERE ar.requestid = ?";
+                $stmt = $conn->prepare($sql);
+                if ($stmt) {
+                    $stmt->bind_param("i", $assetId);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    
+                    if ($result && $result->num_rows > 0) {
+                        $asset = $result->fetch_assoc();
+                    } else {
+                        $errorMessage = "Asset not found.";
+                    }
+                    $stmt->close();
+                } else {
+                    $errorMessage = "Error preparing the SQL statement: " . $conn->error;
+                }
+            } else {
+                $errorMessage = "No asset ID provided.";
+            }
+            ?>
 
-                        <form method="POST" action="editasset.php?requestid=<?php echo $asset['requestid']; ?>">
-                            <input type="hidden" name="requestid" value="<?php echo $asset['requestid']; ?>">
+            <form method="POST" action="editasset.php?requestid=<?php echo $asset['requestid']; ?>">
+                <input type="hidden" name="requestid" value="<?php echo $asset['requestid']; ?>">
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <input type="text" class="form-control" id="category" name="category"
+                        value="<?php echo htmlspecialchars($asset['category']); ?>" required disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="assetname" class="form-label">Asset Name</label>
+                    <input type="text" class="form-control" id="assetname" name="assetname"
+                        value="<?php echo htmlspecialchars($asset['assetname']); ?>" required disabled>
+                </div>
+
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <select class="form-select" id="status" name="status" disabled>
+                        <option value="Pending"
+                            <?php echo $asset['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                        <option value="Received"
+                            <?php echo $asset['status'] === 'Received' ? 'selected' : ''; ?>>Received
+                        </option>
+                        <option value="Cancel"
+                            <?php echo $asset['status'] === 'Cancel' ? 'selected' : ''; ?>>Cancel</option>
+                    </select>
+                </div>
+<!-- 
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason</label>
+                    <textarea class="form-control" id="reason" name="reason" rows="3"
+                        disabled><?php echo htmlspecialchars($asset['reason']); ?></textarea>
+                </div> -->
+
                             <div class="mb-3">
-                                <label for="category" class="form-label">Category</label>
-                                <input type="text" class="form-control" id="category" name="category"
-                                    value="<?php echo htmlspecialchars($asset['category']); ?>" required disabled>
-                            </div>
-                            <div class="mb-3">
-                                <label for="assetname" class="form-label">Asset Name</label>
-                                <input type="text" class="form-control" id="assetname" name="assetname"
-                                    value="<?php echo htmlspecialchars($asset['assetname']); ?>" required disabled>
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3" disabled>
+                                    <?php echo htmlspecialchars($asset['description']); ?>
+                                </textarea>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" name="status" disabled>
-                                    <option value="Pending"
-                                        <?php echo $asset['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
-                                    <option value="Received"
-                                        <?php echo $asset['status'] === 'Received' ? 'selected' : ''; ?>>Received
-                                    </option>
-                                    <option value="Cancel"
-                                        <?php echo $asset['status'] === 'Cancel' ? 'selected' : ''; ?>>Cancel</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="reason" class="form-label">Reason</label>
-                                <textarea class="form-control" id="reason" name="reason" rows="3"
-                                    disabled><?php echo htmlspecialchars($asset['reason']); ?></textarea>
-                            </div>
-                            <a href="myasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                class="btn btn-danger">Back</a>
-                        </form>
+                        <a href="myasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
+                            class="btn btn-danger">Back</a>
+                    </form>
 
 
 

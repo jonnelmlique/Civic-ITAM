@@ -123,69 +123,76 @@ if (!isset($_SESSION['username'])) {
                 
                 </div>
             </div>
-
             <div class="row g-3">
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-send-check card-icon text-primary"></i>
-                            <div>
-                                <h6 class="card-title">Total Requests</h6>
-                                <p class="card-value" id="totalRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-check-circle card-icon text-success"></i>
-                            <div>
-                                <h6 class="card-title">Approved Requests</h6>
-                                <p class="card-value" id="approvedRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-hourglass-split card-icon text-warning"></i>
-                            <div>
-                                <h6 class="card-title">Pending Requests</h6>
-                                <p class="card-value" id="pendingRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body d-flex align-items-center">
-                            <i class="bi bi-x-circle card-icon text-danger"></i>
-                            <div>
-                                <h6 class="card-title">Declined Requests</h6>
-                                <p class="card-value" id="declinedRequests">0</p>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-send-check card-icon text-primary"></i>
+                <div>
+                    <h6 class="card-title">Total Requests</h6>
+                    <p class="card-value" id="totalRequests">0</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-check-circle card-icon text-success"></i>
+                <div>
+                    <h6 class="card-title">Approved Requests</h6>
+                    <p class="card-value" id="approvedRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-hourglass-split card-icon text-warning"></i>
+                <div>
+                    <h6 class="card-title">Pending Requests</h6>
+                    <p class="card-value" id="pendingRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-x-circle card-icon text-danger"></i>
+                <div>
+                    <h6 class="card-title">Declined Requests</h6>
+                    <p class="card-value" id="declinedRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <i class="bi bi-card-checklist card-icon text-primary"></i>
+                <div>
+                    <h6 class="card-title">Received Requests</h6>
+                    <p class="card-value" id="receivedRequests">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
             <?php
 include '../src/config/config.php';
 
-// Set the number of items per page and calculate the current page
 $itemsPerPage = 5;
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($currentPage - 1) * $itemsPerPage;
 
-// Initialize variable to hold the total number of requests
 $totalRequests = 0;
-
-// Get the total number of requests (without filtering by user)
 $sqlTotal = "SELECT COUNT(*) AS total FROM assetrequests";
 $stmtTotal = $conn->prepare($sqlTotal);
 if ($stmtTotal) {
@@ -249,7 +256,7 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
                                 <span class="badge 
                                 <?php 
                                     echo $request['status'] === 'Pending' ? 'bg-warning' : 
-                                        ($request['status'] === 'In Use' ? 'bg-success' : 
+                                        ($request['status'] === 'Received' ? 'bg-success' : 
                                         ($request['status'] === 'Approved' ? 'bg-primary' : 
                                         ($request['status'] === 'Declined' ? 'bg-secondary' : 'bg-danger'))); 
                                 ?>">
@@ -395,6 +402,8 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
                         $('#approvedRequests').text(response.approvedRequests);
                         $('#pendingRequests').text(response.pendingRequests);
                         $('#declinedRequests').text(response.declinedRequests);
+                        $('#receivedRequests').text(response.receivedRequests);
+
                     },
                     error: function() {
                         console.error("Error fetching request data.");
