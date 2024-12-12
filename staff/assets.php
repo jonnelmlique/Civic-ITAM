@@ -19,6 +19,7 @@ if (!isset($_SESSION['username'])) {
     <link rel="stylesheet" href="../public/css/staff/management.css">
     <link rel="stylesheet" href="../public/css/staff/sidebar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="../public/css/staff/asset.css">
 
 
 </head>
@@ -98,8 +99,8 @@ if (!isset($_SESSION['username'])) {
                         <div class="card-body d-flex align-items-center">
                             <i class="bi bi-check-circle card-icon text-success"></i>
                             <div>
-                                <h6 class="card-title">Approved Requests</h6>
-                                <p class="card-value" id="approvedRequests">0</p>
+                                <h6 class="card-title">Received Requests</h6>
+                                <p class="card-value" id="receivedRequests">0</p>
                             </div>
                         </div>
                     </div>
@@ -131,15 +132,19 @@ if (!isset($_SESSION['username'])) {
             </div>
 
             <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                        class="btn btn-orange">
-                        <i class="bi bi-plus-lg"></i> Submit New Request
-                    </a>
+    <div class="col-12 text-end">
+        <a href="../staff/addasset.php?page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
+           class="btn btn-orange me-2"> 
+            <i class="bi bi-plus-lg"></i> Submit New Request
+        </a>
+        <a href="../staff/myasset.php" class="btn btn-orange">
+    <i class="bi bi-plus-lg"></i> My Asset
+</a>
 
-                </div>
-            </div>
+    </div>
+</div>
 
+            
                         <?php
             include '../src/config/config.php';
 
@@ -189,69 +194,74 @@ if (!isset($_SESSION['username'])) {
 
             $totalPages = ceil($totalRequests / $itemsPerPage);
             ?>
-            <div class="row mt-4">
-                <div class="col-12">
-                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
-                        onkeyup="searchTable()">
-                    <table class="table table-hover table-striped shadow-sm" id="assetRequestsTable">
-                        <thead class="bg-orange text-white">
-                            <tr>
-                                <th scope="col">Asset Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Reason</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Created Date</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($assetRequests)): ?>
-                            <?php foreach ($assetRequests as $request): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($request['assetname']); ?></td>
-                                <td><?php echo htmlspecialchars($request['category']); ?></td>
-                                <td><?php echo htmlspecialchars($request['reason']); ?></td>
-                                <td>
-                                    <span class="badge 
-                                    <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
-                                            ($request['status'] === 'In Use' ? 'bg-success' : 'bg-danger'); ?>">
-                                        <?php echo htmlspecialchars($request['status']); ?>
-                                    </span>
-                                </td>
-                                <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button"
-                                            id="actionDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li>
+           <div class="row mt-4">
+    <div class="col-12">
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" class="form-control mb-3 shadow-sm rounded-pill" placeholder="Search" onkeyup="searchTable()">
 
-                                                <a href="viewAsset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                                    class="dropdown-item text-primary"> <i class="bi bi-eye"></i> View
-                                            </li>
-                                            <li>
-                                                <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                                    class="dropdown-item text-warning"><i class="bi bi-pencil"></i>
-                                                    Edit
-
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-
-                            </tr>
-                            <?php endforeach; ?>
-                            <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="text-center">No asset requests found for you.</td>
-                            </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+        <!-- Table Container -->
+        <div class="table-responsive rounded shadow-sm">
+            <table class="table table-hover align-middle table-borderless" id="assetRequestsTable">
+                <thead class="bg-orange text-white">
+                    <tr>
+                        <th scope="col">Asset Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($assetRequests)): ?>
+                    <?php foreach ($assetRequests as $request): ?>
+                    <tr class="shadow-sm">
+                        <td class="fw-semibold"><?php echo htmlspecialchars($request['assetname']); ?></td>
+                        <td><?php echo htmlspecialchars($request['category']); ?></td>
+                        <td><?php echo htmlspecialchars($request['reason']); ?></td>
+                        <td>
+                            <span class="badge 
+                                <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
+                                            ($request['status'] === 'Declined' ? 'bg-danger' : 
+                                            ($request['status'] === 'Received' ? 'bg-primary' : 'bg-secondary')); ?>">
+                                <?php echo htmlspecialchars($request['status']); ?>
+                            </span>
+                        </td>
+                        <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?></td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" type="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <li>
+                                        <a href="viewAsset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
+                                           class="dropdown-item text-primary">
+                                           <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
+                                           class="dropdown-item text-warning">
+                                           <i class="bi bi-pencil"></i> Mark as Received
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">No asset requests found for you.</td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
@@ -318,16 +328,18 @@ if (!isset($_SESSION['username'])) {
             </script>
 
 
-        <script>
-            function searchTable() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toLowerCase();
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentPage = urlParams.get('page') || 1;
+<script>
+        function searchTable() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
 
-                window.location.href = `?page=${currentPage}&search=${filter}`;
-            }
+            rows.forEach(row => {
+                const cells = Array.from(row.cells);
+                const match = cells.some(cell => cell.textContent.toLowerCase().includes(filter));
+                row.style.display = match ? '' : 'none';
+            });
+        }
         </script>
 
             <script>
@@ -359,7 +371,7 @@ if (!isset($_SESSION['username'])) {
                     dataType: 'json',
                     success: function(response) {
                         $('#totalRequests').text(response.totalRequests);
-                        $('#approvedRequests').text(response.approvedRequests);
+                        $('#receivedRequests').text(response.receivedRequests);
                         $('#pendingRequests').text(response.pendingRequests);
                         $('#declinedRequests').text(response.declinedRequests);
                     },

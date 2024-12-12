@@ -12,6 +12,11 @@
 </head>
 
 <body>
+<video id="background-video" autoplay loop muted>
+        <source src="./public/css/civic.webm" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card shadow p-4">
             <div class="form-wrapper">

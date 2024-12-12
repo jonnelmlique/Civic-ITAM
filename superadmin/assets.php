@@ -43,6 +43,7 @@ if (!isset($_SESSION['username'])) {
                     <ul class="nav flex-column ps-3">
                         <li><a href="./assets.php" class="nav-link text-white active">Assets</a></li>
                         <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                        <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Requests</a></li>
                     </ul>
                 </div>
             </li>
@@ -185,7 +186,7 @@ if (!isset($_SESSION['username'])) {
                     <table class="table table-hover table-striped shadow-sm mt-3">
                         <thead class="bg-orange text-white">
                             <tr>
-                                <!-- <th scope="col">Asset ID</th> -->
+                                 <th scope="col">Asset ID</th>
                                 <th scope="col">Asset Name</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Stock</th>
@@ -242,6 +243,7 @@ if (!isset($_SESSION['username'])) {
                 $formattedDate = date('Y-m-d', strtotime($createdDate));
 
         echo "<tr>
+            <td>$id</td>
             <td>$assetName</td>
             <td>$category</td>
             <td>$stock</td>
@@ -368,16 +370,7 @@ $conn->close();
                             <div class="row gy-3">
                                 <!-- Column 1 -->
                                 <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="assetCode" class="form-label">Asset Code</label>
-                                        <input type="text" class="form-control shadow-sm" id="assetCode"
-                                            name="assetCode" placeholder="Enter asset code" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="itemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="itemId" name="itemId"
-                                            placeholder="Enter item ID" required>
-                                    </div>
+                                   
                                     <div class="mb-3">
                                         <label for="assetname" class="form-label">Asset Name</label>
                                         <input type="text" class="form-control shadow-sm" id="assetname"
@@ -393,15 +386,16 @@ $conn->close();
                                         <input type="text" class="form-control shadow-sm" id="supplier" name="supplier"
                                             placeholder="Enter supplier name" required>
                                     </div>
-                                </div>
-
-                                <!-- Column 2 -->
-                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="purchaseDate" class="form-label">Purchase Date</label>
                                         <input type="date" class="form-control shadow-sm" id="purchaseDate"
                                             name="purchaseDate" required>
                                     </div>
+                                </div>
+
+                                <!-- Column 2 -->
+                                <div class="col-md-4">
+                                 
                                     <div class="mb-3">
                                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
                                         <input type="text" class="form-control shadow-sm" id="invoiceNumber"
@@ -421,10 +415,22 @@ $conn->close();
                                         <label for="category" class="form-label">Category</label>
                                         <select class="form-select shadow-sm" id="category" name="category" required>
                                             <option value="">Select Category</option>
-                                            <option value="Desktop">Desktop</option>
-                                            <option value="Laptop">Laptop</option>
-                                            <option value="Printer">Printer</option>
-                                            <option value="Peripheral">Peripheral</option>
+\                                        <option value="">Select Category</option>
+                                            <option value="Laptops">Laptop</option>
+                                            <option value="Printers">Printer</option>
+                                            <option value="CPU">CPU</option>
+                                            <option value="Motherboard">Motherboard</option>
+                                            <option value="RAM">RAM</option>
+                                            <option value="GPU">GPU</option>
+                                            <option value="Storage">Storage</option>
+                                            <option value="Power Supply">Power Supply</option>
+                                            <option value="CPU Cooler">CPU Cooler</option>
+                                            <option value="Case">Case</option>
+                                            <option value="Monitor">Monitor</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Headphones">Headphones</option>
+                                            <option value="Webcam">Webcam </option>
                                         </select>
                                     </div>
                                 </div>
@@ -450,8 +456,8 @@ $conn->close();
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="createdBy" class="form-label">Created By</label>
-                                        <input type="text" class="form-control shadow-sm" id="createdBy"
+                                        <!-- <label for="createdBy" class="form-label">Created By</label> -->
+                                        <input type="hidden" class="form-control shadow-sm" id="createdBy"
                                             name="createdBy"
                                             value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>"
                                             required readonly>
@@ -498,7 +504,7 @@ $conn->close();
                                     </div>
                                     <div class="mb-3">
                                         <label for="viewItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="viewItemId"
+                                        <input type="text" class="form-control shadow-sm" id="viewItemId"
                                             name="viewItemId" disabled>
                                     </div>
                                     <div class="mb-3">
@@ -610,12 +616,12 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editAssetCode" class="form-label">Asset Code</label>
                                         <input type="text" class="form-control shadow-sm" id="editAssetCode"
-                                            name="editAssetCode" required readonly>
+                                            name="editAssetCode" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="editItemId"
-                                            name="editItemId" required readonly>
+                                        <input type="text" class="form-control shadow-sm" id="editItemId"
+                                            name="editItemId" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editAssetName" class="form-label">Asset Name</label>
@@ -625,7 +631,7 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editSerialNumber" class="form-label">Serial Number</label>
                                         <input type="text" class="form-control shadow-sm" id="editSerialNumber"
-                                            name="editSerialNumber" required>
+                                            name="editSerialNumber" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editSupplier" class="form-label">Supplier</label>
@@ -661,10 +667,21 @@ $conn->close();
                                         <select class="form-select shadow-sm" id="editCategory" name="editCategory"
                                             required>
                                             <option value="">Select Category</option>
-                                            <option value="Desktops">Desktop</option>
                                             <option value="Laptops">Laptop</option>
                                             <option value="Printers">Printer</option>
-                                            <option value="Peripherals">Peripherals</option>
+                                            <option value="CPU">CPU</option>
+                                            <option value="Motherboard">Motherboard</option>
+                                            <option value="RAM">RAM</option>
+                                            <option value="GPU">GPU</option>
+                                            <option value="Storage">Storage</option>
+                                            <option value="Power Supply">Power Supply</option>
+                                            <option value="CPU Cooler">CPU Cooler</option>
+                                            <option value="Case">Case</option>
+                                            <option value="Monitor">Monitor</option>
+                                            <option value="Keyboard">Keyboard</option>
+                                            <option value="Mouse">Mouse</option>
+                                            <option value="Headphones">Headphones</option>
+                                            <option value="Webcams">Webcam </option>
                                         </select>
                                     </div>
                                 </div>
@@ -792,7 +809,6 @@ $conn->close();
                         let tableBody = document.querySelector('table tbody');
                         tableBody.innerHTML = '';
                         data.assets.forEach(asset => {
-                            // Format the createDate (example of format 'Y-m-d')
                             const formattedDate = new Date(asset.createDate);
                             const year = formattedDate.getFullYear();
                             const month = (formattedDate.getMonth() + 1).toString().padStart(2, '0');
@@ -800,6 +816,7 @@ $conn->close();
                             const formattedCreateDate = `${year}-${month}-${day}`;
                             let row = document.createElement('tr');
                             row.innerHTML = `
+                        <td>${asset.id}</td>
                         <td>${asset.assetname}</td>
                         <td>${asset.category}</td>
                         <td>${asset.stock}</td>
@@ -949,17 +966,53 @@ $conn->close();
                 let lifespan = '';
 
                 switch (category) {
-                    case 'Desktops':
-                        lifespan = 5;
+                    case 'Laptops':
+                        lifespan = '5'; 
                         break;
                     case 'Printers':
-                        lifespan = 4;
-                        break;
-                    case 'Laptops':
-                        lifespan = 5;
+                        lifespan = '3'; 
                         break;
                     case 'Peripherals':
-                        lifespan = 2;
+                        lifespan = '2'; 
+                        break;
+                    case 'CPU':
+                        lifespan = '7'; 
+                        break;
+                    case 'Motherboard':
+                        lifespan = '5'; 
+                        break;
+                    case 'RAM':
+                        lifespan = '5'; 
+                        break;
+                    case 'GPU':
+                        lifespan = '5'; 
+                        break;
+                    case 'Storage':
+                        lifespan = '3'; 
+                        break;
+                    case 'Power Supply':
+                        lifespan = '5'; 
+                        break;
+                    case 'CPU Cooler':
+                        lifespan = '5'; 
+                        break;
+                    case 'Case':
+                        lifespan = '10'; 
+                        break;
+                    case 'Monitor':
+                        lifespan = '5'; 
+                        break;
+                    case 'Keyboard':
+                        lifespan = '3'; 
+                        break;
+                    case 'Mouse':
+                        lifespan = '3'; 
+                        break;
+                    case 'Headphones':
+                        lifespan = '3'; 
+                        break;
+                    case 'Webcam':
+                        lifespan = '3'; 
                         break;
                     default:
                         lifespan = '';
@@ -1045,23 +1098,59 @@ $conn->close();
                 });
             });
             </script>
-            <script>
+                <script>
             document.getElementById('editCategory').addEventListener('change', function() {
                 const category = this.value;
                 let lifespan = '';
 
                 switch (category) {
-                    case 'Desktops':
-                        lifespan = 5;
+                    case 'Laptops':
+                        lifespan = '5'; 
                         break;
                     case 'Printers':
-                        lifespan = 4;
-                        break;
-                    case 'Laptops':
-                        lifespan = 5;
+                        lifespan = '3'; 
                         break;
                     case 'Peripherals':
-                        lifespan = 2;
+                        lifespan = '2'; 
+                        break;
+                    case 'CPU':
+                        lifespan = '7'; 
+                        break;
+                    case 'Motherboard':
+                        lifespan = '5'; 
+                        break;
+                    case 'RAM':
+                        lifespan = '5'; 
+                        break;
+                    case 'GPU':
+                        lifespan = '5'; 
+                        break;
+                    case 'Storage':
+                        lifespan = '3'; 
+                        break;
+                    case 'Power Supply':
+                        lifespan = '5'; 
+                        break;
+                    case 'CPU Cooler':
+                        lifespan = '5'; 
+                        break;
+                    case 'Case':
+                        lifespan = '10'; 
+                        break;
+                        case 'Monitor':
+                        lifespan = '5'; 
+                        break;
+                    case 'Keyboard':
+                        lifespan = '3'; 
+                        break;
+                    case 'Mouse':
+                        lifespan = '3'; 
+                        break;
+                    case 'Headphones':
+                        lifespan = '3'; 
+                        break;
+                    case 'Webcam':
+                        lifespan = '3'; 
                         break;
                     default:
                         lifespan = '';
@@ -1069,7 +1158,7 @@ $conn->close();
 
                 document.getElementById('editLifespan').value = lifespan;
             });
-            </script>
+        </script>
             <script>
             function handleUpdateResponse(response) {
                 if (response.success) {

@@ -14,7 +14,7 @@ $myTicketsCount = 0;
 $pendingAssetsCount = 0;
 
 try {
-    $sql = "SELECT COUNT(*) AS count FROM assetrequests WHERE requestedby = ? AND status = 'Accepted'";
+    $sql = "SELECT COUNT(*) AS count FROM assetrequests WHERE requestedby = ? AND status = 'Received'";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $username);
     $stmt->execute();

@@ -43,7 +43,8 @@ CREATE TABLE tickets (
     status VARCHAR(255) DEFAULT 'Open',      
     createdby VARCHAR(255) NOT NULL,                
     assignedto VARCHAR(255) NULL,            
-    lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP 
+    lastupdated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    seen TINYINT(1) DEFAULT 0 
 );
 
 CREATE TABLE maintenance_requests (
@@ -88,7 +89,7 @@ https://docs.google.com/spreadsheets/d/1PK7PUsHtfrw7iIUXcB5UD7wWL64bLVc652pDSfj4
 
 CREATE TABLE assetdetails (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    assetcode VARCHAR(255) NOT NULL, 
+    assetcode INT NOT NULL, 
     itemid INT NOT NULL, 
     assetname VARCHAR(255) NOT NULL, 
     description TEXT, 
@@ -106,7 +107,25 @@ CREATE TABLE assetdetails (
     lifespan INT NOT NULL,
     createDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     createdby VARCHAR(255) NOT NULL,
+    UNIQUE (assetcode),
+    UNIQUE (itemid)
 );
+
+CREATE TRIGGER before_insert_assetdetails
+BEFORE INSERT ON assetdetails
+FOR EACH ROW
+BEGIN
+    IF NEW.assetcode IS NULL OR NEW.assetcode = 0 THEN
+        SET NEW.assetcode = (SELECT IFNULL(MAX(assetcode), 0) + 1 FROM assetdetails);
+    END IF;
+
+    IF NEW.itemid IS NULL OR NEW.itemid = 0 THEN
+        SET NEW.itemid = (SELECT IFNULL(MAX(itemid), 0) + 1 FROM assetdetails);
+    END IF;
+END;
+//
+DELIMITER ;
+
 
 CREATE TABLE assetconsignment (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -145,11 +164,10 @@ ALTER TABLE `diagnostichistory`
 	ADD COLUMN `status` VARCHAR(100) NULL DEFAULT NULL AFTER `createdby`;
 
 
-
-
-
-
 // FOR EMPLOYEES LOCK ACCOUNT
 ALTER TABLE employees
 ADD failed_attempts INT DEFAULT 0,
 ADD lock_time INT DEFAULT NULL;
+
+ALTER TABLE `maintenance_requests`
+	ADD COLUMN `assetdetails_id` INT(11) NULL DEFAULT NULL AFTER `request_id`;

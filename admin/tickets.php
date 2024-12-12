@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php"); 
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +18,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/admincss/management.css">
     <link rel="stylesheet" href="../public/css/admincss/sidebar.css">
+    <link rel="stylesheet" href="../public/css/superadmin/ticket.css">
+
 </head>
 
 <body>
@@ -32,6 +42,8 @@
                     <ul class="nav flex-column ps-3">
                         <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
                         <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                        <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Request</a></li>
+
                     </ul>
                 </div>
             </li>
@@ -133,7 +145,7 @@
                             <div class="card-body d-flex align-items-center">
                                 <i class="bi bi-check-circle card-icon text-success me-3"></i>
                                 <div>
-                                    <h6 class="card-title mb-1">Resolved Tickets</h6>
+                                    <h6 class="card-title mb-1">Solved Tickets</h6>
                                     <p class="card-value mb-0" id="resolvedTickets">Loading...</p>
                                 </div>
                             </div>
@@ -164,253 +176,145 @@
                         </div>
                     </div>
                 </div>
+                <?php
+include '../src/config/config.php';
 
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <input type="text" id="searchInput" class="form-control" placeholder="Search"
-                                onkeyup="searchTable()">
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+
+    $sql = "SELECT ticketid, subject, category, status, lastupdated, createdby, description, assignedto 
+            FROM tickets 
+            WHERE (assignedto = ? OR createdby = ?) AND status != 'Closed'
+            ORDER BY lastupdated DESC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ss", $username, $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    echo "Please log in first.";
+    exit();
+}
+?>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search" onkeyup="searchTable()">
+        </div>
+
+        <div class="tickets-container" id="ticketsContainer">
+            <?php
+            if ($result && $result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $ticketId = 'TKT' . str_pad($row['ticketid'], 4, '0', STR_PAD_LEFT);
+                    $subject = htmlspecialchars($row['subject'], ENT_QUOTES, 'UTF-8');
+                    $category = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8');
+                    $status = htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8');
+                    $lastUpdated = htmlspecialchars($row['lastupdated'], ENT_QUOTES, 'UTF-8');
+                    $createdBy = htmlspecialchars($row['createdby'], ENT_QUOTES, 'UTF-8');
+                    $description = htmlspecialchars($row['description'], ENT_QUOTES, 'UTF-8');
+                    $assignedTo = htmlspecialchars($row['assignedto'], ENT_QUOTES, 'UTF-8');
+
+                    $badgeClass = ($status === 'Solved') ? 'bg-success' : (($status === 'Open') ? 'bg-warning' : 'bg-danger');
+                    
+                    echo "
+                    <div class='ticket-card' data-search='$ticketId $subject $category $status $lastUpdated $createdBy'>
+                        <div class='ticket-header'>
+                            <span class='ticket-id'>$ticketId</span>
+                            <span class='badge $badgeClass'>$status</span>
                         </div>
-
-                        <table class="table table-hover table-striped shadow-sm">
-                            <thead class="bg-orange text-white">
-                                <tr>
-                                    <th scope="col">Ticket ID</th>
-                                    <th scope="col">Subject</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Last Update</th>
-                                    <th scope="col">Created By</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                include '../src/config/config.php';
-
-                $sql = "SELECT ticketid, subject, category, status, lastupdated, createdby, description, assignedto 
-                        FROM tickets 
-                        WHERE status != 'Closed'
-                        ORDER BY lastupdated DESC";
-
-                $result = $conn->query($sql);
-
-                if ($result && $result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $ticketId = 'TKT' . str_pad($row['ticketid'], 4, '0', STR_PAD_LEFT);
-                        $subject = htmlspecialchars($row['subject'], ENT_QUOTES, 'UTF-8');
-                        $category = htmlspecialchars($row['category'], ENT_QUOTES, 'UTF-8');
-                        $status = htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8');
-                        $lastUpdated = htmlspecialchars($row['lastupdated'], ENT_QUOTES, 'UTF-8');
-                        $createdBy = htmlspecialchars($row['createdby'], ENT_QUOTES, 'UTF-8');
-                        $description = htmlspecialchars($row['description'], ENT_QUOTES, 'UTF-8');
-                        $assignedTo = htmlspecialchars($row['assignedto'], ENT_QUOTES, 'UTF-8');
-
-                        $badgeClass = ($status === 'Open') ? 'bg-success' : (($status === 'Pending') ? 'bg-warning' : 'bg-danger');
-
-                        echo "
-                        <tr>
-                            <td>$ticketId</td>
-                            <td>$subject</td>
-                            <td>$category</td>
-                            <td><span class='badge $badgeClass'>$status</span></td>
-                            <td>$lastUpdated</td>
-                            <td>$createdBy</td>
-                            <td>
-                                <button class='btn btn-sm btn-info view-btn' 
+                        <div class='ticket-body'>
+                            <h5 class='ticket-title'>$subject</h5>
+                            <p><strong>Category:</strong> $category</p>
+                            <p><strong>Last Updated:</strong> $lastUpdated</p>
+                            <p><strong>Created By:</strong> $createdBy</p>
+                        </div>
+                        <div class='ticket-footer'>
+                            <!-- View Button -->
+                            <button class='btn btn-sm btn-info view-btn' 
                                     data-bs-toggle='modal' 
                                     data-bs-target='#viewTicketModal'
-                                    data-ticketid='$ticketId'
-                                    data-subject='$subject'
-                                    data-category='$category'
-                                    data-status='$status'
-                                    data-lastupdated='$lastUpdated'
-                                    data-createdby='$createdBy'
+                                    data-ticketid='$ticketId' 
+                                    data-subject='$subject' 
+                                    data-category='$category' 
+                                    data-status='$status' 
+                                    data-lastupdated='$lastUpdated' 
+                                    data-createdby='$createdBy' 
                                     data-description='$description'>
-                                    View
-                                </button>
-
-                               <button class='btn btn-sm btn-warning edit-btn' 
-                                    data-bs-toggle='modal' 
-                                    data-bs-target='#editTicketModal'
-                                    data-ticketid='$ticketId'
-                                    data-subject='$subject'
-                                    data-category='$category'
-                                    data-status='$status'
-                                    data-lastupdated='$lastUpdated'
-                                    data-createdby='$createdBy'
-                                    data-assignedto='$assignedTo'>
-                                    Edit
-                                </button>
-
-
-                                <button class='btn btn-sm btn-danger delete-btn' data-ticketid='$ticketId'>
-                                    Solve
-                                </button>
-                            </td>
-                        </tr>";
-                    }
-                } else {
-                    echo "<tr>
-                        <td colspan='7' class='text-center'>No tickets found</td>
-                    </tr>";
+                                View
+                            </button>
+                            
+                             <button class='btn btn-sm btn-danger close-btn' data-id='{$row['ticketid']}'>Solve</button>
+                        </div>
+                    </div>";
                 }
+            } else {
+                echo "<div class='no-tickets'>No tickets found</div>";
+            }
 
-                $conn->close();
-                ?>
-                            </tbody>
-                        </table>
+            $stmt->close();
+            $conn->close();
+            ?>
+        </div>
+    </div>
+</div>
+
+
+
+          
+<div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-orange text-white">
+                        <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="ticketID" class="form-label">Ticket ID</label>
+                                    <input type="text" class="form-control" id="ticketID" value="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" value="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="category" class="form-label">Category</label>
+                                    <input type="text" class="form-control" id="category" value="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <input type="text" class="form-control" id="status" value="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastUpdated" class="form-label">Last Updated</label>
+                                    <input type="text" class="form-control" id="lastUpdated" value="" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="createdBy" class="form-label">Created By</label>
+                                    <input type="text" class="form-control" id="createdBy" value="" disabled>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" rows="5" disabled></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
-
-                <!-- <div class="row mt-3">
-            <div class="col-12 text-end">
-                <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#addAssetModal">
-                    <i class="bi bi-plus-lg"></i> Add New Ticket
-                </button>
             </div>
         </div>
-    </div> -->
 
-
-                <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-orange text-white">
-                                <h5 class="modal-title" id="addAssetModalLabel">Add New Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="assetName" class="form-label">Asset Name</label>
-                                        <input type="text" class="form-control" id="assetName"
-                                            placeholder="Enter Ticket name">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="assetCategory" class="form-label">Category</label>
-                                        <select class="form-select" id="assetCategory">
-                                            <option value="">Select Category</option>
-                                            <option value="Computers">Computers</option>
-                                            <option value="Printers">Printers</option>
-                                            <option value="Monitors">Monitors</option>
-                                            <option value="Accessories">Accessories</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="assetStatus" class="form-label">Status</label>
-                                        <select class="form-select" id="assetStatus">
-                                            <option value="Available">Available</option>
-                                            <option value="Assigned">Assigned</option>
-                                            <option value="Under Maintenance">Under Maintenance</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="assetAssignee" class="form-label">Assigned To</label>
-                                        <input type="text" class="form-control" id="assetAssignee"
-                                            placeholder="Enter assignee name (if applicable)">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="assetRemarks" class="form-label">Remarks</label>
-                                        <textarea class="form-control" id="assetRemarks" rows="3"
-                                            placeholder="Additional information"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-orange">Add Ticket</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-orange text-white">
-                                <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="ticketID" class="form-label">Ticket ID</label>
-                                        <input type="text" class="form-control" id="ticketID" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="title" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="title" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="category" class="form-label">Category</label>
-                                        <input type="text" class="form-control" id="category" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="status" class="form-label">Status</label>
-                                        <input type="text" class="form-control" id="status" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="lastUpdated" class="form-label">Last Updated</label>
-                                        <input type="text" class="form-control" id="lastUpdated" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="createdBy" class="form-label">Created By</label>
-                                        <input type="text" class="form-control" id="createdBy" value="" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="description" class="form-label">Description</label>
-                                        <textarea class="form-control" id="description" rows="5" disabled></textarea>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-orange text-white">
-                                <h5 class="modal-title" id="editTicketModalLabel">Assign Ticket</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form id="editTicketForm">
-                                    <div class="mb-3">
-                                        <label for="editTicketID" class="form-label">Ticket ID</label>
-                                        <input type="text" class="form-control" id="editTicketID" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editTitle" class="form-label">Title</label>
-                                        <input type="text" class="form-control" id="editTitle" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editCategory" class="form-label">Category</label>
-                                        <input type="text" class="form-control" id="editCategory" disabled>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="editStatus" class="form-label">Status</label>
-                                        <input type="text" class="form-control" id="editStatus" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editLastUpdated" class="form-label">Last Updated</label>
-                                        <input type="text" class="form-control" id="editLastUpdated" disabled>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editAssignedTo" class="form-label">Assigned To</label>
-                                        <input type="text" class="form-control" id="editAssignedTo">
-                                    </div>
-                                    <button type="submit" class="btn btn-warning">Assign Ticket</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
 
 
@@ -457,58 +361,7 @@
                         });
                     });
                     </script>
-                    <Script>
-                    $('#editTicketModal').on('show.bs.modal', function(event) {
-                        var button = $(event.relatedTarget);
-                        var ticketId = button.data('ticketid');
-                        var subject = button.data('subject');
-                        var category = button.data('category');
-                        var status = button.data('status');
-                        var lastUpdated = button.data('lastupdated');
-                        var createdBy = button.data('createdby');
-                        var assignedTo = button.data('assignedto');
-
-                        $('#editTicketID').val(ticketId);
-                        $('#editTitle').val(subject);
-                        $('#editCategory').val(category);
-                        $('#editStatus').val(status);
-                        $('#editAssignedTo').val(assignedTo);
-                        $('#editLastUpdated').val(lastUpdated);
-                    });
-                    </Script>
-                    <script>
-                    document.getElementById('editTicketForm').addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        const ticketId = document.getElementById('editTicketID').value;
-                        const assignedTo = document.getElementById('editAssignedTo').value;
-
-                        const xhr = new XMLHttpRequest();
-                        xhr.open('POST', './queries/tickets/assign_ticket.php',
-                            true);
-                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                        xhr.onload = function() {
-                            if (xhr.status === 200) {
-                                Swal.fire({
-                                    title: 'Success!',
-                                    text: 'Ticket has been assigned successfully.',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then(function() {
-                                    $('#editTicketModal').modal('hide');
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: 'Failed to update the ticket. Please try again.',
-                                    icon: 'error',
-                                    confirmButtonText: 'Try Again'
-                                });
-                            }
-                        };
-                        xhr.send('ticketId=' + encodeURIComponent(ticketId) + '&assignedTo=' +
-                            encodeURIComponent(assignedTo));
-                    });
-                    </script>
+              
                     <script>
                     function fetchTicketCounts() {
                         $.ajax({
@@ -533,6 +386,90 @@
                     });
                     </script>
 
+
+
+<script>
+    function searchTable() {
+        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+                const tickets = document.querySelectorAll('.ticket-card');
+                tickets.forEach(ticket => {
+            const ticketContent = ticket.getAttribute('data-search').toLowerCase();
+            if (ticketContent.includes(searchQuery)) {
+                ticket.style.display = '';
+            } else {
+                ticket.style.display = 'none'; 
+            }
+        });
+    }
+</script>
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.close-btn');
+
+            closeButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e
+                        .preventDefault();
+
+                    const ticketId = this.getAttribute('data-id');
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: 'Do you want to Solve this ticket?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, solve it!',
+                        cancelButtonText: 'Cancel',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('./queries/tickets/update_ticket_status.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: 'ticketId=' + ticketId
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire(
+                                            'Solved!',
+                                            'The ticket has been solved.',
+                                            'success'
+                                        ).then(() => {
+                                            location
+                                                .reload();
+                                        });
+                                    } else {
+                                        Swal.fire(
+                                            'Error!',
+                                            data.message,
+                                            'error'
+                                        );
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    Swal.fire(
+                                        'Error!',
+                                        'An error occurred.',
+                                        'error'
+                                    );
+                                });
+                        } else {
+                            Swal.fire(
+                                'Cancelled',
+                                'The ticket was not solved.',
+                                'info'
+                            );
+                        }
+                    });
+                });
+            });
+        });
+
+</script>
 </body>
 
 </html>

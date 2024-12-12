@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $category = htmlspecialchars($_POST['editCategory']);
     $stock = $_POST['editStock'];
     $description = htmlspecialchars($_POST['editDescription']);
-    $serialNumber = htmlspecialchars($_POST['editSerialNumber']);
     $supplier = htmlspecialchars($_POST['editSupplier']);
     $purchaseDate = $_POST['editPurchaseDate'];
     $invoiceNumber = htmlspecialchars($_POST['editInvoiceNumber']);
@@ -27,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             category = '$category', 
             stock = '$stock', 
             description = '$description', 
-            serialnumber = '$serialNumber', 
             supplier = '$supplier', 
             purchasedate = '$purchaseDate', 
             invoicenumber = '$invoiceNumber', 

@@ -44,6 +44,8 @@ if (!isset($_SESSION['username'])) {
                         <ul class="nav flex-column ps-3">
                             <li><a href="./assets.php" class="nav-link text-white">Assets</a></li>
                             <li><a href="./pcassets.php" class="nav-link text-white">PC's</a></li>
+                            <li><a href="./assetsrequest.php" class="nav-link text-white">Asset Requests</a></li>
+
                         </ul>
                     </div>
                 </li>
@@ -168,7 +170,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
                 </div>
 
-
+<!-- 
                 <div class="row g-3">
                     <div class="col-lg-6">
                         <div class="card shadow border-0 mb-3">
@@ -196,7 +198,7 @@ if (!isset($_SESSION['username'])) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row g-3">
                     <div class="col-lg-6 col-md-12">

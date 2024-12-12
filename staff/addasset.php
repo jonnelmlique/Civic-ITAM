@@ -47,7 +47,7 @@ $category = 'Uncategorized';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($_POST['assetName']) && !empty($_POST['requestReason']) && !empty($_POST['requestCategory'])) {
-        $assetId = $_POST['assetName']; // This is the asset ID now
+        $assetId = $_POST['assetName']; 
         $reason = $_POST['requestReason'];
         $category = $_POST['requestCategory'];
         $requestedBy = $_SESSION['username'];
@@ -145,19 +145,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="mb-3">
                             <label for="requestCategory" class="form-label">Category</label>
                             <select class="form-select" id="requestCategory" name="requestCategory" required>
-                                <option value="">Select Category</option>
-                                <option value="Desktop"
-                                    <?php echo isset($category) && $category == 'Desktop' ? 'selected' : ''; ?>>
-                                    Desktop</option>
-                                <option value="Laptop"
-                                    <?php echo isset($category) && $category == 'Laptop' ? 'selected' : ''; ?>>
-                                    Laptop</option>
-                                <option value="Printer"
-                                    <?php echo isset($category) && $category == 'Printer' ? 'selected' : ''; ?>>
-                                    Printer</option>
-                                <option value="Peripherals"
-                                    <?php echo isset($category) && $category == 'Peripherals' ? 'selected' : ''; ?>>
-                                    Peripherals</option>
+                            <option value="">Select Category</option>
+                    <option value="Laptops"
+                        <?php echo isset($category) && $category == 'Laptops' ? 'selected' : ''; ?>>
+                        Laptop
+                    </option>
+                    <option value="Printer"
+                        <?php echo isset($category) && $category == 'Printer' ? 'selected' : ''; ?>>
+                        Printer
+                    </option>
+                    <option value="CPU"
+                        <?php echo isset($category) && $category == 'CPU' ? 'selected' : ''; ?>>
+                        CPU
+                    </option>
+                    <option value="Motherboard"
+                        <?php echo isset($category) && $category == 'Motherboard' ? 'selected' : ''; ?>>
+                        Motherboard
+                    </option>
+                    <option value="RAM"
+                        <?php echo isset($category) && $category == 'RAM' ? 'selected' : ''; ?>>
+                        RAM
+                    </option>
+                    <option value="GPU"
+                        <?php echo isset($category) && $category == 'GPU' ? 'selected' : ''; ?>>
+                        GPU
+                    </option>
+                    <option value="Storage"
+                        <?php echo isset($category) && $category == 'Storage' ? 'selected' : ''; ?>>
+                        Storage
+                    </option>
+                    <option value="Power Supply"
+                        <?php echo isset($category) && $category == 'Power Supply' ? 'selected' : ''; ?>>
+                        Power Supply
+                    </option>
+                    <option value="CPU Cooler"
+                        <?php echo isset($category) && $category == 'CPU Cooler' ? 'selected' : ''; ?>>
+                        CPU Cooler
+                    </option>
+                    <option value="Case"
+                        <?php echo isset($category) && $category == 'Case' ? 'selected' : ''; ?>>
+                        Case
+                    </option>
+                    <option value="Monitor"
+                        <?php echo isset($category) && $category == 'Monitor' ? 'selected' : ''; ?>>
+                        Monitor
+                    </option>
+                    <option value="Keyboard"
+                        <?php echo isset($category) && $category == 'Keyboard' ? 'selected' : ''; ?>>
+                        Keyboard
+                    </option>
+                    <option value="Mouse"
+                        <?php echo isset($category) && $category == 'Mouse' ? 'selected' : ''; ?>>
+                        Mouse
+                    </option>
+                    <option value="Headphones"
+                        <?php echo isset($category) && $category == 'Headphones' ? 'selected' : ''; ?>>
+                        Headphones
+                    </option>
+                    <option value="Webcam"
+                        <?php echo isset($category) && $category == 'Webcam' ? 'selected' : ''; ?>>
+                        Webcam
+                    </option>
+
                             </select>
                         </div>
 

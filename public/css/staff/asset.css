@@ -1,0 +1,69 @@
+/* Search Bar */
+#searchInput {
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+}
+
+/* Table Header */
+.bg-orange {
+  background-color: #ff9800;
+  font-weight: bold;
+}
+
+/* Table Hover and Row Design */
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* Table Borders and Responsiveness */
+.table-borderless td,
+.table-borderless th {
+  border: none;
+}
+
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Badge Styling */
+.badge.bg-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.badge.bg-primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* General Table Text */
+td {
+  vertical-align: middle;
+}
+
+/* Row Shadow */
+tbody tr.shadow-sm {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* Improved Action Button */
+.btn-outline-dark {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-outline-dark:hover {
+  background-color: #ff9800;
+  color: #fff;
+}

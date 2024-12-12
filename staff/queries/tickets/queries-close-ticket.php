@@ -13,6 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ticketId'])) {
 
     if ($ticket['status'] == 'Closed') {
         echo json_encode(['success' => false, 'message' => 'This ticket is already closed.']);
+    } elseif ($ticket['status'] == 'Solved') {
+        echo json_encode(['success' => false, 'message' => 'This ticket is already solved and cannot be closed.']);
     } else {
         $sql = "UPDATE tickets SET status = 'Closed', lastupdated = NOW() WHERE ticketid = ?";
         $stmt = $conn->prepare($sql);

@@ -1,0 +1,55 @@
+/* Table Header Styling */
+.bg-orange {
+  background-color: #ff9800;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Table Row Hover Effect */
+.table-hover tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Responsive Table */
+.table-responsive {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Pagination */
+.pagination .page-item.active .page-link {
+  background-color: #ff9800;
+  border-color: #ff9800;
+}
+
+.pagination .page-link {
+  color: #ff9800;
+}
+
+.pagination .page-link:hover {
+  background-color: #ff9800;
+  color: #fff;
+  border-color: #ff9800;
+}
+
+/* Badge Styling */
+.badge.bg-warning {
+  background-color: #ffc107 !important;
+  color: #000;
+}
+
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+  color: #fff;
+}
+
+.badge.bg-primary {
+  background-color: #007bff !important;
+  color: #fff;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+  color: #fff;
+}

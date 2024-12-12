@@ -15,11 +15,13 @@ $sql = "SELECT
             dh.id, 
             dh.diagnosticid, 
             dh.assetdetailsid,
-            ad.computername, 
+            ad.assetname, 
             dh.conductedby, 
             dh.remarks, 
             dh.createdate,
-            dh.status
+            dh.status,
+            dh.job,
+            dh.jobtype
         FROM diagnostichistory AS dh
         INNER JOIN assetdetails AS ad ON ad.id = dh.assetdetailsid";
 
