@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CIVIC | Asset Request</title>
+    <title>CIVIC | My Asset</title>
     <link href="../node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
@@ -47,7 +47,7 @@ if (!isset($_SESSION['username'])) {
                 <button class="btn btn-orange" id="sidebarToggle">
                     <i class="bi bi-list"></i>
                 </button>
-                <a class="navbar-brand ms-3" href="#"> My Asset Request</a>
+                <a class="navbar-brand ms-3" href="#"> My Asset</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
                     aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -137,96 +137,95 @@ if (!isset($_SESSION['username'])) {
 
             $totalPages = ceil($totalRequests / $itemsPerPage);
             ?>
-            <div class="row mt-4">
-                <div class="col-12">
-                    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search"
-                        onkeyup="searchTable()">
-                    <table class="table table-hover table-striped shadow-sm" id="assetRequestsTable">
-                        <thead class="bg-orange text-white">
-                            <tr>
-                                <th scope="col">Asset Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Created Date</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($assetRequests)): ?>
-                            <?php foreach ($assetRequests as $request): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($request['assetname']); ?></td>
-                                <td><?php echo htmlspecialchars($request['category']); ?></td>
-                                <td><?php echo htmlspecialchars($request['description']); ?></td>
-                                <td>
+        <div class="row mt-4">
+    <div class="col-12">
+        <!-- Search Bar -->
+        <input type="text" id="searchInput" class="form-control mb-3 shadow-sm" placeholder="Search" onkeyup="searchTable()">
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-hover table-borderless align-middle shadow-sm" id="assetRequestsTable">
+                <thead class="bg-orange text-white">
+                    <tr>
+                        <th scope="col">Asset Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Created Date</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($assetRequests)): ?>
+                        <?php foreach ($assetRequests as $request): ?>
+                        <tr class="shadow-sm">
+                            <td class="fw-semibold"><?php echo htmlspecialchars($request['assetname']); ?></td>
+                            <td><?php echo htmlspecialchars($request['category']); ?></td>
+                            <td><?php echo htmlspecialchars($request['description']); ?></td>
+                            <td>
                                 <span class="badge 
-                                <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
-                                            ($request['status'] === 'Declined' ? 'bg-danger' : 
-                                            ($request['status'] === 'Received' ? 'bg-primary' : 'bg-secondary')); ?>">
-                                <?php echo htmlspecialchars($request['status']); ?>
-                            </span>
-                                </td>
-                                <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button"
-                                            id="actionDropdown1" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <li>
+                                    <?php echo $request['status'] === 'Pending' ? 'bg-warning' : 
+                                                ($request['status'] === 'Declined' ? 'bg-danger' : 
+                                                ($request['status'] === 'Received' ? 'bg-primary' : 'bg-secondary')); ?>">
+                                    <?php echo htmlspecialchars($request['status']); ?>
+                                </span>
+                            </td>
+                            <td><?php echo htmlspecialchars(date('Y-m-d', strtotime($request['createddate']))); ?></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                        <li>
+                                            <a href="viewmyasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>" 
+                                               class="dropdown-item text-primary">
+                                                <i class="bi bi-eye"></i> View
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="6" class="text-center">No asset requests found for you.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
-                                                <a href="viewmyasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                                    class="dropdown-item text-primary"> <i class="bi bi-eye"></i> View
-                                            </li>
-                                            <!-- <li>
-                                                <a href="editasset.php?requestid=<?php echo $request['requestid']; ?>&page=<?php echo isset($_GET['page']) ? $_GET['page'] : 1; ?>"
-                                                    class="dropdown-item text-warning"><i class="bi bi-pencil"></i>
-                                                    Received
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+                <?php if ($currentPage > 1): ?>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>" aria-label="Previous">
+                        <span aria-hidden="true">Previous</span>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                                                </a>
-                                            </li> -->
-                                        </ul>
-                                    </div>
-                                </td>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
+                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+                <?php endfor; ?>
 
-                            </tr>
-                            <?php endforeach; ?>
-                            <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="text-center">No asset requests found for you.</td>
-                            </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                <?php if ($currentPage < $totalPages): ?>
+                <li class="page-item">
+                    <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>" aria-label="Next">
+                        <span aria-hidden="true">Next</span>
+                    </a>
+                </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
+</div>
 
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php if ($currentPage > 1): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php echo $currentPage - 1; ?>" aria-label="Previous">
-                                    <span aria-hidden="true">Previous</span>
-                                </a>
-                            </li>
-                            <?php endif; ?>
-
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li class="page-item <?php echo $i === $currentPage ? 'active' : ''; ?>">
-                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                            </li>
-                            <?php endfor; ?>
-
-                            <?php if ($currentPage < $totalPages): ?>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?php echo $currentPage + 1; ?>" aria-label="Next">
-                                    <span aria-hidden="true">Next</span>
-                                </a>
-                            </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
                 </div>
             </div>
 

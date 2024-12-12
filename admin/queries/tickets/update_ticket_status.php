@@ -11,19 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ticketId'])) {
     $result = $stmt->get_result();
     $ticket = $result->fetch_assoc();
 
-    if ($ticket['status'] == 'Closed') {
-        echo json_encode(['success' => false, 'message' => 'This ticket is already closed.']);
-    } elseif ($ticket['status'] == 'Solved') {
-        echo json_encode(['success' => false, 'message' => 'This ticket is already solved and cannot be closed.']);
+    if ($ticket['status'] == 'Solved') {
+        echo json_encode(['success' => false, 'message' => 'This ticket is already solved.']);
     } else {
-        $sql = "UPDATE tickets SET status = 'Closed', lastupdated = NOW() WHERE ticketid = ?";
+        $sql = "UPDATE tickets SET status = 'Solved', lastupdated = NOW() WHERE ticketid = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('i', $ticketId);
 
         if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Ticket closed successfully!']);
+            echo json_encode(['success' => true, 'message' => 'Ticket solved successfully!']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Failed to close the ticket.']);
+            echo json_encode(['success' => false, 'message' => 'Failed to soolved the ticket.']);
         }
     }
 

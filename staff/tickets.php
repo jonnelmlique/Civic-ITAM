@@ -18,6 +18,7 @@ if (!isset($_SESSION['username'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <link rel="stylesheet" href="../public/css/staff/management.css">
     <link rel="stylesheet" href="../public/css/staff/sidebar.css">
+    <link rel="stylesheet" href="../public/css/staff/tickets.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
@@ -126,142 +127,145 @@ if (!isset($_SESSION['username'])) {
                 </div>
             </div>
             <div class="container-fluid py-4">
-                <div class="row mb-4">
-                <div class="row mt-3">
-                <div class="col-12 text-end">
-                    <button class="btn btn-orange" data-bs-toggle="modal" data-bs-target="#createTicketModal">
-                        <i class="bi bi-plus-lg"></i> Create New Ticket
-                    </button>
-                </div>
-            </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search"
-                            onkeyup="searchTable()">
-                        <table class="table table-hover table-striped shadow-sm">
-                            <thead class="bg-orange text-white">
-                                <tr>
-                                    <th scope="col">Ticket ID</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Category</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Last Updated</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ticketTableBody">
-                                <?php
-                    include '../src/config/config.php';
+            <div class="row mt-4">
+    <div class="col-12">
+        <div class="mb-3">
+            <input type="text" id="searchInput" class="form-control search-input" placeholder="Search Tickets..." onkeyup="searchTable()">
+        </div>
 
-                    $createdBy = $_SESSION['username'];
-                    $sql = "SELECT ticketid, subject, description, category, status, assignedto, lastupdated FROM tickets WHERE createdby = ? ORDER BY ticketid DESC";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param('s', $createdBy);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
+        <table class="table table-hover table-striped rounded-lg shadow-lg">
+            <thead class="bg-orange text-white">
+                <tr>
+                    <th scope="col">Ticket ID</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last Updated</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ticketTableBody">
+                <?php
+                include '../src/config/config.php';
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $ticketId = 'TCK' . str_pad($row['ticketid'], 3, '0', STR_PAD_LEFT);
-                            $subject = htmlspecialchars($row['subject']);
-                            $category = htmlspecialchars($row['category']);
-                            $description = htmlspecialchars($row['description']);
-                            $status = htmlspecialchars($row['status']);
-                            $assignedTo = $row['assignedto'] ?? 'Not Assigned';
-                            $lastUpdated = htmlspecialchars($row['lastupdated']);
-                            $badgeClass = ($status === 'Open') ? 'bg-primary' : (($status === 'In Progress') ? 'bg-warning' : 'bg-secondary');
+                $createdBy = $_SESSION['username'];
+                $sql = "SELECT ticketid, subject, description, category, status, assignedto, lastupdated FROM tickets WHERE createdby = ? ORDER BY ticketid DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param('s', $createdBy);
+                $stmt->execute();
+                $result = $stmt->get_result();
 
-                            echo "<tr>
-                                <td>$ticketId</td>
-                                <td>$subject</td>
-                                <td>$category</td>
-                                <td><span class='badge $badgeClass'>$status</span></td>
-                                <td>$lastUpdated</td>
-                                <td>
-                                    <button class='btn btn-sm btn-info' 
-                                        data-bs-toggle='modal' 
-                                        data-bs-target='#viewTicketModal' 
-                                        data-id='{$row['ticketid']}'
-                                        data-subject='$subject'
-                                        data-category='$category'
-                                        data-description='$description'
-                                        data-status='$status'
-                                        data-assignedto='$assignedTo'
-                                        data-lastupdated='$lastUpdated'>
-                                        View
-                                    </button>
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $ticketId = 'TCK' . str_pad($row['ticketid'], 3, '0', STR_PAD_LEFT);
+                        $subject = htmlspecialchars($row['subject']);
+                        $category = htmlspecialchars($row['category']);
+                        $description = htmlspecialchars($row['description']);
+                        $status = htmlspecialchars($row['status']);
+                        $assignedTo = $row['assignedto'] ?? 'Not Assigned';
+                        $lastUpdated = htmlspecialchars($row['lastupdated']);
+                        $badgeClass = ($status === 'Open') ? 'bg-primary' : (($status === 'In Progress') ? 'bg-warning' : 'bg-secondary');
 
-                                    <button class='btn btn-sm btn-warning edit-btn' 
-                                        data-bs-toggle='modal' 
-                                        data-bs-target='#editTicketModal'
-                                        data-id='{$row['ticketid']}'
-                                        data-subject='$subject'
-                                        data-category='$category'
-                                        data-description='$description'
-                                        data-status='$status'
-                                        data-lastupdated='$lastUpdated'>
-                                        Edit
-                                    </button>
-
-                            <button class='btn btn-sm btn-danger close-btn' data-id='{$row['ticketid']}'>Close</button>
-                                </td>
-                            </tr>";
-                        }
-                    } else {
                         echo "<tr>
-                            <td colspan='6' class='text-center'>No records found</td>
+                            <td>$ticketId</td>
+                            <td>$subject</td>
+                            <td>$category</td>
+                            <td><span class='badge $badgeClass'>$status</span></td>
+                            <td>$lastUpdated</td>
+                            <td>
+                                <button class='btn btn-sm btn-info' 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#viewTicketModal' 
+                                    data-id='{$row['ticketid']}'
+                                    data-subject='$subject'
+                                    data-category='$category'
+                                    data-description='$description'
+                                    data-status='$status'
+                                    data-assignedto='$assignedTo'
+                                    data-lastupdated='$lastUpdated'>
+                                    View
+                                </button>
+
+                                <button class='btn btn-sm btn-warning edit-btn' 
+                                    data-bs-toggle='modal' 
+                                    data-bs-target='#editTicketModal'
+                                    data-id='{$row['ticketid']}'
+                                    data-subject='$subject'
+                                    data-category='$category'
+                                    data-description='$description'
+                                    data-status='$status'
+                                    data-lastupdated='$lastUpdated'>
+                                    Edit
+                                </button>
+
+                                <button class='btn btn-sm btn-danger close-btn' data-id='{$row['ticketid']}'>Close</button>
+                            </td>
                         </tr>";
                     }
+                } else {
+                    echo "<tr>
+                        <td colspan='6' class='text-center'>No records found</td>
+                    </tr>";
+                }
 
-                    $stmt->close();
-                    $conn->close();
-                    ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                $stmt->close();
+                $conn->close();
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
 
        
         </div>
-
-                <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="viewTicketModalLabel" style="font-size: 1.5rem;">View Ticket Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Ticket Title:</strong> 
+        <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-orange text-white">
+                <h5 class="modal-title" id="viewTicketModalLabel" style="font-size: 1.5rem;">View Ticket Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Ticket Title:</strong> 
                             <span id="viewTicketSubject" style="font-size: 1.2rem;"></span>
                         </p>
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Category:</strong> 
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Category:</strong> 
                             <span id="viewTicketCategory" style="font-size: 1.2rem;"></span>
                         </p>
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Description:</strong> 
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Description:</strong> 
                             <span id="viewTicketDescription" style="font-size: 1.2rem;"></span>
                         </p>
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Status:</strong> 
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Status:</strong> 
                             <span id="viewTicketStatus" style="font-size: 1.2rem;"></span>
                         </p>
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Last Updated:</strong> 
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Last Updated:</strong> 
                             <span id="viewTicketLastUpdated" style="font-size: 1.2rem;"></span>
                         </p>
-                        <p class="border p-4 mb-3 rounded-3 bg-light">
-                            <strong style="font-size: 1.3rem;">Assigned To:</strong> 
+                        <p class="ticket-info border p-4 mb-3 rounded-3 shadow-sm bg-light">
+                            <strong class="text-primary" style="font-size: 1.3rem;">Assigned To:</strong> 
                             <span id="viewTicketAssignedTo" style="font-size: 1.2rem;"></span>
                         </p>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
 
         <div class="modal fade" id="editTicketModal" tabindex="-1" aria-labelledby="editTicketModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -380,7 +384,7 @@ if (!isset($_SESSION['username'])) {
         }
         </script>
         <script>
-     document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
+            document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
     event.preventDefault();
     const formData = new FormData(this);
     const url = this.action;
@@ -408,96 +412,8 @@ if (!isset($_SESSION['username'])) {
                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
                 modalInstance.hide();
 
-                const newRow = document.createElement('tr');
-                const ticketId = 'TCK' + String(result.data.TicketID).padStart(3, '0');
-                const subject = result.data.Subject || 'N/A';
-                const category = result.data.Category || 'N/A';
-                const status = result.data.Status || 'N/A';
-                const lastUpdated = result.data.LastUpdated || 'N/A';
-                const description = result.data.Description || 'N/A';  // Assuming description is part of result.data
-                const assignedTo = result.data.AssignedTo || 'N/A'; // Assuming assignedTo is part of result.data
+                location.reload(); 
 
-                const badgeClass = status === 'Open' ? 'bg-primary' : status === 'In Progress' ? 'bg-warning' : 'bg-secondary';
-
-                newRow.innerHTML = `
-                    <td>${ticketId}</td>
-                    <td>${subject}</td>
-                    <td>${category}</td>
-                    <td><span class='badge ${badgeClass}'>${status}</span></td>
-                    <td>${lastUpdated}</td>
-                    <td>
-                        <button class='btn btn-sm btn-info' 
-                            data-bs-toggle='modal' 
-                            data-bs-target='#viewTicketModal' 
-                            data-id='${ticketId}'
-                            data-subject='${subject}'
-                            data-category='${category}'
-                             data-description='${description}'
-                               data-status='${status}'
-                            data-assignedto='${assignedTo}'
-                            data-lastupdated='${lastUpdated}'>
-                            View
-                        </button>
-
-                        <button class='btn btn-sm btn-warning edit-btn' 
-                            data-bs-toggle='modal' 
-                            data-bs-target='#editTicketModal'
-                            data-id='${ticketId}'
-                            data-subject='${subject}'
-                            data-category='${category}'
-                            data-description='${description}' 
-                            data-status='${status}'
-                            data-lastupdated='${lastUpdated}'>
-                            Edit
-                        </button>
-
-                        <button class='btn btn-sm btn-danger close-btn' data-id='${ticketId}'>Close</button>
-                    </td>
-                `;
-
-                const tableBody = document.getElementById('ticketTableBody');
-                // Insert new row at the beginning
-                tableBody.insertBefore(newRow, tableBody.firstChild);
-
-                // Add event delegation for dynamically added view and edit buttons
-                tableBody.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('btn-info')) {
-                        // Handle view button click
-                        const ticketId = event.target.getAttribute('data-id');
-                        const subject = event.target.getAttribute('data-subject');
-                        const category = event.target.getAttribute('data-category');
-                        const description = event.target.getAttribute('data-description');
-                        const status = event.target.getAttribute('data-status');
-                        const assignedTo = event.target.getAttribute('data-assignedto');
-                        const lastUpdated = event.target.getAttribute('data-lastupdated');
-                        
-                        // Populate view modal with the data
-                        document.getElementById('viewTicketId').textContent = ticketId;
-                        document.getElementById('viewTicketSubject').textContent = subject;
-                        document.getElementById('viewTicketCategory').textContent = category;
-                        document.getElementById('viewTicketDescription').textContent = description;
-                        document.getElementById('viewTicketStatus').textContent = status;
-                        document.getElementById('viewTicketAssignedTo').textContent = assignedTo;
-                        document.getElementById('viewTicketLastUpdated').textContent = lastUpdated;
-                    }
-
-                    if (event.target.classList.contains('btn-warning')) {
-                        // Handle edit button click
-                        const ticketId = event.target.getAttribute('data-id');
-                        const subject = event.target.getAttribute('data-subject');
-                        const category = event.target.getAttribute('data-category');
-                        const description = event.target.getAttribute('data-description');
-                        const status = event.target.getAttribute('data-status');
-                        const lastUpdated = event.target.getAttribute('data-lastupdated');
-
-                        // Populate edit modal with the data
-                        document.getElementById('editTicketId').value = ticketId;
-                        document.getElementById('editTicketTitle').value = subject;
-                        document.getElementById('editTicketCategory').value = category;
-                        document.getElementById('editTicketDescription').value = description;  // Corrected
-                        document.getElementById('editTicketStatus').value = status;
-                    }
-                });
             });
         } else {
             Swal.fire({
@@ -517,6 +433,178 @@ if (!isset($_SESSION['username'])) {
         });
     }
 });
+
+//      document.querySelector('#createTicketModal form').addEventListener('submit', async function(event) {
+//     event.preventDefault();
+//     const formData = new FormData(this);
+//     const url = this.action;
+
+//     try {
+//         const response = await fetch(url, {
+//             method: 'POST',
+//             body: formData,
+//         });
+
+//         const result = await response.json();
+
+//         console.log(result);
+
+//         if (response.ok && result.success) {
+//             Swal.fire({
+//                 title: 'Success!',
+//                 text: result.message,
+//                 icon: 'success',
+//                 confirmButtonText: 'OK'
+//             }).then(() => {
+
+//                 document.querySelector('#createTicketModal form').reset();
+//                 const modalElement = document.getElementById('createTicketModal');
+//                 const modalInstance = bootstrap.Modal.getInstance(modalElement);
+//                 modalInstance.hide();
+
+//                 const newRow = document.createElement('tr');
+//                 const ticketId = 'TCK' + String(result.data.TicketID).padStart(4, '0');
+//                 const subject = result.data.Subject || 'N/A';
+//                 const category = result.data.Category || 'N/A';
+//                 const status = result.data.Status || 'N/A';
+//                 const lastUpdated = result.data.LastUpdated || 'N/A';
+//                 const description = result.data.Description || 'N/A';  
+//                 const assignedTo = result.data.AssignedTo || 'N/A'; 
+
+//                 const badgeClass = status === 'Solved' ? 'bg-primary' : status === 'Open' ? 'bg-warning' : 'bg-secondary';
+
+//                 newRow.innerHTML = `
+//                     <td>${ticketId}</td>
+//                     <td>${subject}</td>
+//                     <td>${category}</td>
+//                     <td><span class='badge ${badgeClass}'>${status}</span></td>
+//                     <td>${lastUpdated}</td>
+//                     <td>
+//                         <button class='btn btn-sm btn-info' 
+//                             data-bs-toggle='modal' 
+//                             data-bs-target='#viewTicketModal' 
+//                             data-id='${ticketId}'
+//                             data-subject='${subject}'
+//                             data-category='${category}'
+//                             data-description='${description}'
+//                             data-status='${status}'
+//                             data-assignedto='${assignedTo}'
+//                             data-lastupdated='${lastUpdated}'>
+//                             View
+//                         </button>
+
+//                         <button class='btn btn-sm btn-warning edit-btn' 
+//                             data-bs-toggle='modal' 
+//                             data-bs-target='#editTicketModal'
+//                             data-id='${ticketId}'
+//                             data-subject='${subject}'
+//                             data-category='${category}'
+//                             data-description='${description}' 
+//                             data-status='${status}'
+//                             data-lastupdated='${lastUpdated}'>
+//                             Edit
+//                         </button>
+
+//                         <button class='btn btn-sm btn-danger close-btn' data-id='${ticketId}'>Close</button>
+//                     </td>
+//                 `;
+
+//                 const tableBody = document.getElementById('ticketTableBody');
+//                 tableBody.insertBefore(newRow, tableBody.firstChild);
+
+//                 // Event delegation for handling clicks on dynamically added buttons
+//                 tableBody.addEventListener('click', function(event) {
+//                     if (event.target.classList.contains('btn-info')) {
+//                         const ticketId = event.target.getAttribute('data-id');
+//                         const subject = event.target.getAttribute('data-subject');
+//                         const category = event.target.getAttribute('data-category');
+//                         const description = event.target.getAttribute('data-description');
+//                         const status = event.target.getAttribute('data-status');
+//                         const assignedTo = event.target.getAttribute('data-assignedto');
+//                         const lastUpdated = event.target.getAttribute('data-lastupdated');
+                        
+//                         document.getElementById('viewTicketId').textContent = ticketId;
+//                         document.getElementById('viewTicketSubject').textContent = subject;
+//                         document.getElementById('viewTicketCategory').textContent = category;
+//                         document.getElementById('viewTicketDescription').textContent = description;
+//                         document.getElementById('viewTicketStatus').textContent = status;
+//                         document.getElementById('viewTicketAssignedTo').textContent = assignedTo;
+//                         document.getElementById('viewTicketLastUpdated').textContent = lastUpdated;
+//                     }
+
+//                     if (event.target.classList.contains('btn-warning')) {
+//                         const ticketId = event.target.getAttribute('data-id');
+//                         const subject = event.target.getAttribute('data-subject');
+//                         const category = event.target.getAttribute('data-category');
+//                         const description = event.target.getAttribute('data-description');
+//                         const status = event.target.getAttribute('data-status');
+//                         const lastUpdated = event.target.getAttribute('data-lastupdated');
+
+//                         document.getElementById('editTicketId').value = ticketId;
+//                         document.getElementById('editTicketTitle').value = subject;
+//                         document.getElementById('editTicketCategory').value = category;
+//                         document.getElementById('editTicketDescription').value = description;
+//                         document.getElementById('editTicketStatus').value = status;
+//                     }
+
+//                     if (event.target.classList.contains('btn-danger')) {
+//                         const ticketId = event.target.getAttribute('data-id');
+
+//                         // Make an AJAX request to delete the ticket
+//                         fetch(`/delete_ticket.php?id=${ticketId}`, {
+//                             method: 'GET',  // Assuming you're using a GET request for deletion
+//                         })
+//                         .then(response => response.json())
+//                         .then(result => {
+//                             if (result.success) {
+//                                 Swal.fire({
+//                                     title: 'Deleted!',
+//                                     text: 'The ticket has been deleted successfully.',
+//                                     icon: 'success',
+//                                     confirmButtonText: 'OK'
+//                                 }).then(() => {
+//                                     // Remove the row from the table
+//                                     event.target.closest('tr').remove();
+//                                 });
+//                             } else {
+//                                 Swal.fire({
+//                                     title: 'Error!',
+//                                     text: result.message || 'Something went wrong.',
+//                                     icon: 'error',
+//                                     confirmButtonText: 'Try Again'
+//                                 });
+//                             }
+//                         })
+//                         .catch(error => {
+//                             console.error('Error:', error);
+//                             Swal.fire({
+//                                 title: 'Error!',
+//                                 text: 'An unexpected error occurred. Please try again.',
+//                                 icon: 'error',
+//                                 confirmButtonText: 'OK'
+//                             });
+//                         });
+//                     }
+//                 });
+//             });
+//         } else {
+//             Swal.fire({
+//                 title: 'Error!',
+//                 text: result.message || 'Something went wrong!',
+//                 icon: 'error',
+//                 confirmButtonText: 'Try Again'
+//             });
+//         }
+//     } catch (error) {
+//         console.error('Error:', error);
+//         Swal.fire({
+//             title: 'Error!',
+//             text: 'An unexpected error occurred. Please try again.',
+//             icon: 'error',
+//             confirmButtonText: 'OK'
+//         });
+//     }
+// });
 
         </script>
           <script>

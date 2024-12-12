@@ -5,7 +5,7 @@ $totalTicketsQuery = "SELECT COUNT(*) AS total FROM tickets";
 $totalTicketsResult = $conn->query($totalTicketsQuery);
 $totalTickets = $totalTicketsResult->fetch_assoc()['total'];
 
-$resolvedTicketsQuery = "SELECT COUNT(*) AS resolved FROM tickets WHERE status = 'Resolved'";
+$resolvedTicketsQuery = "SELECT COUNT(*) AS resolved FROM tickets WHERE status = 'Solved'";
 $resolvedTicketsResult = $conn->query($resolvedTicketsQuery);
 $resolvedTickets = $resolvedTicketsResult->fetch_assoc()['resolved'];
 
