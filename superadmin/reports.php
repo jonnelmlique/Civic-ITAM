@@ -181,42 +181,38 @@
             <div class="row mt-4">
                 <div class="col-12">
                     <h5 class="mb-3">Generate Custom Report</h5>
-<<<<<<< HEAD
                     <p class="text-muted mb-3">Use the filters below to generate custom reports based on asset
                         categories, status, or other criteria. Choose your report format and export it as needed.</p>
 
                         <form class="row g-3" action="generate_excel.php" method="POST">
-=======
-                    <form class="row g-3">
->>>>>>> 71144e5eaf715a94a9a1e72c7b147e156ceeacea
-                        <div class="col-md-4">
-                            <label for="categoryFilter" class="form-label">Category</label>
-                            <select class="form-select" id="categoryFilter" name="category">
-                                <option selected>Choose category</option>
-                                <option value="computers">Computers</option>
-                                <option value="printers">Printers</option>
-                                <option value="monitors">Monitors</option>
-                                <option value="accessories">Accessories</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="statusFilter" class="form-label">Status</label>
-                            <select class="form-select" id="statusFilter" name="status">
-                                <option selected>Choose status</option>
-                                <option value="available">Available</option>
-                                <option value="assigned">Assigned</option>
-                                <option value="maintenance">Under Maintenance</option>
-                                <option value="overdue">Overdue</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="dateFilter" class="form-label">Date Range</label>
-                            <input type="date" class="form-control" id="dateFilter" name="date">
-                        </div>
-                        <div class="col-12 text-end mt-3">
-                            <button type="submit" class="btn btn-orange">Generate Report</button>
-                        </div>
-                    </form>
+                <div class="col-md-4">
+                    <label for="categoryFilter" class="form-label">Category</label>
+                    <select class="form-select" id="categoryFilter" name="category">
+                        <option selected>Choose category</option>
+                        <option value="computers">Computers</option>
+                        <option value="printers">Printers</option>
+                        <option value="monitors">Monitors</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="statusFilter" class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter" name="status">
+                        <option selected>Choose status</option>
+                        <option value="available">Available</option>
+                        <option value="assigned">Assigned</option>
+                        <option value="maintenance">Under Maintenance</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="dateFilter" class="form-label">Date Range</label>
+                    <input type="date" class="form-control" id="dateFilter" name="date">
+                </div>
+                <div class="col-12 text-end mt-3">
+                    <button type="submit" class="btn btn-orange">Generate Report</button>
+                </div>
+            </form>
 
                 </div>
             </div>
