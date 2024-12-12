@@ -348,7 +348,21 @@ $conn->close();
 
 
         </div>
-        <!-- add asset -->
+        <div class="modal fade" id="qrModal1" tabindex="-1" aria-labelledby="qrModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel1">Generated QR Code</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="qrCodeImage" src="../images/qr.png" alt="Generated QR Code" class="img-fluid" style="max-height: 500px; max-width: 500px">
+            </div>
+        </div>
+    </div>
+</div>
+
+
         <div class="modal fade" id="addAssetModal" tabindex="-1" aria-labelledby="addAssetModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-xl">
@@ -362,16 +376,7 @@ $conn->close();
                             <div class="row gy-3">
                                 <!-- Column 1 -->
                                 <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="assetCode" class="form-label">Asset Code</label>
-                                        <input type="text" class="form-control shadow-sm" id="assetCode"
-                                            name="assetCode" placeholder="Enter asset code" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="itemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="itemId" name="itemId"
-                                            placeholder="Enter item ID" required>
-                                    </div>
+                                   
                                     <div class="mb-3">
                                         <label for="assetname" class="form-label">Asset Name</label>
                                         <input type="text" class="form-control shadow-sm" id="assetname"
@@ -387,15 +392,16 @@ $conn->close();
                                         <input type="text" class="form-control shadow-sm" id="supplier" name="supplier"
                                             placeholder="Enter supplier name" required>
                                     </div>
-                                </div>
-
-                                <!-- Column 2 -->
-                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="purchaseDate" class="form-label">Purchase Date</label>
                                         <input type="date" class="form-control shadow-sm" id="purchaseDate"
                                             name="purchaseDate" required>
                                     </div>
+                                </div>
+
+                                <!-- Column 2 -->
+                                <div class="col-md-4">
+                                 
                                     <div class="mb-3">
                                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
                                         <input type="text" class="form-control shadow-sm" id="invoiceNumber"
@@ -456,8 +462,8 @@ $conn->close();
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="createdBy" class="form-label">Created By</label>
-                                        <input type="text" class="form-control shadow-sm" id="createdBy"
+                                        <!-- <label for="createdBy" class="form-label">Created By</label> -->
+                                        <input type="hidden" class="form-control shadow-sm" id="createdBy"
                                             name="createdBy"
                                             value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>"
                                             required readonly>
@@ -504,7 +510,7 @@ $conn->close();
                                     </div>
                                     <div class="mb-3">
                                         <label for="viewItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="viewItemId"
+                                        <input type="text" class="form-control shadow-sm" id="viewItemId"
                                             name="viewItemId" disabled>
                                     </div>
                                     <div class="mb-3">
@@ -616,12 +622,12 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editAssetCode" class="form-label">Asset Code</label>
                                         <input type="text" class="form-control shadow-sm" id="editAssetCode"
-                                            name="editAssetCode" required readonly>
+                                            name="editAssetCode" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editItemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="editItemId"
-                                            name="editItemId" required readonly>
+                                        <input type="text" class="form-control shadow-sm" id="editItemId"
+                                            name="editItemId" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editAssetName" class="form-label">Asset Name</label>
@@ -631,7 +637,7 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editSerialNumber" class="form-label">Serial Number</label>
                                         <input type="text" class="form-control shadow-sm" id="editSerialNumber"
-                                            name="editSerialNumber" required>
+                                            name="editSerialNumber" required disabled>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editSupplier" class="form-label">Supplier</label>
@@ -1247,7 +1253,6 @@ $conn->close();
                 updateCountsAndCharts();
             });
             </script>
-
 
 
 </body>

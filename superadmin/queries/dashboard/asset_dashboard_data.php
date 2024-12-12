@@ -4,7 +4,7 @@ include('../../../src/config/config.php');
 $sql = "
 SELECT 
     (SELECT COUNT(*) FROM assetdetails) AS total_assets,
-    (SELECT COUNT(*) FROM tickets WHERE status = 'Resolved') AS resolved_tickets,
+    (SELECT COUNT(*) FROM tickets WHERE status = 'Solved') AS resolved_tickets,
     (SELECT COUNT(*) FROM tickets WHERE status = 'Open') AS pending_tickets,
     (SELECT COUNT(*) FROM tickets WHERE status = 'Overdue') AS overdue_tickets
 ";

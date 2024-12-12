@@ -1,29 +1,40 @@
 <?php
+session_start(); // Start the session to access session variables
+
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page if no user is logged in
+    header("Location: login.php");
+    exit(); // Stop further execution
+}
+
 include('../../../src/config/config.php');
+
+// Get the logged-in user's username
+$username = $_SESSION['username'];
+
+// Modify the SQL queries to count tickets for the logged-in user
 
 $sql = "
 SELECT 
     (SELECT COUNT(*) FROM assetdetails) AS total_assets,
-    (SELECT COUNT(*) FROM tickets WHERE status = 'Resolved') AS resolved_tickets,
-    (SELECT COUNT(*) FROM tickets WHERE status = 'Open') AS pending_tickets,
-    (SELECT COUNT(*) FROM tickets WHERE status = 'Overdue') AS overdue_tickets
+    (SELECT COUNT(*) FROM tickets WHERE status = 'Solved' AND assignedto = '$username') AS resolved_tickets,
+    (SELECT COUNT(*) FROM tickets WHERE status = 'Open' AND assignedto = '$username') AS pending_tickets,
+    (SELECT COUNT(*) FROM tickets WHERE status = 'Overdue' AND assignedto = '$username') AS overdue_tickets
 ";
 
-// Execute the SQL query to get the total counts
 $result = $conn->query($sql);
 $counts = [];
 
 if ($result && $result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+    $row = $result->fetch_assoc();  
     
-    // Data for the card values
     $counts['total_assets'] = $row['total_assets'];
     $counts['resolved_tickets'] = $row['resolved_tickets'];
     $counts['pending_tickets'] = $row['pending_tickets'];
     $counts['overdue_tickets'] = $row['overdue_tickets'];
 }
 
-// Get asset growth data for the chart
 $growth_sql = "
 SELECT 
     MONTHNAME(createDate) AS month,
@@ -56,10 +67,10 @@ while ($row = $distribution_result->fetch_assoc()) {
 
 $conn->close();
 
-// Combine all the data into one array
+// Include the asset growth and distribution data in the final response
 $counts['asset_growth'] = $asset_growth;
 $counts['asset_distribution'] = $asset_distribution;
 
-// Return the data as JSON
+// Output the final data in JSON format
 echo json_encode($counts);
 ?>
