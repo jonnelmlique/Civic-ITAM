@@ -5,8 +5,7 @@ include '../../../src/config/config.php';
 header('Content-Type: application/json'); 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $assetCode = htmlspecialchars($_POST['assetCode']);
-    $itemId = $_POST['itemId'];
+
     $assetname = htmlspecialchars($_POST['assetname']);
     $description = htmlspecialchars($_POST['description']);
     $itemtype = htmlspecialchars($_POST['category']);
@@ -38,11 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo json_encode(['success' => false, 'message' => 'The asset code already exists.']);
         } else {
             $stmt = $conn->prepare("INSERT INTO assetdetails 
-                (assetcode, itemid, assetname, description, itemtype, serialnumber, supplier, purchasedate, invoicenumber, amount, 
+                (assetname, description, itemtype, serialnumber, supplier, purchasedate, invoicenumber, amount, 
                 warranty, category, status, location, stock, lifespan, createdby) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            $stmt->bind_param('sisssssssdsssssis', $assetCode, $itemId, $assetname, $description, $itemtype, $serialNumber, 
+            $stmt->bind_param('sssssssdsssssis', $assetname, $description, $itemtype, $serialNumber, 
                 $supplier, $purchaseDate, $invoiceNumber, $amount, $warranty, $category, $status, $location, $stock, $lifespan, $createdBy);
 
             if ($stmt->execute()) {

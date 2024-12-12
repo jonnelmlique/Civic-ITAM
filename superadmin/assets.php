@@ -370,16 +370,7 @@ $conn->close();
                             <div class="row gy-3">
                                 <!-- Column 1 -->
                                 <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="assetCode" class="form-label">Asset Code</label>
-                                        <input type="text" class="form-control shadow-sm" id="assetCode"
-                                            name="assetCode" placeholder="Enter asset code" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="itemId" class="form-label">Item ID</label>
-                                        <input type="number" class="form-control shadow-sm" id="itemId" name="itemId"
-                                            placeholder="Enter item ID" required>
-                                    </div>
+                                   
                                     <div class="mb-3">
                                         <label for="assetname" class="form-label">Asset Name</label>
                                         <input type="text" class="form-control shadow-sm" id="assetname"
@@ -395,15 +386,16 @@ $conn->close();
                                         <input type="text" class="form-control shadow-sm" id="supplier" name="supplier"
                                             placeholder="Enter supplier name" required>
                                     </div>
-                                </div>
-
-                                <!-- Column 2 -->
-                                <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="purchaseDate" class="form-label">Purchase Date</label>
                                         <input type="date" class="form-control shadow-sm" id="purchaseDate"
                                             name="purchaseDate" required>
                                     </div>
+                                </div>
+
+                                <!-- Column 2 -->
+                                <div class="col-md-4">
+                                 
                                     <div class="mb-3">
                                         <label for="invoiceNumber" class="form-label">Invoice Number</label>
                                         <input type="text" class="form-control shadow-sm" id="invoiceNumber"
@@ -464,8 +456,8 @@ $conn->close();
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="createdBy" class="form-label">Created By</label>
-                                        <input type="text" class="form-control shadow-sm" id="createdBy"
+                                        <!-- <label for="createdBy" class="form-label">Created By</label> -->
+                                        <input type="hidden" class="form-control shadow-sm" id="createdBy"
                                             name="createdBy"
                                             value="<?php echo isset($_SESSION['username']) ? $_SESSION['username'] : ''; ?>"
                                             required readonly>
@@ -639,7 +631,7 @@ $conn->close();
                                     <div class="mb-3">
                                         <label for="editSerialNumber" class="form-label">Serial Number</label>
                                         <input type="text" class="form-control shadow-sm" id="editSerialNumber"
-                                            name="editSerialNumber" required>
+                                            name="editSerialNumber" required readonly>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editSupplier" class="form-label">Supplier</label>
