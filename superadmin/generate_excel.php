@@ -76,23 +76,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $spreadsheet = IOFactory::load('excel-reports/maintenance.xlsx'); // Path to your template file
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Set the date filter on the spreadsheet (example)
-        if ($date) {
-            $sheet->getCell('G1')->setValue('Date Filter: ' . $date);
-        }
+      
 
         // Starting row for data insertion in the template
         $row = 5;
 
         // Add data to the spreadsheet
         while ($data = $result->fetch_assoc()) {
-            $sheet->getCell('A' . $row)->setValue($data['request_id']);
-            $sheet->getCell('B' . $row)->setValue($data['maintenance_name']);
-            $sheet->getCell('C' . $row)->setValue($data['category']);
-            $sheet->getCell('D' . $row)->setValue($data['status']);
-            $sheet->getCell('E' . $row)->setValue($data['assigned_to']);
-            $sheet->getCell('F' . $row)->setValue($data['remarks']);
-            $sheet->getCell('G' . $row)->setValue($data['created_at']);
+            $sheet->getCell('A' . $row)->setValue($data['maintenance_name']);
+            $sheet->getCell('B' . $row)->setValue($data['category']);
+            $sheet->getCell('C' . $row)->setValue($data['status']);
+            $sheet->getCell('D' . $row)->setValue($data['assigned_to']);
+            $sheet->getCell('E' . $row)->setValue($data['remarks']);
+            $sheet->getCell('F' . $row)->setValue($data['created_at']);
             $row++;
         }
 
