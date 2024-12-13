@@ -122,16 +122,24 @@ if (!isset($_SESSION['username'])) {
       
             <div class="container-fluid py-4">
             <div class="profile-container mb-3">
-  <div>
-  <div class="name-container">
-    <h3><?php echo strtoupper($_SESSION['last_name']) . ', ' . strtoupper($_SESSION['first_name']); ?></h3>
-    <span class="role-badge"><?php echo strtoupper($_SESSION['role']); ?></span>
-</div>
-
-<p><?php echo strtoupper($_SESSION['username']); ?></p>
-<p><a href="mailto:<?php echo $_SESSION['email']; ?>"><?php echo $_SESSION['email']; ?></a></p>
-  </div>
-</div>
+        <div class="profile-layout">
+            <div class="avatar-icon-container">
+            <i class="fas fa-user-circle avatar-icon"></i>
+            </div>
+            <div class="profile-content">
+            <div class="name-container">
+                <h3><?php echo strtoupper($_SESSION['last_name']) . ', ' . strtoupper($_SESSION['first_name']); ?></h3>
+                <span class="role-badge"><?php echo strtoupper($_SESSION['role']); ?></span>
+            </div>
+            <div class="info-container">
+                <p><i class="fas fa-user"></i> <?php echo strtoupper($_SESSION['username']); ?></p>
+                <p><i class="fas fa-phone-alt"></i> <?php echo $_SESSION['contactnumber']; ?></p>
+                <p><i class="fas fa-building"></i> <?php echo $_SESSION['department']; ?></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:<?php echo $_SESSION['email']; ?>"><?php echo $_SESSION['email']; ?></a></p>
+            </div>
+            </div>
+        </div>
+        </div>
 
 
                 <div class="row g-3">
