@@ -359,15 +359,27 @@ $totalPages = ceil($totalRequests / $itemsPerPage);
 
 
         <script>
-            function searchTable() {
-                const input = document.getElementById('searchInput');
-                const filter = input.value.toLowerCase();
-                
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentPage = urlParams.get('page') || 1;
+          function searchTable() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('assetRequestsTable');
+    const rows = table.getElementsByTagName('tr');
 
-                window.location.href = `?page=${currentPage}&search=${filter}`;
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let match = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j] && cells[j].innerText.toLowerCase().includes(filter)) {
+                match = true;
+                break;
             }
+        }
+
+        rows[i].style.display = match ? '' : 'none';
+    }
+}
+
         </script>
 
             <script>

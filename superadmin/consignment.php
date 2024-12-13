@@ -344,7 +344,6 @@ if ($result->num_rows > 0) {
                                 <div class="mb-3">
                                     <label for="status<?php echo $consignment['requestid']; ?>" class="form-label">Status</label>
                                     <select class="form-select" id="status<?php echo $consignment['requestid']; ?>" name="status" required>
-                                        <option value="Pending" <?php echo $consignment['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
                                         <option value="Returned" <?php echo $consignment['status'] === 'Returned' ? 'selected' : ''; ?>>Returned</option>
                                         <option value="Overdue" <?php echo $consignment['status'] === 'Overdue' ? 'selected' : ''; ?>>Overdue</option>
                                     </select>

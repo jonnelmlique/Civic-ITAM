@@ -280,11 +280,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="firstname" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="firstname" required>
+                                        <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                                        name="firstname" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="lastname" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="lastname" required>
+                                        <input type="text" class="form-control" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                                        name="lastname" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="username" class="form-label">Username</label>
@@ -294,10 +296,15 @@
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" name="email" required>
                                     </div>
-                                    <div class="mb-3">
+                                    <!-- <div class="mb-3">
                                         <label for="password" class="form-label">Password</label>
                                         <input type="password" class="form-control" name="password" required>
-                                    </div>
+                                    </div> -->
+                                    <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                           
                                 </div>
 
                                 <!-- Right Column -->
@@ -333,6 +340,10 @@
                                             <option value="Deactivated">Deactivated</option>
                                         </select>
                                     </div>
+                                    <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                            </div>
                                 </div>
                             </div>
 
@@ -422,12 +433,14 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="editFirstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="editFirstName" name="first_name"
+                                        <input type="text" class="form-control" id="editFirstName" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                                        name="first_name"
                                             required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="editLastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="editLastName" name="last_name"
+                                        <input type="text" class="form-control" id="editLastName" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')" 
+                                        name="last_name"
                                             required>
                                     </div>
                                     <div class="mb-3">
@@ -530,6 +543,21 @@
         <script>
         document.querySelector('#addUserModal form').addEventListener('submit', async function(event) {
             event.preventDefault();
+            
+            const password = document.querySelector('#password').value;
+    const confirmPassword = document.querySelector('#confirmPassword').value;
+
+    if (password !== confirmPassword) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Passwords do not match. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+        return;
+    }
+
+            
             const formData = new FormData(this);
             const url = this.action;
 
@@ -598,7 +626,7 @@
                             data-role='${result.data.role}'
                             data-status='${result.data.status}'>Edit</button>
 
-                        <button class='btn btn-sm btn-primary changepassword-btn' 
+                        <button class='btn btn-sm btn-info changepassword-btn' 
                             data-bs-toggle='modal' data-bs-target='#changePasswordModal' 
                             data-id='${result.data.id}'>Change Password</button>
                         <button class='btn btn-sm btn-danger delete-btn' data-id='${result.data.id}'>Delete</button>
@@ -883,6 +911,19 @@
             document.getElementById('content').classList.toggle('collapsed');
         });
         </script>
+        <script>
+    function validatePasswords() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match. Please try again.');
+            return false;
+        }
+
+        return true;
+    }
+</script>
 </body>
 
 </html>
