@@ -226,7 +226,8 @@
                                     data-status='$status'
                                     data-lastupdated='$lastUpdated'
                                     data-createdby='$createdBy'
-                                    data-description='$description'>
+                                    data-description='$description'
+                                    data-assignedto='$assignedTo'>
                                 View
                             </button>
                  
@@ -251,54 +252,58 @@
             </div>
         </div>
     </div> -->
-
-            <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-orange text-white">
-                        <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="ticketID" class="form-label">Ticket ID</label>
-                                    <input type="text" class="form-control" id="ticketID" value="" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="title" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="title" value="" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="category" class="form-label">Category</label>
-                                    <input type="text" class="form-control" id="category" value="" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="status" class="form-label">Status</label>
-                                    <input type="text" class="form-control" id="status" value="" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="lastUpdated" class="form-label">Last Updated</label>
-                                    <input type="text" class="form-control" id="lastUpdated" value="" disabled>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="createdBy" class="form-label">Created By</label>
-                                    <input type="text" class="form-control" id="createdBy" value="" disabled>
-                                </div>
+    <div class="modal fade" id="viewTicketModal" tabindex="-1" aria-labelledby="viewTicketModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-orange text-white">
+                    <h5 class="modal-title" id="viewTicketModalLabel">View Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="ticketID" class="form-label">Ticket ID</label>
+                                <input type="text" class="form-control" id="ticketID" value="" disabled>
                             </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" rows="5" disabled></textarea>
+                            <div class="col-md-6 mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" value="" disabled>
                             </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="category" value="" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <input type="text" class="form-control" id="status" value="" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastUpdated" class="form-label">Last Updated</label>
+                                <input type="text" class="form-control" id="lastUpdated" value="" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="createdBy" class="form-label">Created By</label>
+                                <input type="text" class="form-control" id="createdBy" value="" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="assignedTo" class="form-label">Assigned To</label>
+                                <input type="text" class="form-control" id="assignedTo" value="" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="5" disabled></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
+
 
 
                     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -328,6 +333,7 @@
                                 const lastUpdated = button.getAttribute("data-lastupdated");
                                 const createdBy = button.getAttribute("data-createdby");
                                 const description = button.getAttribute("data-description");
+                                const assignedto = button.getAttribute("data-assignedto");
 
                                 document.getElementById("ticketID").value = ticketID;
                                 document.getElementById("title").value = title;
@@ -336,6 +342,7 @@
                                 document.getElementById("lastUpdated").value = lastUpdated;
                                 document.getElementById("createdBy").value = createdBy;
                                 document.getElementById("description").value = description;
+                                document.getElementById("assignedTo").value = assignedto;
                             });
                         });
                     });
