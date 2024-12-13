@@ -171,7 +171,7 @@
                     <div class="col-12 text-end mb-3">
                         <a href="http://localhost/Civic-ITAM/superadmin/queries/pcassets/query_schedulepc.php"
                             class="btn btn-orange" download>
-                            Download Script
+                            Download Scheduler
                         </a>
 
                     </div>
