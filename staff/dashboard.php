@@ -137,10 +137,10 @@ if (!isset($_SESSION['username'])) {
 
     $username = $_SESSION['username'];
 
-    $query_tickets = "SELECT ticketid, subject, status FROM tickets WHERE createdby = '$username' ORDER BY lastupdated DESC LIMIT 3";
+    $query_tickets = "SELECT ticketid, subject, status FROM tickets WHERE createdby = '$username' ORDER BY lastupdated DESC";
     $tickets_result = $conn->query($query_tickets);
 
-    $query_asset_requests = "SELECT requestid, assetname, status FROM assetrequests WHERE requestedby = '$username' ORDER BY createddate DESC LIMIT 3";
+    $query_asset_requests = "SELECT requestid, assetname, status FROM assetrequests WHERE requestedby = '$username' ORDER BY createddate DESC";
     $asset_requests_result = $conn->query($query_asset_requests);
     ?>
 

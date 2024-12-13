@@ -100,6 +100,22 @@ ON
 
 
 
+CREATE VIEW overdue_asset_requests AS
+SELECT 
+    ar.requestid,
+    ar.assetid,
+    ar.assetname,
+    ar.category,
+    ar.status,
+    ar.createddate,
+    ar.requestedby AS assigned_to
+FROM 
+    assetrequests ar
+WHERE 
+    ar.status = 'Overdue'
+ORDER BY 
+    ar.createddate DESC;
+
 //Not final and subject to change based on what is needed
 //pwede nyo palitan
 //this table is based on this 

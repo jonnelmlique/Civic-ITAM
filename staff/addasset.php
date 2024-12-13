@@ -150,8 +150,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php echo isset($category) && $category == 'Laptops' ? 'selected' : ''; ?>>
                         Laptop
                     </option>
-                    <option value="Printer"
-                        <?php echo isset($category) && $category == 'Printer' ? 'selected' : ''; ?>>
+                    <option value="Printers"
+                        <?php echo isset($category) && $category == 'Printers' ? 'selected' : ''; ?>>
                         Printer
                     </option>
                     <option value="CPU"

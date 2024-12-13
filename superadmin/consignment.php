@@ -301,6 +301,9 @@ if ($result->num_rows > 0) {
                         <div class="col-md-4 text-center">
                         <img src="../images/qr.png" alt="QR Code" class="img-fluid" style="max-width: 200px;">
                         <p class="mt-2">QR code</p>
+
+                        <img src="../images/signature.png" alt="Signature" class="img-fluid mt-3" style="max-width: 100px;">
+                        <p class="mt-2">Signature</p>
                         </div>
                     </div>
                 </div>
